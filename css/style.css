@@ -599,6 +599,13 @@ input[type="reset"]:hover, input[type="button"]:hover, button:hover {
         width: 100%;
     }
 
+    /* The banner picture sits on the right side. On a phone the paragraph is
+       full width, so the picture ends up UNDER the text and makes it hard to
+       read. Hide the picture on small screens and keep the green box. */
+    #banner {
+        background-image: none;
+    }
+
     .float-right {
         float: none;               /* image goes above the text */
         width: 100%;
