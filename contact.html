@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<!-- =====================================================================
+     Nashaat Gym Website - COMP3700 Course Project Part II
+     Page    : contact.html
+     Purpose : Contact Us page - contact details and the CONTACT FORM that sends to an EMAIL (required).
+     Team    : Sulaiman Nasser, Hazza Hamdan Albadi, Yazn Khamis Alhajri
+
+     NOTE FOR THE TEAM:
+     - The HEADER, MENU and FOOTER are exactly the same on all 8 pages.
+       If you change one of them, copy the change to the other pages.
+     - We write XHTML style: small letters for tags, every tag is closed,
+       empty tags end with " />", and attribute values use "double quotes".
+     - No JavaScript in Part II (it comes in Part III).
+     ===================================================================== -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <!-- META tags: character set, phone screen size, and info for search engines -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Contact Nashaat Gym: address, phone, opening hours, map and a contact form." />
+    <meta name="keywords" content="gym, fitness, Oman, Muscat, Al Ansab, classes, Nashaat" />
+    <meta name="author" content="Sulaiman Nasser, Hazza Albadi, Yazn Alhajri" />
+
+    <!-- The text shown on the browser tab -->
+    <title>Contact Us | Nashaat Gym</title>
+
+    <!-- Small icon shown on the browser tab -->
+    <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
+
+    <!-- CSS TYPE 1 = EXTERNAL style sheet: shared by all pages -->
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+    <!-- CSS TYPE 2 = INTERNAL (document-level) style sheet:
+         these rules work ONLY on this page -->
+    <style type="text/css">
+        /* Only for the Contact page */
+
+        /* id selector: the contact form gets an orange top border */
+        #contact-form {
+            border-top: 5px solid #F2A33C;
+        }
+
+        /* the map */
+        #map-box iframe {
+            width: 100%;
+            height: 280px;
+            border: 0;               /* no grey frame around the map */
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= HEADER: logo + site name (same on all pages) ================= -->
+    <div id="header">
+        <a href="index.html"><img src="images/logo.svg" alt="Nashaat logo: a white dumbbell badge" /></a>
+        <div>
+            <h1>NASHAAT</h1>
+            <p class="tagline">MOVE &bull; TRACK &bull; IMPROVE</p>
+        </div>
+    </div>
+
+    <!-- ================= NAVIGATION MENU (same on all pages) =================
+         class="current" shows which page we are on now -->
+    <div id="menu">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="plans.html">Plans</a></li>
+            <li><a href="classes.html">Classes</a></li>
+            <li><a href="trainers.html">Trainers</a></li>
+            <li><a href="workout.html">Workouts</a></li>
+            <li><a href="dashboard.html">My Account</a></li>
+            <li><a href="contact.html" class="current">Contact Us</a></li>
+        </ul>
+    </div>
+
+    <!-- ================= MAIN CONTENT OF THIS PAGE ================= -->
+    <div id="main">
+        <h2>Contact Us</h2>
+        <p>We are happy to answer your questions. Visit us, call us, or send a message using the form below.</p>
+
+        <!-- ===== CONTACT DETAILS + MAP side by side ===== -->
+        <div class="row">
+            <div class="card">
+                <h3>Visit or Call</h3>
+                <dl>
+                    <dt>Address</dt>
+                    <dd>Al Ansab, Muscat, Sultanate of Oman</dd>
+                    <dt>Phone / WhatsApp</dt>
+                    <dd>+968 2400 0000</dd>
+                    <dt>Email</dt>
+                    <dd><a href="mailto:info@nashaat.om">info@nashaat.om</a></dd>
+                    <dt>Opening Hours</dt>
+                    <dd>Saturday &ndash; Thursday: 6:00 AM &ndash; 11:00 PM<br />
+                        Friday: 2:00 PM &ndash; 10:00 PM</dd>
+                </dl>
+            </div>
+            <div class="card" id="map-box">
+                <iframe src="https://www.google.com/maps?q=Al%20Ansab%2C%20Muscat&amp;output=embed"
+                        title="Map of Al Ansab, Muscat"></iframe>
+            </div>
+        </div>
+
+        <!-- ===== CONTACT FORM =====
+             action="mailto:..."  -> the form contents are sent to this email
+             method="post"        -> needed for mailto forms (from the slides)
+             enctype="text/plain" -> the email is easy to read (not encoded)
+             NOTE: this opens the visitor's email program (Outlook, Mail ...). -->
+        <form id="contact-form" action="mailto:info@nashaat.om" method="post" enctype="text/plain">
+            <h2 style="margin-top: 0;">Send Us a Message</h2>
+
+            <fieldset>
+                <legend>Your details</legend>
+
+                <!-- text box -->
+                <label class="field" for="c-name">Full name:</label>
+                <input type="text" id="c-name" name="full_name" size="30" maxlength="60" required="required" />
+
+                <!-- email box -->
+                <label class="field" for="c-email">Email:</label>
+                <input type="email" id="c-email" name="email" required="required" />
+
+                <!-- phone box -->
+                <label class="field" for="c-phone">Phone (optional):</label>
+                <input type="tel" id="c-phone" name="phone" maxlength="15" />
+
+                <!-- radio buttons: same name = only ONE can be chosen -->
+                <label class="field">How should we reply?</label>
+                <label class="choice"><input type="radio" name="reply_by" value="email" checked="checked" /> Email</label>
+                <label class="choice"><input type="radio" name="reply_by" value="phone" /> Phone call</label>
+                <label class="choice"><input type="radio" name="reply_by" value="whatsapp" /> WhatsApp</label>
+            </fieldset>
+
+            <fieldset>
+                <legend>Your message</legend>
+
+                <!-- drop-down menu (select) -->
+                <label class="field" for="c-subject">Subject:</label>
+                <select id="c-subject" name="subject">
+                    <option value="general" selected="selected">General question</option>
+                    <option value="membership">Membership and prices</option>
+                    <option value="classes">Class booking</option>
+                    <option value="trainers">Personal training</option>
+                    <option value="suggestion">Suggestion</option>
+                    <option value="complaint">Complaint</option>
+                </select>
+
+                <!-- text area: for long text -->
+                <label class="field" for="c-message">Message:</label>
+                <textarea id="c-message" name="message" rows="6" cols="50" required="required"></textarea>
+
+                <!-- checkbox -->
+                <label class="field">
+                    <input type="checkbox" name="consent" value="yes" required="required" />
+                    I agree that Nashaat can keep my message to answer it.
+                </label>
+            </fieldset>
+
+            <!-- hidden field: the user does not see it, but it is sent with the form -->
+            <input type="hidden" name="form_name" value="contact_us" />
+
+            <!-- submit = send the form, reset = clear all fields -->
+            <div class="buttons">
+                <input class="button" type="submit" value="Send Message" />
+                <input type="reset" value="Clear" />
+            </div>
+        </form>
+
+        <p class="small">Prefer to talk in person? You can always visit reception during opening hours.</p>
+    </div>
+    <!-- ================= END OF MAIN CONTENT ================= -->
+
+    <!-- ================= FOOTER (same on all pages) ================= -->
+    <div id="footer">
+        <div class="row">
+            <!-- Footer column 1: opening hours -->
+            <div>
+                <h3>Opening Hours</h3>
+                <ul>
+                    <li>Saturday - Thursday: 6:00 AM - 11:00 PM</li>
+                    <li>Friday: 2:00 PM - 10:00 PM</li>
+                </ul>
+            </div>
+            <!-- Footer column 2: address and contact -->
+            <div>
+                <h3>Contact</h3>
+                <ul>
+                    <li>Al Ansab, Muscat, Sultanate of Oman</li>
+                    <li>Phone: +968 2400 0000</li>
+                    <li>Email: <a href="mailto:info@nashaat.om">info@nashaat.om</a></li>
+                </ul>
+            </div>
+            <!-- Footer column 3: privacy statement (from our Part I ethics section) -->
+            <div>
+                <h3>Privacy</h3>
+                <p class="small">We only keep the information we need for your membership.
+                We never share it, and you can ask us to delete it at any time.
+                You can still register and book in person at reception.</p>
+            </div>
+        </div>
+        <!-- &copy; is a character entity for the copyright sign -->
+        <p class="copy">&copy; 2026 Nashaat Gym &ndash; COMP3700 student project, Sultan Qaboos University.
+        The information on this site is general and is not medical advice.</p>
+    </div>
+
+</body>
+</html>

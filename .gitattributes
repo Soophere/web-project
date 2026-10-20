@@ -1,0 +1,5 @@
+# Keep line endings the same for Windows, Mac and Linux users
+* text=auto
+*.pdf binary
+*.png binary
+*.jpg binary

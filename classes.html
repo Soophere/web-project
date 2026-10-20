@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<!-- =====================================================================
+     Nashaat Gym Website - COMP3700 Course Project Part II
+     Page    : classes.html
+     Purpose : Classes page - TABLE 2 (weekly timetable) and FORM 2 (class booking).
+     Team    : Sulaiman Nasser, Hazza Hamdan Albadi, Yazn Khamis Alhajri
+
+     NOTE FOR THE TEAM:
+     - The HEADER, MENU and FOOTER are exactly the same on all 8 pages.
+       If you change one of them, copy the change to the other pages.
+     - We write XHTML style: small letters for tags, every tag is closed,
+       empty tags end with " />", and attribute values use "double quotes".
+     - No JavaScript in Part II (it comes in Part III).
+     ===================================================================== -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <!-- META tags: character set, phone screen size, and info for search engines -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Weekly class timetable at Nashaat Gym with places left, and the class booking form." />
+    <meta name="keywords" content="gym, fitness, Oman, Muscat, Al Ansab, classes, Nashaat" />
+    <meta name="author" content="Sulaiman Nasser, Hazza Albadi, Yazn Alhajri" />
+
+    <!-- The text shown on the browser tab -->
+    <title>Class Timetable | Nashaat Gym</title>
+
+    <!-- Small icon shown on the browser tab -->
+    <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
+
+    <!-- CSS TYPE 1 = EXTERNAL style sheet: shared by all pages -->
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+    <!-- CSS TYPE 2 = INTERNAL (document-level) style sheet:
+         these rules work ONLY on this page -->
+    <style type="text/css">
+        /* Only for the Classes page */
+
+        /* the small colour key above the table */
+        ul.key {
+            list-style-type: none;
+            margin-left: 0;
+        }
+
+        ul.key li {
+            display: inline-block;
+            margin-right: 15px;
+        }
+
+        /* id selector: the booking form */
+        #booking {
+            border-top: 5px solid #F2A33C;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= HEADER: logo + site name (same on all pages) ================= -->
+    <div id="header">
+        <a href="index.html"><img src="images/logo.svg" alt="Nashaat logo: a white dumbbell badge" /></a>
+        <div>
+            <h1>NASHAAT</h1>
+            <p class="tagline">MOVE &bull; TRACK &bull; IMPROVE</p>
+        </div>
+    </div>
+
+    <!-- ================= NAVIGATION MENU (same on all pages) =================
+         class="current" shows which page we are on now -->
+    <div id="menu">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="plans.html">Plans</a></li>
+            <li><a href="classes.html" class="current">Classes</a></li>
+            <li><a href="trainers.html">Trainers</a></li>
+            <li><a href="workout.html">Workouts</a></li>
+            <li><a href="dashboard.html">My Account</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+    </div>
+
+    <!-- ================= MAIN CONTENT OF THIS PAGE ================= -->
+    <div id="main">
+        <h2>Weekly Class Timetable</h2>
+        <!-- <time> = a date that computers can read too (datetime attribute) -->
+        <p>Last updated: <time datetime="2026-10-19">19 October 2026</time>.
+        Every class has <strong>18 places</strong>. When a class is full you cannot book it,
+        so you will never travel to the gym for nothing.</p>
+
+        <!-- colour key for the labels used in the table -->
+        <ul class="key">
+            <li><span class="badge">Men</span> men only</li>
+            <li><span class="badge women">Women</span> women only</li>
+            <li><span class="badge">Mixed</span> everyone</li>
+            <li><span class="badge full">FULL</span> no places left</li>
+        </ul>
+
+        <!-- ===== TABLE 2: WEEKLY TIMETABLE =====
+             - First header row: 2 big headings use colspan (go across columns)
+             - "Day" and "Time" use rowspan="2" (go down 2 header rows)
+             - Each day name uses rowspan = number of classes that day
+             - Friday uses colspan="6" because there are no classes -->
+        <div class="table-box">
+            <table class="data" border="1" cellspacing="3" cellpadding="8">
+                <caption>Table 2: Classes for this week</caption>
+                <thead>
+                    <tr>
+                        <th rowspan="2">Day</th>
+                        <th rowspan="2">Time</th>
+                        <th colspan="3">Class details</th>
+                        <th colspan="2">Booking</th>
+                    </tr>
+                    <tr>
+                        <th>Class</th>
+                        <th>Trainer</th>
+                        <th>Level</th>
+                        <th>Who can join</th>
+                        <th>Places left</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- SATURDAY: 3 classes, so rowspan="3" -->
+                    <tr>
+                        <th class="rowhead" rowspan="3">Saturday</th>
+                        <td>6:00 AM</td>
+                        <td><strong>Morning Cardio</strong></td>
+                        <td>Fatma</td>
+                        <td>Beginner</td>
+                        <td><span class="badge">Mixed</span></td>
+                        <td>10 / 18</td>
+                    </tr>
+                    <tr>
+                        <td>6:00 PM</td>
+                        <td><strong>HIIT Burn</strong></td>
+                        <td>Ahmed</td>
+                        <td>Intermediate</td>
+                        <td><span class="badge">Men</span></td>
+                        <td>8 / 18</td>
+                    </tr>
+                    <tr>
+                        <td>8:00 PM</td>
+                        <td><strong>Yoga Flow</strong></td>
+                        <td>Maryam</td>
+                        <td>All levels</td>
+                        <td><span class="badge women">Women</span></td>
+                        <td>5 / 18</td>
+                    </tr>
+                    <!-- SUNDAY: 2 classes -->
+                    <tr class="odd">
+                        <th class="rowhead" rowspan="2">Sunday</th>
+                        <td>7:00 AM</td>
+                        <td><strong>Strength Basics</strong></td>
+                        <td>Khalid</td>
+                        <td>Beginner</td>
+                        <td><span class="badge">Men</span></td>
+                        <td>12 / 18</td>
+                    </tr>
+                    <tr class="odd">
+                        <td>7:00 PM</td>
+                        <td><strong>Zumba</strong></td>
+                        <td>Fatma</td>
+                        <td>All levels</td>
+                        <td><span class="badge women">Women</span></td>
+                        <td><span class="badge full">FULL</span></td>
+                    </tr>
+                    <!-- MONDAY -->
+                    <tr>
+                        <th class="rowhead" rowspan="2">Monday</th>
+                        <td>6:00 PM</td>
+                        <td><strong>Boxing Fitness</strong></td>
+                        <td>Ahmed</td>
+                        <td>Intermediate</td>
+                        <td><span class="badge">Men</span></td>
+                        <td>6 / 18</td>
+                    </tr>
+                    <tr>
+                        <td>8:00 PM</td>
+                        <td><strong>Pilates</strong></td>
+                        <td>Maryam</td>
+                        <td>Beginner</td>
+                        <td><span class="badge women">Women</span></td>
+                        <td>9 / 18</td>
+                    </tr>
+                    <!-- TUESDAY -->
+                    <tr class="odd">
+                        <th class="rowhead" rowspan="2">Tuesday</th>
+                        <td>6:30 AM</td>
+                        <td><strong>Core &amp; Stretch</strong></td>
+                        <td>Khalid</td>
+                        <td>All levels</td>
+                        <td><span class="badge">Mixed</span></td>
+                        <td>14 / 18</td>
+                    </tr>
+                    <tr class="odd">
+                        <td>7:00 PM</td>
+                        <td><strong>HIIT Burn</strong></td>
+                        <td>Ahmed</td>
+                        <td>Intermediate</td>
+                        <td><span class="badge">Men</span></td>
+                        <td><span class="badge full">FULL</span></td>
+                    </tr>
+                    <!-- WEDNESDAY -->
+                    <tr>
+                        <th class="rowhead" rowspan="2">Wednesday</th>
+                        <td>6:00 PM</td>
+                        <td><strong>Yoga Flow</strong></td>
+                        <td>Maryam</td>
+                        <td>All levels</td>
+                        <td><span class="badge women">Women</span></td>
+                        <td>7 / 18</td>
+                    </tr>
+                    <tr>
+                        <td>8:00 PM</td>
+                        <td><strong>Strength Basics</strong></td>
+                        <td>Khalid</td>
+                        <td>Beginner</td>
+                        <td><span class="badge">Men</span></td>
+                        <td>11 / 18</td>
+                    </tr>
+                    <!-- THURSDAY: only 1 class, no rowspan needed -->
+                    <tr class="odd">
+                        <th class="rowhead">Thursday</th>
+                        <td>5:00 PM</td>
+                        <td><strong>Family Fun Workout</strong></td>
+                        <td>Fatma</td>
+                        <td>All levels</td>
+                        <td><span class="badge">Mixed</span></td>
+                        <td>15 / 18</td>
+                    </tr>
+                    <!-- FRIDAY: no classes, one cell over 6 columns -->
+                    <tr>
+                        <th class="rowhead">Friday</th>
+                        <td colspan="6">No classes &ndash; gym floor open 2:00 PM &ndash; 10:00 PM</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4">Total this week: 12 classes</td>
+                        <td colspan="3">2 classes are already full</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <p class="note">Please arrive 5 minutes early. If you cannot come, cancel your booking at
+        reception so another member can take your place.</p>
+
+        <!-- ===== FORM 2: BOOK A CLASS =====
+             Sends the data to httpbin.org/get so we can see the values.
+             In Part IV, PHP will check the places left before saving the booking. -->
+        <form id="booking" action="https://httpbin.org/get" method="get">
+            <h2 style="margin-top: 0;">Book a Class</h2>
+
+            <fieldset>
+                <legend>Member</legend>
+
+                <label class="field" for="b-id">Membership number:</label>
+                <input type="text" id="b-id" name="member_id" size="12" maxlength="10" required="required" />
+
+                <label class="field" for="b-name">Full name:</label>
+                <input type="text" id="b-name" name="full_name" required="required" />
+            </fieldset>
+
+            <fieldset>
+                <legend>Class</legend>
+
+                <!-- drop-down menu of classes -->
+                <label class="field" for="b-class">Class:</label>
+                <select id="b-class" name="class_name" required="required">
+                    <option value="">-- choose a class --</option>
+                    <option value="morning_cardio">Morning Cardio (Mixed)</option>
+                    <option value="hiit_burn">HIIT Burn (Men)</option>
+                    <option value="yoga_flow">Yoga Flow (Women)</option>
+                    <option value="strength_basics">Strength Basics (Men)</option>
+                    <option value="boxing_fitness">Boxing Fitness (Men)</option>
+                    <option value="pilates">Pilates (Women)</option>
+                    <option value="core_stretch">Core &amp; Stretch (Mixed)</option>
+                    <option value="family_fun">Family Fun Workout (Mixed)</option>
+                </select>
+
+                <label class="field" for="b-date">Date:</label>
+                <input type="date" id="b-date" name="class_date" required="required" />
+
+                <!-- radio buttons: morning or evening -->
+                <label class="field">Time of day:</label>
+                <label class="choice"><input type="radio" name="time_of_day" value="morning" /> Morning</label>
+                <label class="choice"><input type="radio" name="time_of_day" value="evening" checked="checked" /> Evening</label>
+
+                <!-- checkboxes: choose any -->
+                <label class="field">Send me a reminder by:</label>
+                <label class="choice"><input type="checkbox" name="reminder" value="sms" checked="checked" /> SMS</label>
+                <label class="choice"><input type="checkbox" name="reminder" value="email" /> Email</label>
+
+                <label class="field" for="b-notes">Notes for the trainer (optional):</label>
+                <textarea id="b-notes" name="notes" rows="3" cols="45"></textarea>
+            </fieldset>
+
+            <!-- hidden fields -->
+            <input type="hidden" name="form_name" value="class_booking" />
+            <input type="hidden" name="max_places" value="18" />
+
+            <div class="buttons">
+                <input class="button" type="submit" value="Book My Place" />
+                <input type="reset" value="Clear" />
+            </div>
+        </form>
+    </div>
+    <!-- ================= END OF MAIN CONTENT ================= -->
+
+    <!-- ================= FOOTER (same on all pages) ================= -->
+    <div id="footer">
+        <div class="row">
+            <!-- Footer column 1: opening hours -->
+            <div>
+                <h3>Opening Hours</h3>
+                <ul>
+                    <li>Saturday - Thursday: 6:00 AM - 11:00 PM</li>
+                    <li>Friday: 2:00 PM - 10:00 PM</li>
+                </ul>
+            </div>
+            <!-- Footer column 2: address and contact -->
+            <div>
+                <h3>Contact</h3>
+                <ul>
+                    <li>Al Ansab, Muscat, Sultanate of Oman</li>
+                    <li>Phone: +968 2400 0000</li>
+                    <li>Email: <a href="mailto:info@nashaat.om">info@nashaat.om</a></li>
+                </ul>
+            </div>
+            <!-- Footer column 3: privacy statement (from our Part I ethics section) -->
+            <div>
+                <h3>Privacy</h3>
+                <p class="small">We only keep the information we need for your membership.
+                We never share it, and you can ask us to delete it at any time.
+                You can still register and book in person at reception.</p>
+            </div>
+        </div>
+        <!-- &copy; is a character entity for the copyright sign -->
+        <p class="copy">&copy; 2026 Nashaat Gym &ndash; COMP3700 student project, Sultan Qaboos University.
+        The information on this site is general and is not medical advice.</p>
+    </div>
+
+</body>
+</html>

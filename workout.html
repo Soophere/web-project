@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<!-- =====================================================================
+     Nashaat Gym Website - COMP3700 Course Project Part II
+     Page    : workout.html
+     Purpose : Workout library page - exercise cards and TABLE 4 (beginner weekly plan).
+     Team    : Sulaiman Nasser, Hazza Hamdan Albadi, Yazn Khamis Alhajri
+
+     NOTE FOR THE TEAM:
+     - The HEADER, MENU and FOOTER are exactly the same on all 8 pages.
+       If you change one of them, copy the change to the other pages.
+     - We write XHTML style: small letters for tags, every tag is closed,
+       empty tags end with " />", and attribute values use "double quotes".
+     - No JavaScript in Part II (it comes in Part III).
+     ===================================================================== -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <!-- META tags: character set, phone screen size, and info for search engines -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Beginner workout library at Nashaat Gym: exercises by muscle group with steps and safety notes, and a 3-day beginner plan." />
+    <meta name="keywords" content="gym, fitness, Oman, Muscat, Al Ansab, classes, Nashaat" />
+    <meta name="author" content="Sulaiman Nasser, Hazza Albadi, Yazn Alhajri" />
+
+    <!-- The text shown on the browser tab -->
+    <title>Workout Library | Nashaat Gym</title>
+
+    <!-- Small icon shown on the browser tab -->
+    <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
+
+    <!-- CSS TYPE 1 = EXTERNAL style sheet: shared by all pages -->
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+    <!-- CSS TYPE 2 = INTERNAL (document-level) style sheet:
+         these rules work ONLY on this page -->
+    <style type="text/css">
+        /* Only for the Workout page */
+
+        /* the muscle group links look like small buttons */
+        ul.groups {
+            list-style-type: none;
+            margin-left: 0;
+        }
+
+        ul.groups li {
+            display: inline-block;
+            margin: 4px;
+        }
+
+        ul.groups a {
+            display: block;
+            padding: 6px 14px;
+            border: 2px solid #0E6B57;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        ul.groups a:hover {
+            background-color: #0E6B57;
+            color: #FFFFFF;
+        }
+
+        /* orange label for the level */
+        span.level {
+            background-color: #F2A33C;
+            color: #0B5242;
+        }
+
+        /* exercise cards: 3 in a row */
+        .row .card {
+            min-width: 280px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= HEADER: logo + site name (same on all pages) ================= -->
+    <div id="header">
+        <a href="index.html"><img src="images/logo.svg" alt="Nashaat logo: a white dumbbell badge" /></a>
+        <div>
+            <h1>NASHAAT</h1>
+            <p class="tagline">MOVE &bull; TRACK &bull; IMPROVE</p>
+        </div>
+    </div>
+
+    <!-- ================= NAVIGATION MENU (same on all pages) =================
+         class="current" shows which page we are on now -->
+    <div id="menu">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="plans.html">Plans</a></li>
+            <li><a href="classes.html">Classes</a></li>
+            <li><a href="trainers.html">Trainers</a></li>
+            <li><a href="workout.html" class="current">Workouts</a></li>
+            <li><a href="dashboard.html">My Account</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+    </div>
+
+    <!-- ================= MAIN CONTENT OF THIS PAGE ================= -->
+    <div id="main">
+        <h2>Workout Library</h2>
+        <p class="intro">Not sure what to do when you arrive at the gym? Start here. Each exercise
+        shows the muscle group, the level, the steps and a safety note.</p>
+
+        <!-- Important honest health message (from our Part I ethics section) -->
+        <div class="highlight">
+            <strong>Please note:</strong> this library explains exercises only. It is general information
+            and <em>not</em> medical advice. If you have a health condition or an injury, speak to a doctor
+            before you start, and ask one of our <a href="trainers.html">trainers</a> to check your technique.
+        </div>
+
+        <!-- ===== MUSCLE GROUP LINKS =====
+             href="#legs" jumps to the element with id="legs" on THIS page.
+             (In Part III we will add JavaScript to filter the cards.) -->
+        <h3>Choose a muscle group:</h3>
+        <ul class="groups">
+            <li><a href="#legs">Legs</a></li>
+            <li><a href="#chest">Chest</a></li>
+            <li><a href="#back">Back</a></li>
+            <li><a href="#core">Core</a></li>
+            <li><a href="#shoulders">Shoulders</a></li>
+            <li><a href="#arms">Arms</a></li>
+        </ul>
+
+        <!-- ===== EXERCISE CARDS ===== -->
+        <div class="row">
+            <!-- exercise card: Bodyweight Squat (id="legs" so the links above can jump here) -->
+            <div class="card" id="legs">
+                <img src="images/exercises/ex-squat.svg" alt="Bodyweight Squat - Legs exercise" />
+                <h3>Bodyweight Squat</h3>
+                <p><span class="badge">Legs</span> <span class="badge level">Beginner</span></p>
+                <p><strong>How to do it:</strong></p>
+                <ol>
+                    <li>Stand with feet shoulder-width apart.</li>
+                    <li>Push your hips back and bend your knees.</li>
+                    <li>Go down until your thighs are parallel to the floor.</li>
+                    <li>Push through your heels to stand up.</li>
+                </ol>
+                <p class="note"><strong>Safety:</strong> Keep your knees in line with your toes and your back straight.</p>
+            </div>
+            <!-- exercise card: Push-up (id="chest" so the links above can jump here) -->
+            <div class="card" id="chest">
+                <img src="images/exercises/ex-pushup.svg" alt="Push-up - Chest exercise" />
+                <h3>Push-up</h3>
+                <p><span class="badge">Chest</span> <span class="badge level">Beginner</span></p>
+                <p><strong>How to do it:</strong></p>
+                <ol>
+                    <li>Hands on the floor, a little wider than your shoulders.</li>
+                    <li>Keep your body in a straight line.</li>
+                    <li>Lower your chest close to the floor.</li>
+                    <li>Push back up.</li>
+                </ol>
+                <p class="note"><strong>Safety:</strong> Start on your knees if a full push-up is too hard.</p>
+            </div>
+            <!-- exercise card: One-arm Dumbbell Row (id="back" so the links above can jump here) -->
+            <div class="card" id="back">
+                <img src="images/exercises/ex-row.svg" alt="One-arm Dumbbell Row - Back exercise" />
+                <h3>One-arm Dumbbell Row</h3>
+                <p><span class="badge">Back</span> <span class="badge level">Beginner</span></p>
+                <p><strong>How to do it:</strong></p>
+                <ol>
+                    <li>Put one knee and one hand on a bench.</li>
+                    <li>Hold the dumbbell with the other hand.</li>
+                    <li>Pull the dumbbell up to your hip.</li>
+                    <li>Lower it slowly.</li>
+                </ol>
+                <p class="note"><strong>Safety:</strong> Do not twist your body. Use a light weight first.</p>
+            </div>
+            <!-- exercise card: Plank (id="core" so the links above can jump here) -->
+            <div class="card" id="core">
+                <img src="images/exercises/ex-plank.svg" alt="Plank - Core exercise" />
+                <h3>Plank</h3>
+                <p><span class="badge">Core</span> <span class="badge level">Beginner</span></p>
+                <p><strong>How to do it:</strong></p>
+                <ol>
+                    <li>Lie face down, then lift your body on your forearms and toes.</li>
+                    <li>Keep a straight line from head to heels.</li>
+                    <li>Hold for 20 to 30 seconds.</li>
+                </ol>
+                <p class="note"><strong>Safety:</strong> Do not let your hips drop. Breathe normally.</p>
+            </div>
+            <!-- exercise card: Dumbbell Shoulder Press (id="shoulders" so the links above can jump here) -->
+            <div class="card" id="shoulders">
+                <img src="images/exercises/ex-press.svg" alt="Dumbbell Shoulder Press - Shoulders exercise" />
+                <h3>Dumbbell Shoulder Press</h3>
+                <p><span class="badge">Shoulders</span> <span class="badge level">Intermediate</span></p>
+                <p><strong>How to do it:</strong></p>
+                <ol>
+                    <li>Sit on a bench with back support.</li>
+                    <li>Hold dumbbells at shoulder height.</li>
+                    <li>Press them up above your head.</li>
+                    <li>Lower them slowly.</li>
+                </ol>
+                <p class="note"><strong>Safety:</strong> Do not arch your lower back. Stop if you feel pain in the shoulder.</p>
+            </div>
+            <!-- exercise card: Biceps Curl (id="arms" so the links above can jump here) -->
+            <div class="card" id="arms">
+                <img src="images/exercises/ex-curl.svg" alt="Biceps Curl - Arms exercise" />
+                <h3>Biceps Curl</h3>
+                <p><span class="badge">Arms</span> <span class="badge level">Beginner</span></p>
+                <p><strong>How to do it:</strong></p>
+                <ol>
+                    <li>Stand with a dumbbell in each hand, arms down.</li>
+                    <li>Keep your elbows close to your body.</li>
+                    <li>Curl the weights up to your shoulders.</li>
+                    <li>Lower them slowly.</li>
+                </ol>
+                <p class="note"><strong>Safety:</strong> Do not swing your body to lift the weight.</p>
+            </div>
+        </div>
+
+        <!-- ===== TABLE 4: BEGINNER 3-DAY PLAN =====
+             Each day has 2 exercises, so the day name uses rowspan="2".
+             The rest days use colspan="3". -->
+        <h2>Beginner 3-Day Plan</h2>
+        <div class="table-box">
+            <table class="data" border="1" cellspacing="3" cellpadding="8">
+                <caption>Table 4: A simple full-body plan for your first month</caption>
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Exercise</th>
+                        <th>Sets</th>
+                        <th>Repetitions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th class="rowhead" rowspan="2">Day 1</th>
+                        <td><a href="#legs">Bodyweight Squat</a></td>
+                        <td>3</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td><a href="#chest">Push-up</a></td>
+                        <td>3</td>
+                        <td>8</td>
+                    </tr>
+                    <tr class="odd">
+                        <th class="rowhead" rowspan="2">Day 2</th>
+                        <td><a href="#back">One-arm Dumbbell Row</a></td>
+                        <td>3</td>
+                        <td>10 each arm</td>
+                    </tr>
+                    <tr class="odd">
+                        <td><a href="#core">Plank</a></td>
+                        <td>3</td>
+                        <td>20 seconds</td>
+                    </tr>
+                    <tr>
+                        <th class="rowhead" rowspan="2">Day 3</th>
+                        <td><a href="#shoulders">Dumbbell Shoulder Press</a></td>
+                        <td>2</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td><a href="#arms">Biceps Curl</a></td>
+                        <td>2</td>
+                        <td>12</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>Other days</td>
+                        <td colspan="3">Rest, or walk for 30 minutes</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <p class="small">Source for activity advice: <a href="https://www.who.int/publications/i/item/9789240015128">WHO
+        guidelines on physical activity and sedentary behaviour (2020)</a>.</p>
+    </div>
+    <!-- ================= END OF MAIN CONTENT ================= -->
+
+    <!-- ================= FOOTER (same on all pages) ================= -->
+    <div id="footer">
+        <div class="row">
+            <!-- Footer column 1: opening hours -->
+            <div>
+                <h3>Opening Hours</h3>
+                <ul>
+                    <li>Saturday - Thursday: 6:00 AM - 11:00 PM</li>
+                    <li>Friday: 2:00 PM - 10:00 PM</li>
+                </ul>
+            </div>
+            <!-- Footer column 2: address and contact -->
+            <div>
+                <h3>Contact</h3>
+                <ul>
+                    <li>Al Ansab, Muscat, Sultanate of Oman</li>
+                    <li>Phone: +968 2400 0000</li>
+                    <li>Email: <a href="mailto:info@nashaat.om">info@nashaat.om</a></li>
+                </ul>
+            </div>
+            <!-- Footer column 3: privacy statement (from our Part I ethics section) -->
+            <div>
+                <h3>Privacy</h3>
+                <p class="small">We only keep the information we need for your membership.
+                We never share it, and you can ask us to delete it at any time.
+                You can still register and book in person at reception.</p>
+            </div>
+        </div>
+        <!-- &copy; is a character entity for the copyright sign -->
+        <p class="copy">&copy; 2026 Nashaat Gym &ndash; COMP3700 student project, Sultan Qaboos University.
+        The information on this site is general and is not medical advice.</p>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<!-- =====================================================================
+     Nashaat Gym Website - COMP3700 Course Project Part II
+     Page    : plans.html
+     Purpose : Plans page - TABLE 1 (plans comparison) and FORM 1 (registration / join).
+     Team    : Sulaiman Nasser, Hazza Hamdan Albadi, Yazn Khamis Alhajri
+
+     NOTE FOR THE TEAM:
+     - The HEADER, MENU and FOOTER are exactly the same on all 8 pages.
+       If you change one of them, copy the change to the other pages.
+     - We write XHTML style: small letters for tags, every tag is closed,
+       empty tags end with " />", and attribute values use "double quotes".
+     - No JavaScript in Part II (it comes in Part III).
+     ===================================================================== -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <!-- META tags: character set, phone screen size, and info for search engines -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Nashaat Gym membership plans and prices in Omani Rial, frequently asked questions and the online registration form." />
+    <meta name="keywords" content="gym, fitness, Oman, Muscat, Al Ansab, classes, Nashaat" />
+    <meta name="author" content="Sulaiman Nasser, Hazza Albadi, Yazn Alhajri" />
+
+    <!-- The text shown on the browser tab -->
+    <title>Membership Plans | Nashaat Gym</title>
+
+    <!-- Small icon shown on the browser tab -->
+    <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
+
+    <!-- CSS TYPE 1 = EXTERNAL style sheet: shared by all pages -->
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+    <!-- CSS TYPE 2 = INTERNAL (document-level) style sheet:
+         these rules work ONLY on this page -->
+    <style type="text/css">
+        /* Only for the Plans page */
+
+        /* the price column is orange and bold */
+        td.money {
+            color: #C97F1C;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        /* "Best value" label */
+        span.best {
+            background-color: #F2A33C;
+            color: #0B5242;
+            font-size: 0.75em;
+            padding: 2px 6px;
+            border-radius: 8px;
+        }
+
+        /* id selector: the join form */
+        #join {
+            border-top: 5px solid #0E6B57;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= HEADER: logo + site name (same on all pages) ================= -->
+    <div id="header">
+        <a href="index.html"><img src="images/logo.svg" alt="Nashaat logo: a white dumbbell badge" /></a>
+        <div>
+            <h1>NASHAAT</h1>
+            <p class="tagline">MOVE &bull; TRACK &bull; IMPROVE</p>
+        </div>
+    </div>
+
+    <!-- ================= NAVIGATION MENU (same on all pages) =================
+         class="current" shows which page we are on now -->
+    <div id="menu">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="plans.html" class="current">Plans</a></li>
+            <li><a href="classes.html">Classes</a></li>
+            <li><a href="trainers.html">Trainers</a></li>
+            <li><a href="workout.html">Workouts</a></li>
+            <li><a href="dashboard.html">My Account</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+    </div>
+
+    <!-- ================= MAIN CONTENT OF THIS PAGE ================= -->
+    <div id="main">
+        <h2>Membership Plans</h2>
+        <p class="intro">All prices are in Omani Rial (OMR). You register online and pay at reception
+        by cash or bank transfer &ndash; we do not take card payments online.</p>
+
+        <!-- ===== TABLE 1: PLANS COMPARISON =====
+             border, cellspacing, cellpadding = table attributes from the slides
+             rowspan = a cell goes DOWN over several rows
+             colspan = a cell goes ACROSS over several columns
+             thead / tbody / tfoot = the 3 parts of a table -->
+        <div class="table-box">
+            <table class="data" border="1" cellspacing="3" cellpadding="8">
+                <caption>Table 1: Nashaat membership plans (prices in OMR)</caption>
+                <thead>
+                    <tr>
+                        <th rowspan="2">Category</th>
+                        <th rowspan="2">Plan</th>
+                        <th rowspan="2">Duration</th>
+                        <th rowspan="2">Price (OMR)</th>
+                        <!-- one heading over 3 columns -->
+                        <th colspan="3">What is included</th>
+                    </tr>
+                    <tr>
+                        <th>Gym floor</th>
+                        <th>Group classes</th>
+                        <th>Personal training</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- "Standard" covers 4 rows (rowspan="4") -->
+                    <tr>
+                        <th class="rowhead" rowspan="4">Standard</th>
+                        <td>Monthly</td>
+                        <td>1 month</td>
+                        <td class="money">20</td>
+                        <td>&#10003;</td>
+                        <td>&#10003;</td>
+                        <td>&ndash;</td>
+                    </tr>
+                    <tr class="odd">
+                        <td>Quarter</td>
+                        <td>3 months</td>
+                        <td class="money">55</td>
+                        <td>&#10003;</td>
+                        <td>&#10003;</td>
+                        <td>1 session</td>
+                    </tr>
+                    <tr>
+                        <td>Half Year</td>
+                        <td>6 months</td>
+                        <td class="money">100</td>
+                        <td>&#10003;</td>
+                        <td>&#10003;</td>
+                        <td>2 sessions</td>
+                    </tr>
+                    <tr class="odd">
+                        <td>Yearly <span class="best">Best value</span></td>
+                        <td>12 months</td>
+                        <td class="money">180</td>
+                        <td>&#10003;</td>
+                        <td>&#10003;</td>
+                        <td>4 sessions</td>
+                    </tr>
+                    <tr>
+                        <th class="rowhead">Student</th>
+                        <td>Student Monthly</td>
+                        <td>1 month</td>
+                        <td class="money">15</td>
+                        <td>&#10003;</td>
+                        <!-- one cell over 2 columns -->
+                        <td colspan="2">Group classes only (no personal training)</td>
+                    </tr>
+                    <tr class="odd">
+                        <th class="rowhead">Visitor</th>
+                        <td>Day Pass</td>
+                        <td>1 day</td>
+                        <td class="money">3</td>
+                        <td>&#10003;</td>
+                        <!-- INLINE CSS on a single cell: text-align moves the text to the left -->
+                        <td colspan="2" style="text-align: left;">Not included</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="7">All plans include a free locker and Wi-Fi. Pay at reception (cash or bank transfer).</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- ===== FREQUENTLY ASKED QUESTIONS: description list ===== -->
+        <h2>Common Questions</h2>
+        <dl>
+            <dt>Can I try the gym before I join?</dt>
+            <dd>Yes. Buy a Day Pass for 3 OMR at reception.</dd>
+            <dt>Who can get the Student plan?</dt>
+            <dd>Any university or college student with a valid student ID card.</dd>
+            <dt>Can I freeze my membership?</dt>
+            <dd>Yearly and Half Year members can freeze once for up to 30 days (for travel or illness).</dd>
+            <dt>Are there women-only times?</dt>
+            <dd>Yes. The gym floor is women-only every day from 9:00 AM to 12:00 PM, and some classes are women-only.</dd>
+        </dl>
+
+        <!-- ===== FORM 1: REGISTRATION (JOIN) =====
+             id="join" lets the "Join Now" button on the home page jump here.
+             action = the address that receives the data (httpbin shows what we sent)
+             method="get" = the data is added to the address (URL)
+             The "name" of every field is what appears on httpbin.
+             NOTE: in Part IV we will send this to PHP with method="post". -->
+        <form id="join" action="https://httpbin.org/get" method="get">
+            <h2 style="margin-top: 0;">Join Nashaat &ndash; Registration Form</h2>
+
+            <!-- fieldset = a box around related fields, legend = its title -->
+            <fieldset>
+                <legend>1. Personal information</legend>
+
+                <label class="field" for="r-name">Full name:</label>
+                <input type="text" id="r-name" name="full_name" size="30" maxlength="80" required="required" />
+
+                <label class="field" for="r-email">Email:</label>
+                <input type="email" id="r-email" name="email" required="required" />
+
+                <label class="field" for="r-phone">Phone:</label>
+                <input type="tel" id="r-phone" name="phone" maxlength="15" required="required" />
+
+                <label class="field" for="r-dob">Date of birth:</label>
+                <input type="date" id="r-dob" name="date_of_birth" required="required" />
+
+                <!-- radio buttons: one choice only (same name) -->
+                <label class="field">Gender:</label>
+                <label class="choice"><input type="radio" name="gender" value="male" checked="checked" /> Male</label>
+                <label class="choice"><input type="radio" name="gender" value="female" /> Female</label>
+            </fieldset>
+
+            <fieldset>
+                <legend>2. Account</legend>
+
+                <!-- password boxes show dots instead of letters -->
+                <label class="field" for="r-pass">Password:</label>
+                <input type="password" id="r-pass" name="password" size="20" required="required" />
+
+                <label class="field" for="r-pass2">Confirm password:</label>
+                <input type="password" id="r-pass2" name="confirm_password" size="20" required="required" />
+            </fieldset>
+
+            <fieldset>
+                <legend>3. Membership</legend>
+
+                <!-- drop-down menu (size 1 = default) -->
+                <label class="field" for="r-plan">Choose a plan:</label>
+                <select id="r-plan" name="plan">
+                    <option value="monthly" selected="selected">Monthly &ndash; 20 OMR</option>
+                    <option value="quarter">Quarter &ndash; 55 OMR</option>
+                    <option value="half_year">Half Year &ndash; 100 OMR</option>
+                    <option value="yearly">Yearly &ndash; 180 OMR</option>
+                    <option value="student">Student Monthly &ndash; 15 OMR</option>
+                </select>
+
+                <label class="field" for="r-start">Start date:</label>
+                <input type="date" id="r-start" name="start_date" />
+
+                <!-- checkboxes: the user can choose MORE than one -->
+                <label class="field">Classes I am interested in:</label>
+                <label class="choice"><input type="checkbox" name="interests" value="hiit" /> HIIT</label>
+                <label class="choice"><input type="checkbox" name="interests" value="yoga" /> Yoga</label>
+                <label class="choice"><input type="checkbox" name="interests" value="strength" checked="checked" /> Strength</label>
+                <label class="choice"><input type="checkbox" name="interests" value="zumba" /> Zumba</label>
+                <label class="choice"><input type="checkbox" name="interests" value="boxing" /> Boxing</label>
+
+                <!-- list menu: size="3" shows 3 lines, multiple = choose many (hold Ctrl) -->
+                <label class="field" for="r-heard">How did you hear about us? (hold Ctrl to choose more than one)</label>
+                <select id="r-heard" name="heard_from" size="3" multiple="multiple">
+                    <option value="friend">A friend</option>
+                    <option value="instagram">Instagram</option>
+                    <option value="google">Google search</option>
+                    <option value="walked_by">I passed by the gym</option>
+                </select>
+
+                <label class="field" for="r-notes">Health notes or goals (optional):</label>
+                <textarea id="r-notes" name="notes" rows="4" cols="50">(for example: I want to lose weight, I had a knee injury last year)</textarea>
+            </fieldset>
+
+            <!-- consent checkbox (from our Part I privacy plan) -->
+            <label class="field">
+                <input type="checkbox" name="consent" value="agreed" required="required" />
+                I agree that Nashaat stores my information for my membership only.
+            </label>
+
+            <!-- hidden field: tells the server which form was sent -->
+            <input type="hidden" name="form_name" value="registration" />
+
+            <div class="buttons">
+                <input class="button" type="submit" value="Register" />
+                <input type="reset" value="Clear Form" />
+                <!-- type="button" does nothing now; in Part III a JavaScript function will check the passwords -->
+                <input type="button" value="Check Passwords" />
+            </div>
+        </form>
+    </div>
+    <!-- ================= END OF MAIN CONTENT ================= -->
+
+    <!-- ================= FOOTER (same on all pages) ================= -->
+    <div id="footer">
+        <div class="row">
+            <!-- Footer column 1: opening hours -->
+            <div>
+                <h3>Opening Hours</h3>
+                <ul>
+                    <li>Saturday - Thursday: 6:00 AM - 11:00 PM</li>
+                    <li>Friday: 2:00 PM - 10:00 PM</li>
+                </ul>
+            </div>
+            <!-- Footer column 2: address and contact -->
+            <div>
+                <h3>Contact</h3>
+                <ul>
+                    <li>Al Ansab, Muscat, Sultanate of Oman</li>
+                    <li>Phone: +968 2400 0000</li>
+                    <li>Email: <a href="mailto:info@nashaat.om">info@nashaat.om</a></li>
+                </ul>
+            </div>
+            <!-- Footer column 3: privacy statement (from our Part I ethics section) -->
+            <div>
+                <h3>Privacy</h3>
+                <p class="small">We only keep the information we need for your membership.
+                We never share it, and you can ask us to delete it at any time.
+                You can still register and book in person at reception.</p>
+            </div>
+        </div>
+        <!-- &copy; is a character entity for the copyright sign -->
+        <p class="copy">&copy; 2026 Nashaat Gym &ndash; COMP3700 student project, Sultan Qaboos University.
+        The information on this site is general and is not medical advice.</p>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<!-- =====================================================================
+     Nashaat Gym Website - COMP3700 Course Project Part II
+     Page    : about.html
+     Purpose : About Us page - story, mission, facilities, rules, team, and the EMAIL LINK (required).
+     Team    : Sulaiman Nasser, Hazza Hamdan Albadi, Yazn Khamis Alhajri
+
+     NOTE FOR THE TEAM:
+     - The HEADER, MENU and FOOTER are exactly the same on all 8 pages.
+       If you change one of them, copy the change to the other pages.
+     - We write XHTML style: small letters for tags, every tag is closed,
+       empty tags end with " />", and attribute values use "double quotes".
+     - No JavaScript in Part II (it comes in Part III).
+     ===================================================================== -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <!-- META tags: character set, phone screen size, and info for search engines -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="About Nashaat Gym: our story, mission, facilities, gym rules and the team. Email us with any question." />
+    <meta name="keywords" content="gym, fitness, Oman, Muscat, Al Ansab, classes, Nashaat" />
+    <meta name="author" content="Sulaiman Nasser, Hazza Albadi, Yazn Alhajri" />
+
+    <!-- The text shown on the browser tab -->
+    <title>About Us | Nashaat Gym</title>
+
+    <!-- Small icon shown on the browser tab -->
+    <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
+
+    <!-- CSS TYPE 1 = EXTERNAL style sheet: shared by all pages -->
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+    <!-- CSS TYPE 2 = INTERNAL (document-level) style sheet:
+         these rules work ONLY on this page -->
+    <style type="text/css">
+        /* Only for the About page */
+
+        /* blockquote = the mission statement */
+        blockquote {
+            background-color: #EEF5F3;
+            border-left: 6px solid #0E6B57;
+            padding: 15px 20px;
+            margin: 15px 0;
+            font-style: italic;
+            font-size: 1.1em;
+            color: #0B5242;
+        }
+
+        /* nested list inside the rules: smaller circles */
+        ol ul {
+            list-style-type: circle;
+            margin-top: 4px;
+        }
+
+        /* id selector: the email box */
+        #email-box {
+            border: 2px dashed #F2A33C;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= HEADER: logo + site name (same on all pages) ================= -->
+    <div id="header">
+        <a href="index.html"><img src="images/logo.svg" alt="Nashaat logo: a white dumbbell badge" /></a>
+        <div>
+            <h1>NASHAAT</h1>
+            <p class="tagline">MOVE &bull; TRACK &bull; IMPROVE</p>
+        </div>
+    </div>
+
+    <!-- ================= NAVIGATION MENU (same on all pages) =================
+         class="current" shows which page we are on now -->
+    <div id="menu">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html" class="current">About Us</a></li>
+            <li><a href="plans.html">Plans</a></li>
+            <li><a href="classes.html">Classes</a></li>
+            <li><a href="trainers.html">Trainers</a></li>
+            <li><a href="workout.html">Workouts</a></li>
+            <li><a href="dashboard.html">My Account</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+    </div>
+
+    <!-- ================= MAIN CONTENT OF THIS PAGE ================= -->
+    <div id="main">
+        <h2>About Nashaat</h2>
+
+        <!-- ===== OUR STORY: picture floats on the right, text goes around it ===== -->
+        <img class="float-right" src="images/facilities/facility-weights.svg" alt="The free weights area at Nashaat Gym" />
+        <h3>Our Story</h3>
+        <p class="intro">Nashaat started as a small neighbourhood gym in Al Ansab. Like many small
+        gyms in Oman, we used paper forms, a printed timetable and a WhatsApp group. Members often
+        travelled to the gym for a class that was already full, and the timetable photo was hard to read.</p>
+        <p>This website fixes those problems. Prices, class times and trainers are now online, and
+        members can see how many places are left in every class. We still keep reception and the
+        phone working for anyone who prefers to register in person.</p>
+        <!-- class="clear" stops the floating picture effect -->
+        <div class="clear"></div>
+
+        <!-- ===== MISSION: blockquote ===== -->
+        <h3>Our Mission</h3>
+        <blockquote>
+            <p>To make exercise easy, friendly and affordable for everyone in our community
+            &ndash; beginners first.</p>
+        </blockquote>
+
+        <!-- ===== OUR VALUES: description list ===== -->
+        <h3>Our Values</h3>
+        <dl>
+            <dt>Respect</dt>
+            <dd>Everyone is welcome, whatever their age, size or level.</dd>
+            <dt>Honesty</dt>
+            <dd>No fake promises such as &quot;lose 10 kg in 2 weeks&quot;.</dd>
+            <dt>Privacy</dt>
+            <dd>Your personal and health data stays private.</dd>
+        </dl>
+
+        <!-- ===== FACILITIES: three pictures ===== -->
+        <h2>Our Facilities</h2>
+        <div class="row">
+            <div class="card center">
+                <img src="images/facilities/facility-weights.svg" alt="Free weights area" />
+                <p>Free weights and machines</p>
+            </div>
+            <div class="card center">
+                <img src="images/facilities/facility-cardio.svg" alt="Cardio zone with treadmills" />
+                <p>Cardio zone</p>
+            </div>
+            <div class="card center">
+                <img src="images/facilities/facility-studio.svg" alt="Group class studio" />
+                <p>Group class studio</p>
+            </div>
+        </div>
+
+        <!-- ===== GYM RULES: ordered list with a NESTED unordered list ===== -->
+        <h2>Gym Rules</h2>
+        <ol>
+            <li>Bring a towel and a water bottle.</li>
+            <li>Wear clean sports shoes on the gym floor.</li>
+            <li>Respect the class times:
+                <ul>
+                    <li>Arrive 5 minutes before the class starts.</li>
+                    <li>Cancel your booking if you cannot come, so someone else can use the place.</li>
+                </ul>
+            </li>
+            <li>Return weights to their place after use.</li>
+            <li>Respect the women-only hours and women-only classes.</li>
+        </ol>
+
+        <!-- ===== THE TEAM WHO BUILT THIS WEBSITE: small table ===== -->
+        <h2>The Team Behind This Website</h2>
+        <p>This website is a student project for COMP3700 at Sultan Qaboos University.</p>
+        <div class="table-box">
+            <table class="data" border="1" cellspacing="3" cellpadding="8">
+                <caption>Website team (Section 01)</caption>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Student ID</th>
+                        <th>Main pages</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Sulaiman Nasser</td>
+                        <td>144524</td>
+                        <td>Home, About Us, Contact Us</td>
+                    </tr>
+                    <tr class="odd">
+                        <td>Hazza Hamdan Albadi</td>
+                        <td>144644</td>
+                        <td>Plans, Classes, Trainers</td>
+                    </tr>
+                    <tr>
+                        <td>Yazn Khamis Alhajri</td>
+                        <td>145411</td>
+                        <td>Workouts, My Account</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <!-- colspan="3": this cell takes the width of 3 columns -->
+                        <td colspan="3">Course instructor: Dr. Abdullah Alhajri</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- ===== EMAIL LINK (REQUIRED in the project) =====
+             mailto: opens the visitor's email program.
+             ?subject= and &amp;body= fill the subject and the message.
+             &amp;cc= sends a copy to a second address.
+             (Inside HTML we write &amp; instead of the & sign.) -->
+        <div id="email-box">
+            <h2 style="margin-top: 0;">Email Us</h2>
+            <p>Have a question about membership, classes or trainers? Send us an email and
+            we will reply within <strong>one working day</strong>. Please include:</p>
+            <ul>
+                <li>Your full name and phone number</li>
+                <li>Your membership number (if you are already a member)</li>
+                <li>Your question or the class you are asking about</li>
+            </ul>
+            <p>
+                <a class="button"
+                   href="mailto:info@nashaat.om?subject=Question%20about%20Nashaat%20Gym&amp;body=Hello%20Nashaat%20team%2C%20I%20want%20to%20ask%20about...&amp;cc=manager@nashaat.om">
+                   Email info@nashaat.om</a>
+            </p>
+            <p class="small">For complaints you can email the manager directly:
+            <a href="mailto:manager@nashaat.om?subject=Complaint">manager@nashaat.om</a>.
+            You can also use our <a href="contact.html">Contact Us form</a>.</p>
+        </div>
+    </div>
+    <!-- ================= END OF MAIN CONTENT ================= -->
+
+    <!-- ================= FOOTER (same on all pages) ================= -->
+    <div id="footer">
+        <div class="row">
+            <!-- Footer column 1: opening hours -->
+            <div>
+                <h3>Opening Hours</h3>
+                <ul>
+                    <li>Saturday - Thursday: 6:00 AM - 11:00 PM</li>
+                    <li>Friday: 2:00 PM - 10:00 PM</li>
+                </ul>
+            </div>
+            <!-- Footer column 2: address and contact -->
+            <div>
+                <h3>Contact</h3>
+                <ul>
+                    <li>Al Ansab, Muscat, Sultanate of Oman</li>
+                    <li>Phone: +968 2400 0000</li>
+                    <li>Email: <a href="mailto:info@nashaat.om">info@nashaat.om</a></li>
+                </ul>
+            </div>
+            <!-- Footer column 3: privacy statement (from our Part I ethics section) -->
+            <div>
+                <h3>Privacy</h3>
+                <p class="small">We only keep the information we need for your membership.
+                We never share it, and you can ask us to delete it at any time.
+                You can still register and book in person at reception.</p>
+            </div>
+        </div>
+        <!-- &copy; is a character entity for the copyright sign -->
+        <p class="copy">&copy; 2026 Nashaat Gym &ndash; COMP3700 student project, Sultan Qaboos University.
+        The information on this site is general and is not medical advice.</p>
+    </div>
+
+</body>
+</html>

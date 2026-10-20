@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<!-- =====================================================================
+     Nashaat Gym Website - COMP3700 Course Project Part II
+     Page    : dashboard.html
+     Purpose : Member area page - FORM 3 (login), FORM 4 (log a workout) and TABLE 5 (workout history).
+     Team    : Sulaiman Nasser, Hazza Hamdan Albadi, Yazn Khamis Alhajri
+
+     NOTE FOR THE TEAM:
+     - The HEADER, MENU and FOOTER are exactly the same on all 8 pages.
+       If you change one of them, copy the change to the other pages.
+     - We write XHTML style: small letters for tags, every tag is closed,
+       empty tags end with " />", and attribute values use "double quotes".
+     - No JavaScript in Part II (it comes in Part III).
+     ===================================================================== -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <!-- META tags: character set, phone screen size, and info for search engines -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Nashaat member area: log in, see your membership, log your workouts and see your progress." />
+    <meta name="keywords" content="gym, fitness, Oman, Muscat, Al Ansab, classes, Nashaat" />
+    <meta name="author" content="Sulaiman Nasser, Hazza Albadi, Yazn Alhajri" />
+
+    <!-- The text shown on the browser tab -->
+    <title>My Account | Nashaat Gym</title>
+
+    <!-- Small icon shown on the browser tab -->
+    <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
+
+    <!-- CSS TYPE 1 = EXTERNAL style sheet: shared by all pages -->
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+    <!-- CSS TYPE 2 = INTERNAL (document-level) style sheet:
+         these rules work ONLY on this page -->
+    <style type="text/css">
+        /* Only for the My Account page */
+
+        /* big number inside the summary cards */
+        p.big {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #0E6B57;
+            margin: 0;
+            text-align: center;
+        }
+
+        /* id selectors for the two forms */
+        #login-form {
+            max-width: 500px;
+            border-top: 5px solid #0E6B57;
+        }
+
+        #log-form {
+            border-top: 5px solid #F2A33C;
+        }
+
+        /* the range slider */
+        input[type="range"] {
+            width: 100%;
+            max-width: 300px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= HEADER: logo + site name (same on all pages) ================= -->
+    <div id="header">
+        <a href="index.html"><img src="images/logo.svg" alt="Nashaat logo: a white dumbbell badge" /></a>
+        <div>
+            <h1>NASHAAT</h1>
+            <p class="tagline">MOVE &bull; TRACK &bull; IMPROVE</p>
+        </div>
+    </div>
+
+    <!-- ================= NAVIGATION MENU (same on all pages) =================
+         class="current" shows which page we are on now -->
+    <div id="menu">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="plans.html">Plans</a></li>
+            <li><a href="classes.html">Classes</a></li>
+            <li><a href="trainers.html">Trainers</a></li>
+            <li><a href="workout.html">Workouts</a></li>
+            <li><a href="dashboard.html" class="current">My Account</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+    </div>
+
+    <!-- ================= MAIN CONTENT OF THIS PAGE ================= -->
+    <div id="main">
+        <h2>My Account</h2>
+        <p>Members can log in to see their membership, book classes and record their workouts.</p>
+
+        <!-- ===== FORM 3: LOGIN =====
+             NOTE: method="get" is ONLY for testing with httpbin in Part II.
+             A real password must never be sent with get. In Part IV we will
+             use method="post" with PHP and HTTPS. -->
+        <form id="login-form" action="https://httpbin.org/get" method="get">
+            <h3 style="margin-top: 0;">Member Login</h3>
+
+            <label class="field" for="l-email">Email:</label>
+            <input type="email" id="l-email" name="email" required="required" />
+
+            <label class="field" for="l-pass">Password:</label>
+            <input type="password" id="l-pass" name="password" required="required" />
+
+            <label class="field">
+                <input type="checkbox" name="remember_me" value="yes" /> Remember me on this device
+            </label>
+
+            <input type="hidden" name="form_name" value="login" />
+
+            <div class="buttons">
+                <input class="button" type="submit" value="Log In" />
+                <input type="reset" value="Clear" />
+            </div>
+            <p class="small">Not a member yet? <a href="plans.html#join">Register here</a>.</p>
+        </form>
+
+        <hr />
+
+        <!-- ===== MEMBER SUMMARY (example data for one member) =====
+             In Part IV this data will come from the database. -->
+        <h2>Welcome back, Salim</h2>
+        <div class="row">
+            <div class="card">
+                <h3 class="center">Days left</h3>
+                <p class="big">23</p>
+                <p class="center">Monthly plan &ndash; ends 11 Nov 2026</p>
+            </div>
+            <div class="card">
+                <h3 class="center">Sessions this month</h3>
+                <p class="big">9</p>
+                <p class="center">Great consistency!</p>
+            </div>
+            <div class="card">
+                <h3 class="center">Next class</h3>
+                <p class="big" style="font-size: 1.4em;">HIIT Burn</p>
+                <p class="center">Saturday 6:00 PM with Ahmed</p>
+            </div>
+        </div>
+
+        <!-- ===== TABLE 5: MY RECENT WORKOUTS ===== -->
+        <h2>My Recent Workouts</h2>
+        <div class="table-box">
+            <table class="data" border="1" cellspacing="3" cellpadding="8">
+                <caption>Table 5: Last 5 workouts</caption>
+                <thead>
+                    <tr>
+                        <th rowspan="2">Date</th>
+                        <th colspan="2">Workout</th>
+                        <th rowspan="2">Body weight (kg)</th>
+                    </tr>
+                    <tr>
+                        <th>Type</th>
+                        <th>Minutes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>18 Oct 2026</td>
+                        <td>Strength</td>
+                        <td>50</td>
+                        <td>82.0</td>
+                    </tr>
+                    <tr class="odd">
+                        <td>16 Oct 2026</td>
+                        <td>HIIT class</td>
+                        <td>45</td>
+                        <!-- empty weight = the member did not record it (weight is optional) -->
+                        <td>&ndash;</td>
+                    </tr>
+                    <tr>
+                        <td>14 Oct 2026</td>
+                        <td>Cardio</td>
+                        <td>30</td>
+                        <td>82.4</td>
+                    </tr>
+                    <tr class="odd">
+                        <td>12 Oct 2026</td>
+                        <td>Strength</td>
+                        <td>55</td>
+                        <td>&ndash;</td>
+                    </tr>
+                    <tr>
+                        <td>10 Oct 2026</td>
+                        <td>Core &amp; Stretch</td>
+                        <td>40</td>
+                        <td>82.9</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">Total time</td>
+                        <td>220 min</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- Wellbeing message (Part I: progress is not a straight line) -->
+        <p class="note">Progress is not a straight line. Showing up is what matters most &ndash;
+        your weight is optional and you can delete your records at any time.</p>
+
+        <!-- ===== FORM 4: LOG A WORKOUT ===== -->
+        <form id="log-form" action="https://httpbin.org/get" method="get">
+            <h2 style="margin-top: 0;">Log a Workout</h2>
+
+            <fieldset>
+                <legend>Workout</legend>
+
+                <label class="field" for="w-date">Date:</label>
+                <input type="date" id="w-date" name="workout_date" required="required" />
+
+                <label class="field" for="w-type">Type of workout:</label>
+                <select id="w-type" name="workout_type">
+                    <option value="strength" selected="selected">Strength</option>
+                    <option value="cardio">Cardio</option>
+                    <option value="class">Group class</option>
+                    <option value="stretch">Stretching</option>
+                </select>
+
+                <label class="field" for="w-min">Duration (minutes):</label>
+                <input type="number" id="w-min" name="duration_minutes" min="5" max="300" value="45" />
+
+                <!-- radio buttons -->
+                <label class="field">How hard was it?</label>
+                <label class="choice"><input type="radio" name="intensity" value="easy" /> Easy</label>
+                <label class="choice"><input type="radio" name="intensity" value="medium" checked="checked" /> Medium</label>
+                <label class="choice"><input type="radio" name="intensity" value="hard" /> Hard</label>
+
+                <!-- checkboxes -->
+                <label class="field">Muscle groups trained:</label>
+                <label class="choice"><input type="checkbox" name="muscles" value="legs" /> Legs</label>
+                <label class="choice"><input type="checkbox" name="muscles" value="chest" /> Chest</label>
+                <label class="choice"><input type="checkbox" name="muscles" value="back" /> Back</label>
+                <label class="choice"><input type="checkbox" name="muscles" value="core" /> Core</label>
+                <label class="choice"><input type="checkbox" name="muscles" value="arms" /> Arms</label>
+
+                <!-- range = a slider from 1 to 10 -->
+                <label class="field" for="w-mood">Energy after the workout (1 = tired, 10 = great):</label>
+                <input type="range" id="w-mood" name="energy" min="1" max="10" value="7" />
+            </fieldset>
+
+            <fieldset>
+                <legend>Optional</legend>
+
+                <label class="field" for="w-weight">Body weight (kg) &ndash; you can leave this empty:</label>
+                <input type="number" id="w-weight" name="body_weight" min="30" max="250" step="0.1" />
+
+                <label class="field" for="w-notes">Notes:</label>
+                <textarea id="w-notes" name="notes" rows="3" cols="45"></textarea>
+            </fieldset>
+
+            <!-- hidden fields: which member and which form -->
+            <input type="hidden" name="member_id" value="M1024" />
+            <input type="hidden" name="form_name" value="workout_log" />
+
+            <div class="buttons">
+                <input class="button" type="submit" value="Save Workout" />
+                <input type="reset" value="Clear" />
+                <!-- <button> tag: will be used with JavaScript in Part III -->
+                <button type="button">Show My Progress Chart</button>
+            </div>
+        </form>
+    </div>
+    <!-- ================= END OF MAIN CONTENT ================= -->
+
+    <!-- ================= FOOTER (same on all pages) ================= -->
+    <div id="footer">
+        <div class="row">
+            <!-- Footer column 1: opening hours -->
+            <div>
+                <h3>Opening Hours</h3>
+                <ul>
+                    <li>Saturday - Thursday: 6:00 AM - 11:00 PM</li>
+                    <li>Friday: 2:00 PM - 10:00 PM</li>
+                </ul>
+            </div>
+            <!-- Footer column 2: address and contact -->
+            <div>
+                <h3>Contact</h3>
+                <ul>
+                    <li>Al Ansab, Muscat, Sultanate of Oman</li>
+                    <li>Phone: +968 2400 0000</li>
+                    <li>Email: <a href="mailto:info@nashaat.om">info@nashaat.om</a></li>
+                </ul>
+            </div>
+            <!-- Footer column 3: privacy statement (from our Part I ethics section) -->
+            <div>
+                <h3>Privacy</h3>
+                <p class="small">We only keep the information we need for your membership.
+                We never share it, and you can ask us to delete it at any time.
+                You can still register and book in person at reception.</p>
+            </div>
+        </div>
+        <!-- &copy; is a character entity for the copyright sign -->
+        <p class="copy">&copy; 2026 Nashaat Gym &ndash; COMP3700 student project, Sultan Qaboos University.
+        The information on this site is general and is not medical advice.</p>
+    </div>
+
+</body>
+</html>

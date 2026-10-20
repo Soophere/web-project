@@ -1,0 +1,625 @@
+/* ==========================================================================
+   Nashaat Gym - EXTERNAL STYLE SHEET  (css/style.css)
+   --------------------------------------------------------------------------
+   This file is linked from EVERY page with:
+       <link rel="stylesheet" type="text/css" href="css/style.css" />
+   It gives all pages the same logo, menu, content style and footer.
+
+   HOW THIS FILE IS ORGANISED (easy to find things):
+     1. Universal selector  ( * )
+     2. Simple selectors    ( body, h1, h2, p ... )
+     3. Header + logo
+     4. Navigation menu + link pseudo classes
+     5. Main content boxes
+     6. Generic classes     ( .card, .button ... )
+     7. Class selectors     ( p.note, table.data ... )
+     8. Tables
+     9. Forms
+    10. Footer
+    11. Responsive design (phones and tablets)
+
+   COURSE CHECKLIST - the 7 CSS selector types (from the slides):
+     Simple ......... h1, h2, p, body           (section 2)
+     Class .......... p.note, table.data        (section 7)
+     Generic ........ .card, .button, .center   (section 6)
+     id ............. #header, #menu, #footer   (sections 3, 4, 10)
+     Universal ...... *                         (section 1)
+     Contextual ..... #menu a, table.data th    (sections 4, 8)
+     Pseudo classes . a:link, a:visited, a:hover, a:active, a:focus,
+                      input:focus               (sections 4, 9)
+
+   COURSE CHECKLIST - the 7 CSS property categories:
+     Fonts ......... font-family, font-size, font-weight, font-style, letter-spacing
+     Lists ......... list-style-type, list-style-position
+     Alignment ..... text-align, text-indent, float
+     Color ......... color, opacity
+     Background .... background-color, background-image, background-repeat
+     Margin ........ margin, margin-top, margin-bottom
+     Border ........ border, border-radius, border-collapse, border-spacing
+
+   OUR COLOURS (same as the logo in Part 1):
+     Teal       #0E6B57   main colour (header, menu, headings)
+     Dark teal  #0B5242   footer, dark text
+     Orange     #F2A33C   buttons and links the user should notice
+     Grey       #5F6B68   normal paragraph text
+     Light      #EEF5F3   light background for boxes
+   ========================================================================== */
+
+
+/* ---------- 1. UNIVERSAL SELECTOR ----------------------------------------
+   The * selects ALL elements on the page.
+   We use it to remove the browser's default spacing, so every
+   browser shows our pages the same way. */
+* {
+    margin: 0;                 /* MARGIN category */
+    padding: 0;
+    box-sizing: border-box;    /* width now includes padding + border */
+}
+
+
+/* ---------- 2. SIMPLE SELECTORS (tag names) ------------------------------ */
+
+/* The whole page */
+body {
+    font-family: Arial, Helvetica, sans-serif;   /* FONT category */
+    font-size: 100%;                             /* 100% = 16px default */
+    color: #5F6B68;                              /* COLOR category */
+    background-color: #FFFFFF;                   /* BACKGROUND category */
+    line-height: 1.6;
+}
+
+/* Headings - one rule for two tags (list separated by commas) */
+h1, h2 {
+    color: #0E6B57;
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 2em;            /* em = relative size (recommended in slides) */
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-size: 1.5em;
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+h3 {
+    color: #0B5242;
+    font-size: 1.15em;
+    margin-top: 15px;
+    margin-bottom: 8px;
+}
+
+p {
+    margin-bottom: 12px;
+    text-align: justify;       /* ALIGNMENT category */
+}
+
+/* Lists inside the content */
+ul, ol {
+    margin-left: 25px;
+    margin-bottom: 12px;
+    list-style-position: outside;   /* LIST category */
+}
+
+ul {
+    list-style-type: square;        /* LIST category: disc, circle, square */
+}
+
+ol {
+    list-style-type: decimal;       /* LIST category: 1, 2, 3 ... */
+}
+
+/* Description lists (dl / dt / dd) */
+dt {
+    font-weight: bold;
+    color: #0B5242;
+}
+
+dd {
+    margin-left: 20px;
+    margin-bottom: 8px;
+}
+
+/* Images never become wider than their box (good for phones) */
+img {
+    max-width: 100%;
+}
+
+/* Horizontal line */
+hr {
+    border: none;
+    border-top: 2px solid #F2A33C;
+    margin: 20px 0;
+}
+
+
+/* ---------- 3. HEADER + LOGO  (id selector: #header) --------------------- */
+#header {
+    background-color: #0E6B57;
+    padding: 15px 30px;
+    display: flex;             /* puts logo and text side by side */
+    align-items: center;
+}
+
+/* Contextual selector: only images that are inside #header */
+#header img {
+    width: 70px;
+    height: 70px;
+    margin-right: 15px;
+}
+
+#header h1 {
+    color: #FFFFFF;
+    font-size: 2em;
+    letter-spacing: 3px;       /* FONT category: space between letters */
+    margin: 0;
+}
+
+/* The tagline under the name  (class selector: p.tagline) */
+p.tagline {
+    color: #F2A33C;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+
+/* ---------- 4. NAVIGATION MENU  (id selector: #menu) -------------------- */
+#menu {
+    background-color: #0B5242;
+    text-align: center;        /* ALIGNMENT: center the links */
+    padding: 10px;
+}
+
+/* Contextual selector: the list INSIDE the menu */
+#menu ul {
+    list-style-type: none;     /* LIST: remove the bullets */
+    margin: 0;
+}
+
+/* Contextual selector: every list item inside the menu */
+#menu li {
+    display: inline-block;     /* puts the links on one line */
+    margin: 4px;
+}
+
+/* Contextual selector: links inside the menu */
+#menu a {
+    display: block;
+    padding: 8px 14px;
+    font-weight: bold;
+    text-decoration: none;     /* FONT: no underline */
+    border-radius: 6px;        /* BORDER: rounded corners */
+}
+
+/* PSEUDO CLASSES for ALL 4 types of link events.
+   The order must be: link -> visited -> hover -> active (LoVe HAte) */
+#menu a:link {
+    color: #FFFFFF;            /* link not clicked yet */
+}
+
+#menu a:visited {
+    color: #D9EDE7;            /* link already visited */
+}
+
+#menu a:hover {
+    color: #0B5242;            /* mouse is over the link */
+    background-color: #F2A33C;
+}
+
+#menu a:active {
+    color: #FFFFFF;            /* while the mouse button is pressed */
+    background-color: #C97F1C;
+}
+
+#menu a:focus {
+    outline: 2px dashed #F2A33C;   /* when reached with the keyboard (Tab) */
+}
+
+/* The link of the page we are on now (generic class .current) */
+#menu a.current {
+    background-color: #0E6B57;
+    border-bottom: 3px solid #F2A33C;
+}
+
+/* the current page link also turns orange when the mouse is over it */
+#menu a.current:hover {
+    background-color: #F2A33C;
+    color: #0B5242;
+}
+
+/* Normal links inside the page content (not the menu) */
+a:link    { color: #0E6B57; }
+a:visited { color: #6B4E9B; }
+a:hover   { color: #F2A33C; text-decoration: underline; }
+a:active  { color: #C97F1C; }
+
+
+/* ---------- 5. MAIN CONTENT  (id selector: #main) ----------------------- */
+#main {
+    width: 90%;
+    max-width: 1100px;
+    margin: 25px auto;         /* auto = center the box on the page */
+    min-height: 400px;
+}
+
+/* A banner box with a background image (used on the home page) */
+#banner {
+    background-color: #0E6B57;
+    background-image: url("../images/banner.svg");   /* BACKGROUND image */
+    background-repeat: no-repeat;                    /* BACKGROUND repeat */
+    background-position: right;
+    background-size: contain;
+    color: #FFFFFF;
+    padding: 40px 30px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+}
+
+#banner h2 {
+    color: #FFFFFF;
+    font-size: 2em;
+    margin-top: 0;
+}
+
+#banner p {
+    width: 60%;
+    text-align: left;
+}
+
+/* Two or three boxes next to each other */
+.row {
+    display: flex;
+    flex-wrap: wrap;           /* boxes go to a new line on small screens */
+    gap: 20px;
+}
+
+
+/* ---------- 6. GENERIC CLASSES (start with a dot, work on ANY tag) ------ */
+
+/* A white box with a border - used for plans, trainers, exercises */
+.card {
+    flex: 1;
+    min-width: 230px;
+    background-color: #FFFFFF;
+    border: 1px solid #CFE3DD;
+    border-top: 5px solid #0E6B57;
+    border-radius: 10px;
+    padding: 18px;
+}
+
+.card img {
+    display: block;
+    margin: 0 auto 10px auto;
+}
+
+/* Orange button (works on <a>, <input>, <button>) */
+.button {
+    display: inline-block;
+    background-color: #F2A33C;
+    color: #0B5242;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* we must also write a.button:link etc. so the link colours above
+   do not change the button text colour */
+a.button:link, a.button:visited {
+    color: #0B5242;
+}
+
+.button:hover, a.button:hover {
+    background-color: #0E6B57;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.center {
+    text-align: center;
+}
+
+/* Light green box for highlighted information */
+.highlight {
+    background-color: #EEF5F3;
+    border-left: 6px solid #F2A33C;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+/* Price text */
+.price {
+    color: #F2A33C;
+    font-size: 1.6em;
+    font-weight: bold;
+}
+
+/* Small grey text (used for notes and disclaimers) */
+.small {
+    font-size: 0.85em;
+    font-style: italic;        /* FONT category */
+}
+
+/* Image that floats to the right and text goes around it
+   (from the "Alignment of text" slide) */
+.float-right {
+    float: right;              /* ALIGNMENT category */
+    width: 35%;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+/* stops the float effect after a section */
+.clear {
+    clear: both;
+}
+
+
+/* ---------- 7. CLASS SELECTORS (class attached to ONE tag name) --------- */
+
+/* Only <p> tags with class="note" */
+p.note {
+    background-color: #FFF6E8;
+    border: 1px dashed #F2A33C;
+    padding: 10px;
+    font-size: 0.9em;
+}
+
+/* Only <p> tags with class="intro" - first line is indented */
+p.intro {
+    text-indent: 30px;         /* ALIGNMENT category */
+    font-size: 1.1em;
+}
+
+/* Only <span> tags with class="badge" (small coloured labels) */
+span.badge {
+    background-color: #0E6B57;
+    color: #FFFFFF;
+    font-size: 0.75em;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+span.full {
+    background-color: #C0392B;     /* red = class is full */
+}
+
+span.women {
+    background-color: #9B4F96;     /* purple = women only */
+}
+
+
+/* ---------- 8. TABLES -------------------------------------------------- */
+
+/* All our data tables use class="data" */
+table.data {
+    width: 100%;
+    border: 2px solid #0E6B57;          /* BORDER category */
+    border-collapse: separate;          /* BORDER: keep the cells separate */
+    border-spacing: 3px;                /* space between cells (cell spacing) */
+    margin-bottom: 20px;
+    background-color: #FFFFFF;
+}
+
+table.data caption {
+    font-weight: bold;
+    color: #0B5242;
+    font-size: 1.1em;
+    padding: 8px;
+}
+
+/* Contextual selectors: header cells and data cells inside table.data */
+table.data th {
+    background-color: #0E6B57;
+    color: #FFFFFF;
+    padding: 10px;                      /* cell padding */
+    border: 1px solid #0B5242;
+}
+
+table.data td {
+    padding: 8px 10px;
+    border: 1px solid #CFE3DD;
+    text-align: center;
+}
+
+/* The table footer row */
+table.data tfoot td {
+    background-color: #F2A33C;
+    color: #0B5242;
+    font-weight: bold;
+}
+
+/* Different colour for some rows (class on <tr>) */
+tr.odd {
+    background-color: #EEF5F3;
+}
+
+/* Row heading cells (day names, plan names) */
+th.rowhead {
+    background-color: #0B5242;
+}
+
+/* Mouse over a row = light orange (pseudo class) */
+table.data tbody tr:hover {
+    background-color: #FFF0D9;
+}
+
+
+/* ---------- 9. FORMS --------------------------------------------------- */
+form {
+    background-color: #EEF5F3;
+    border: 1px solid #CFE3DD;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+fieldset {
+    border: 2px solid #0E6B57;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+legend {
+    color: #0E6B57;
+    font-weight: bold;
+    padding: 0 8px;
+}
+
+/* Every label is on its own line */
+label.field {
+    display: block;
+    font-weight: bold;
+    color: #0B5242;
+    margin-top: 10px;
+    margin-bottom: 4px;
+}
+
+/* Text boxes, menus and text areas */
+input[type="text"], input[type="password"], input[type="email"],
+input[type="tel"], input[type="date"], input[type="number"],
+input[type="time"], select, textarea {
+    width: 100%;
+    max-width: 450px;
+    padding: 8px;
+    font-size: 1em;
+    border: 1px solid #9FBFB6;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+}
+
+/* PSEUDO CLASSES for form controls (same idea as the slide example) */
+input:hover, select:hover, textarea:hover {
+    border-color: #F2A33C;
+}
+
+input:focus, select:focus, textarea:focus {
+    background-color: #FFFBF2;
+    border: 2px solid #0E6B57;
+    outline: none;
+}
+
+/* Radio buttons and checkboxes sit next to their text */
+label.choice {
+    display: inline-block;
+    margin-right: 15px;
+    font-weight: normal;
+}
+
+/* Submit / reset buttons area */
+.buttons {
+    margin-top: 15px;
+}
+
+input[type="reset"], input[type="button"], button {
+    background-color: #FFFFFF;
+    color: #0B5242;
+    border: 2px solid #0B5242;
+    padding: 9px 18px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+input[type="reset"]:hover, input[type="button"]:hover, button:hover {
+    background-color: #0B5242;
+    color: #FFFFFF;
+}
+
+
+/* ---------- 10. FOOTER  (id selector: #footer) -------------------------- */
+#footer {
+    background-color: #0B5242;
+    color: #D9EDE7;
+    padding: 25px 30px 10px 30px;
+    margin-top: 30px;
+    font-size: 0.9em;
+}
+
+#footer h3 {
+    color: #F2A33C;
+    margin-top: 0;
+}
+
+#footer ul {
+    list-style-type: none;
+    margin-left: 0;
+}
+
+#footer a:link, #footer a:visited {
+    color: #FFFFFF;
+}
+
+#footer a:hover {
+    color: #F2A33C;
+}
+
+/* The last line with the copyright */
+#footer p.copy {
+    text-align: center;
+    border-top: 1px solid #1F6B5A;
+    padding-top: 10px;
+    margin-top: 15px;
+    opacity: 0.8;                  /* COLOR category: a bit transparent */
+}
+
+
+/* ---------- 11. RESPONSIVE DESIGN --------------------------------------
+   @media = these rules work ONLY when the screen is small.
+   768px  = tablets and phones. */
+@media (max-width: 768px) {
+
+    #header {
+        flex-direction: column;    /* logo above the name */
+        text-align: center;
+    }
+
+    #header img {
+        margin-right: 0;
+        margin-bottom: 8px;
+    }
+
+    #menu li {
+        display: block;            /* one link per line on phones */
+    }
+
+    #main {
+        width: 95%;
+    }
+
+    #banner p {
+        width: 100%;
+    }
+
+    .float-right {
+        float: none;               /* image goes above the text */
+        width: 100%;
+        margin-left: 0;
+    }
+
+    /* big tables can be scrolled left and right on a phone */
+    .table-box {
+        overflow-x: auto;
+    }
+
+    table.data {
+        font-size: 0.85em;
+    }
+}
+
+
+/* ---------- 12. EXTRA: footer columns ----------------------------------
+   Contextual selector: each <div> inside the row of the footer
+   takes the same width. */
+#footer .row div {
+    flex: 1;
+    min-width: 200px;
+}

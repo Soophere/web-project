@@ -1,0 +1,21 @@
+# ---------------------------------------------------------------
+# .gitignore = files that git should NOT upload to GitHub
+# ---------------------------------------------------------------
+
+# Windows / Mac system files
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Temporary Office files (open Word / PowerPoint files)
+~$*
+
+# Editor settings
+.vscode/
+.idea/
+
+# The course requirements file is the instructor's document, not our work
+docs/part2-requirements.pdf
+
+# Part IV (PHP): the database password file must never go to GitHub
+config.php
