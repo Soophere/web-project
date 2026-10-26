@@ -3,7 +3,8 @@
 COMP3700 Project Part II. A static website for the Nashaat gym in Al Ansab, Muscat.
 Only HTML and CSS, no JavaScript.
 
-Live website: https://soophere.github.io/web-project/
+Website: https://nashaat-gym.netlify.app/
+GitHub Pages: https://soophere.github.io/web-project/
 GitHub: https://github.com/hazza-albadi/web-project
 
 Team (Section 01):
@@ -55,6 +56,8 @@ Double click index.html. It opens in any browser, no server needed.
 
 ## Publishing
 
-The website is published with GitHub Pages:
-https://soophere.github.io/web-project/
+The website is published on two free hosts:
+
+- Netlify: https://nashaat-gym.netlify.app/
+- GitHub Pages: https://soophere.github.io/web-project/
 
