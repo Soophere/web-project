@@ -58,8 +58,3 @@ Double click index.html. It opens in any browser, no server needed.
 The website is published with GitHub Pages:
 https://soophere.github.io/web-project/
 
-## Before we submit
-
-- replace info@nashaat.om and the phone number with the real ones
-- replace the svg pictures with real photos if we can get them
-- keep the whole folder under 100 MB
