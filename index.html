@@ -1,54 +1,33 @@
 <!DOCTYPE html>
-<!-- =====================================================================
-     Nashaat Gym Website - COMP3700 Course Project Part II
-     Page    : index.html
-     Purpose : Home page - the first page visitors see. Links to all other pages.
-     Team    : Sulaiman Nasser, Hazza Hamdan Albadi, Yazn Khamis Alhajri
 
-     NOTE FOR THE TEAM:
-     - The HEADER, MENU and FOOTER are exactly the same on all 8 pages.
-       If you change one of them, copy the change to the other pages.
-     - We write XHTML style: small letters for tags, every tag is closed,
-       empty tags end with " />", and attribute values use "double quotes".
-     - No JavaScript in Part II (it comes in Part III).
-     ===================================================================== -->
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
-    <!-- META tags: character set, phone screen size, and info for search engines -->
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Nashaat Gym in Al Ansab, Muscat: membership prices, class timetable, trainers and opening hours." />
     <meta name="keywords" content="gym, fitness, Oman, Muscat, Al Ansab, classes, Nashaat" />
     <meta name="author" content="Sulaiman Nasser, Hazza Albadi, Yazn Alhajri" />
 
-    <!-- The text shown on the browser tab -->
     <title>Home | Nashaat Gym</title>
 
-    <!-- Small icon shown on the browser tab -->
     <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
 
-    <!-- CSS TYPE 1 = EXTERNAL style sheet: shared by all pages -->
     <link rel="stylesheet" type="text/css" href="css/style.css" />
 
-    <!-- CSS TYPE 2 = INTERNAL (document-level) style sheet:
-         these rules work ONLY on this page -->
     <style type="text/css">
-        /* Only for the home page */
 
-        /* Simple selector inside this page: space under the list items */
         ul.why li {
             margin-bottom: 6px;
         }
 
-        /* id selector: the box that holds the map */
         #map-box iframe {
             width: 100%;
             height: 260px;
-            border: 0;               /* no grey frame around the map */
+            border: 0;
             border-radius: 10px;
         }
 
-        /* the 3 trainer pictures are round on the home page */
         .card img.round {
             border-radius: 50%;
             border: 4px solid #F2A33C;
@@ -58,7 +37,7 @@
 
 <body>
 
-    <!-- ================= HEADER: logo + site name (same on all pages) ================= -->
+    <!-- header -->
     <div id="header">
         <a href="index.html"><img src="images/logo.svg" alt="Nashaat logo: a white dumbbell badge" /></a>
         <div>
@@ -67,8 +46,7 @@
         </div>
     </div>
 
-    <!-- ================= NAVIGATION MENU (same on all pages) =================
-         class="current" shows which page we are on now -->
+    <!-- menu -->
     <div id="menu">
         <ul>
             <li><a href="index.html" class="current">Home</a></li>
@@ -82,27 +60,24 @@
         </ul>
     </div>
 
-    <!-- ================= MAIN CONTENT OF THIS PAGE ================= -->
+    <!-- main -->
     <div id="main">
-        <!-- ===== 1. BANNER: big message + Join Now button =====
-             The background picture comes from #banner in style.css -->
+
         <div id="banner">
             <h2>Train smarter in Al Ansab</h2>
             <p>Check the prices, see the class timetable and know if there is a place
             for you <strong>before</strong> you leave home. No more travelling to a full class.</p>
-            <!-- plans.html#join = go to plans page, to the part with id="join" -->
+
             <a class="button" href="plans.html#join">Join Now</a>
         </div>
 
-        <!-- ===== 2. SHORT INTRODUCTION ===== -->
         <h2>Welcome to Nashaat</h2>
-        <!-- class="intro" (p.intro in style.css) indents the first line -->
+
         <p class="intro">Nashaat (&#1606;&#1588;&#1575;&#1591;) means <em>activity</em> in Arabic.
         We are a friendly local gym for men and women of all levels. Whether this is your
         first time in a gym or you have trained for years, our trainers will help you
         <strong>move</strong>, <strong>track</strong> your progress and <strong>improve</strong>.</p>
 
-        <!-- ===== 3. WHY CHOOSE US: unordered list ===== -->
         <h2>Why train with us?</h2>
         <ul class="why">
             <li><strong>Clear prices</strong> &ndash; every plan is shown in Omani Rial, no hidden fees.</li>
@@ -112,7 +87,6 @@
             <li><strong>Men-only, women-only and mixed classes</strong> &ndash; clearly labelled.</li>
         </ul>
 
-        <!-- ===== 4. PLANS SUMMARY: 3 cards side by side (.row + .card) ===== -->
         <h2>Membership Plans</h2>
         <div class="row">
             <div class="card center">
@@ -131,10 +105,9 @@
                 <p>Best value: 12 months plus 4 personal training sessions.</p>
             </div>
         </div>
-        <!-- &raquo; is the entity for the  >>  sign -->
+
         <p class="center"><a href="plans.html">Compare all plans &raquo;</a></p>
 
-        <!-- ===== 5. NEXT CLASSES: ordered list ===== -->
         <h2>Next Classes</h2>
         <ol>
             <li>Saturday 6:00 PM &ndash; <strong>HIIT Burn</strong> with Coach Ahmed
@@ -146,7 +119,6 @@
         </ol>
         <p><a href="classes.html">See the full weekly timetable &raquo;</a></p>
 
-        <!-- ===== 6. THREE TRAINERS with photos ===== -->
         <h2>Meet Some of Our Trainers</h2>
         <div class="row">
             <div class="card center">
@@ -166,12 +138,11 @@
             </div>
         </div>
 
-        <!-- ===== 7. OPENING HOURS + MAP ===== -->
         <h2>Find Us</h2>
         <div class="row">
             <div class="card">
                 <h3>Opening Hours</h3>
-                <!-- description list: dt = the term, dd = the description -->
+
                 <dl>
                     <dt>Saturday &ndash; Thursday</dt>
                     <dd>6:00 AM &ndash; 11:00 PM</dd>
@@ -182,24 +153,22 @@
                 </dl>
                 <p>Al Ansab, Muscat &ndash; next to the main roundabout.</p>
             </div>
-            <!-- CSS TYPE 3 = INLINE style: written inside the tag itself -->
+
             <div class="card" id="map-box" style="padding: 8px;">
                 <iframe src="https://www.google.com/maps?q=Al%20Ansab%2C%20Muscat&amp;output=embed"
                         title="Map of Al Ansab, Muscat"></iframe>
             </div>
         </div>
 
-        <!-- ===== 8. HEALTH FACT with its source (honest health information) ===== -->
         <p class="note">Did you know? About 38% of people in Oman do not get enough physical
         activity (Source: <a href="https://applications.emro.who.int/docs/Oman-NCD-IC-v15-eng.pdf">WHO EMRO, 2018</a>).
         Even two or three short sessions a week make a difference.</p>
     </div>
-    <!-- ================= END OF MAIN CONTENT ================= -->
 
-    <!-- ================= FOOTER (same on all pages) ================= -->
+    <!-- footer -->
     <div id="footer">
         <div class="row">
-            <!-- Footer column 1: opening hours -->
+
             <div>
                 <h3>Opening Hours</h3>
                 <ul>
@@ -207,7 +176,7 @@
                     <li>Friday: 2:00 PM - 10:00 PM</li>
                 </ul>
             </div>
-            <!-- Footer column 2: address and contact -->
+
             <div>
                 <h3>Contact</h3>
                 <ul>
@@ -216,7 +185,7 @@
                     <li>Email: <a href="mailto:info@nashaat.om">info@nashaat.om</a></li>
                 </ul>
             </div>
-            <!-- Footer column 3: privacy statement (from our Part I ethics section) -->
+
             <div>
                 <h3>Privacy</h3>
                 <p class="small">We only keep the information we need for your membership.
@@ -224,7 +193,7 @@
                 You can still register and book in person at reception.</p>
             </div>
         </div>
-        <!-- &copy; is a character entity for the copyright sign -->
+
         <p class="copy">&copy; 2026 Nashaat Gym &ndash; COMP3700 student project, Sultan Qaboos University.
         The information on this site is general and is not medical advice.</p>
     </div>

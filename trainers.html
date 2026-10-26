@@ -1,52 +1,31 @@
 <!DOCTYPE html>
-<!-- =====================================================================
-     Nashaat Gym Website - COMP3700 Course Project Part II
-     Page    : trainers.html
-     Purpose : Trainers page - trainer cards and TABLE 3 (personal training times).
-     Team    : Sulaiman Nasser, Hazza Hamdan Albadi, Yazn Khamis Alhajri
 
-     NOTE FOR THE TEAM:
-     - The HEADER, MENU and FOOTER are exactly the same on all 8 pages.
-       If you change one of them, copy the change to the other pages.
-     - We write XHTML style: small letters for tags, every tag is closed,
-       empty tags end with " />", and attribute values use "double quotes".
-     - No JavaScript in Part II (it comes in Part III).
-     ===================================================================== -->
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
-    <!-- META tags: character set, phone screen size, and info for search engines -->
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Meet the certified trainers at Nashaat Gym, their specializations, classes, and personal training times." />
     <meta name="keywords" content="gym, fitness, Oman, Muscat, Al Ansab, classes, Nashaat" />
     <meta name="author" content="Sulaiman Nasser, Hazza Albadi, Yazn Alhajri" />
 
-    <!-- The text shown on the browser tab -->
     <title>Our Trainers | Nashaat Gym</title>
 
-    <!-- Small icon shown on the browser tab -->
     <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
 
-    <!-- CSS TYPE 1 = EXTERNAL style sheet: shared by all pages -->
     <link rel="stylesheet" type="text/css" href="css/style.css" />
 
-    <!-- CSS TYPE 2 = INTERNAL (document-level) style sheet:
-         these rules work ONLY on this page -->
     <style type="text/css">
-        /* Only for the Trainers page */
 
-        /* trainer photos are round with an orange border */
         .card img {
             border-radius: 50%;
             border: 4px solid #F2A33C;
         }
 
-        /* lists inside trainer cards use small circles */
         .card ul {
             list-style-type: circle;
         }
 
-        /* "Not available" cells are grey */
         td.off {
             background-color: #E4E4E4;
             color: #888888;
@@ -57,7 +36,7 @@
 
 <body>
 
-    <!-- ================= HEADER: logo + site name (same on all pages) ================= -->
+    <!-- header -->
     <div id="header">
         <a href="index.html"><img src="images/logo.svg" alt="Nashaat logo: a white dumbbell badge" /></a>
         <div>
@@ -66,8 +45,7 @@
         </div>
     </div>
 
-    <!-- ================= NAVIGATION MENU (same on all pages) =================
-         class="current" shows which page we are on now -->
+    <!-- menu -->
     <div id="menu">
         <ul>
             <li><a href="index.html">Home</a></li>
@@ -81,15 +59,14 @@
         </ul>
     </div>
 
-    <!-- ================= MAIN CONTENT OF THIS PAGE ================= -->
+    <!-- main -->
     <div id="main">
         <h2>Meet Our Trainers</h2>
         <p class="intro">All our trainers hold real certificates that the gym has checked.
         They are here to help beginners feel comfortable and to help experienced members reach new goals.</p>
 
-        <!-- ===== TRAINER CARDS (4 cards in a row, they wrap on small screens) ===== -->
         <div class="row">
-            <!-- trainer card: Ahmed Al Saadi -->
+
             <div class="card">
                 <img src="images/trainers/trainer1.svg" alt="Photo of trainer Ahmed Al Saadi" width="150" height="150" />
                 <h3 class="center">Ahmed Al Saadi</h3>
@@ -106,7 +83,7 @@
                     <li>Boxing Fitness</li>
                 </ul>
             </div>
-            <!-- trainer card: Maryam Al Kindi -->
+
             <div class="card">
                 <img src="images/trainers/trainer2.svg" alt="Photo of trainer Maryam Al Kindi" width="150" height="150" />
                 <h3 class="center">Maryam Al Kindi</h3>
@@ -124,7 +101,7 @@
                 </ul>
                 <p class="note">Teaches women-only classes.</p>
             </div>
-            <!-- trainer card: Fatma Al Rawahi -->
+
             <div class="card">
                 <img src="images/trainers/trainer3.svg" alt="Photo of trainer Fatma Al Rawahi" width="150" height="150" />
                 <h3 class="center">Fatma Al Rawahi</h3>
@@ -142,7 +119,7 @@
                     <li>Family Fun Workout</li>
                 </ul>
             </div>
-            <!-- trainer card: Khalid Al Hinai -->
+
             <div class="card">
                 <img src="images/trainers/trainer4.svg" alt="Photo of trainer Khalid Al Hinai" width="150" height="150" />
                 <h3 class="center">Khalid Al Hinai</h3>
@@ -161,10 +138,6 @@
             </div>
         </div>
 
-        <!-- ===== TABLE 3: PERSONAL TRAINING TIMES =====
-             - "Trainer" and "Speciality" use rowspan="2"
-             - "Personal training times" uses colspan="3"
-             - Maryam's row uses colspan="3" because her times are the same every day -->
         <h2>Personal Training Times</h2>
         <div class="table-box">
             <table class="data" border="1" cellspacing="3" cellpadding="8">
@@ -220,12 +193,11 @@
         <p>Want to train with one of our coaches? Ask at reception or
         <a href="contact.html">send us a message</a>.</p>
     </div>
-    <!-- ================= END OF MAIN CONTENT ================= -->
 
-    <!-- ================= FOOTER (same on all pages) ================= -->
+    <!-- footer -->
     <div id="footer">
         <div class="row">
-            <!-- Footer column 1: opening hours -->
+
             <div>
                 <h3>Opening Hours</h3>
                 <ul>
@@ -233,7 +205,7 @@
                     <li>Friday: 2:00 PM - 10:00 PM</li>
                 </ul>
             </div>
-            <!-- Footer column 2: address and contact -->
+
             <div>
                 <h3>Contact</h3>
                 <ul>
@@ -242,7 +214,7 @@
                     <li>Email: <a href="mailto:info@nashaat.om">info@nashaat.om</a></li>
                 </ul>
             </div>
-            <!-- Footer column 3: privacy statement (from our Part I ethics section) -->
+
             <div>
                 <h3>Privacy</h3>
                 <p class="small">We only keep the information we need for your membership.
@@ -250,7 +222,7 @@
                 You can still register and book in person at reception.</p>
             </div>
         </div>
-        <!-- &copy; is a character entity for the copyright sign -->
+
         <p class="copy">&copy; 2026 Nashaat Gym &ndash; COMP3700 student project, Sultan Qaboos University.
         The information on this site is general and is not medical advice.</p>
     </div>
