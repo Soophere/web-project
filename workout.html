@@ -1,282 +1,465 @@
 <!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<!-- Nashaat Gym - COMP3700 Project Part III
+     Page: workout.html - Workout library: muscle group filter (js/workout.js) and the beginner plan
+     Styling: Bootstrap 5.3 only (no CSS file, no style tags, no inline styles). -->
+<html lang="en">
 <head>
-
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Beginner workout library at Nashaat Gym: exercises by muscle group with steps and safety notes, and a 3-day beginner plan." />
     <meta name="keywords" content="gym, fitness, Oman, Muscat, Al Ansab, classes, Nashaat" />
     <meta name="author" content="Sulaiman Nasser, Hazza Albadi, Yazn Alhajri" />
-
     <title>Workout Library | Nashaat Gym</title>
-
     <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
 
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <!-- Bootstrap (a local copy, so the website also works without internet) -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    <!-- Bootstrap Icons (the small pictures like <i class="bi bi-clock"></i>) -->
+    <link rel="stylesheet" href="bootstrap/icons/bootstrap-icons.min.css" />
 
-    <style type="text/css">
-
-        ul.groups {
-            list-style-type: none;
-            margin-left: 0;
-        }
-
-        ul.groups li {
-            display: inline-block;
-            margin: 4px;
-        }
-
-        ul.groups a {
-            display: block;
-            padding: 6px 14px;
-            border: 2px solid #0E6B57;
-            border-radius: 20px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        ul.groups a:hover {
-            background-color: #0E6B57;
-            color: #FFFFFF;
-        }
-
-        span.level {
-            background-color: #F2A33C;
-            color: #0B5242;
-        }
-
-        .row .card {
-            min-width: 280px;
-        }
-    </style>
+    <!-- dark / light mode: use the visitor's last choice before the page is drawn
+         (Bootstrap 5.3 changes all its colours when <html> has data-bs-theme="dark") -->
+    <script>
+        try {
+            if (localStorage.getItem("nashaatTheme") == "dark") {
+                document.documentElement.setAttribute("data-bs-theme", "dark");
+            }
+        } catch (error) { /* storage blocked: stay in light mode */ }
+    </script>
 </head>
 
-<body>
+<!-- d-flex flex-column min-vh-100 keeps the footer at the bottom on short pages -->
+<body class="d-flex flex-column min-vh-100 bg-body-tertiary">
 
-    <!-- header -->
-    <div id="header">
-        <a href="index.html"><img src="images/logo.svg" alt="Nashaat logo: a white dumbbell badge" /></a>
-        <div>
-            <h1>NASHAAT</h1>
-            <p class="tagline">MOVE &bull; TRACK &bull; IMPROVE</p>
-        </div>
-    </div>
+    <!-- for keyboard users: press Tab once and this link appears -->
+    <a class="visually-hidden-focusable btn btn-warning position-absolute top-0 start-0 m-2 z-3" href="#content">Skip to main content</a>
 
-    <!-- menu -->
-    <div id="menu">
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="plans.html">Plans</a></li>
-            <li><a href="classes.html">Classes</a></li>
-            <li><a href="trainers.html">Trainers</a></li>
-            <li><a href="workout.html" class="current">Workouts</a></li>
-            <li><a href="dashboard.html">My Account</a></li>
-            <li><a href="contact.html">Contact Us</a></li>
-        </ul>
-    </div>
-
-    <!-- main -->
-    <div id="main">
-        <h2>Workout Library</h2>
-        <p class="intro">Not sure what to do when you arrive at the gym? Start here. Each exercise
-        shows the muscle group, the level, the steps and a safety note.</p>
-
-        <div class="highlight">
-            <strong>Please note:</strong> this library explains exercises only. It is general information
-            and <em>not</em> medical advice. If you have a health condition or an injury, speak to a doctor
-            before you start, and ask one of our <a href="trainers.html">trainers</a> to check your technique.
-        </div>
-
-        <h3>Choose a muscle group:</h3>
-        <ul class="groups">
-            <li><a href="#legs">Legs</a></li>
-            <li><a href="#chest">Chest</a></li>
-            <li><a href="#back">Back</a></li>
-            <li><a href="#core">Core</a></li>
-            <li><a href="#shoulders">Shoulders</a></li>
-            <li><a href="#arms">Arms</a></li>
-        </ul>
-
-        <div class="row">
-
-            <div class="card" id="legs">
-                <img src="images/exercises/ex-squat.svg" alt="Bodyweight Squat - Legs exercise" />
-                <h3>Bodyweight Squat</h3>
-                <p><span class="badge">Legs</span> <span class="badge level">Beginner</span></p>
-                <p><strong>How to do it:</strong></p>
-                <ol>
-                    <li>Stand with feet shoulder-width apart.</li>
-                    <li>Push your hips back and bend your knees.</li>
-                    <li>Go down until your thighs are parallel to the floor.</li>
-                    <li>Push through your heels to stand up.</li>
-                </ol>
-                <p class="note"><strong>Safety:</strong> Keep your knees in line with your toes and your back straight.</p>
-            </div>
-
-            <div class="card" id="chest">
-                <img src="images/exercises/ex-pushup.svg" alt="Push-up - Chest exercise" />
-                <h3>Push-up</h3>
-                <p><span class="badge">Chest</span> <span class="badge level">Beginner</span></p>
-                <p><strong>How to do it:</strong></p>
-                <ol>
-                    <li>Hands on the floor, a little wider than your shoulders.</li>
-                    <li>Keep your body in a straight line.</li>
-                    <li>Lower your chest close to the floor.</li>
-                    <li>Push back up.</li>
-                </ol>
-                <p class="note"><strong>Safety:</strong> Start on your knees if a full push-up is too hard.</p>
-            </div>
-
-            <div class="card" id="back">
-                <img src="images/exercises/ex-row.svg" alt="One-arm Dumbbell Row - Back exercise" />
-                <h3>One-arm Dumbbell Row</h3>
-                <p><span class="badge">Back</span> <span class="badge level">Beginner</span></p>
-                <p><strong>How to do it:</strong></p>
-                <ol>
-                    <li>Put one knee and one hand on a bench.</li>
-                    <li>Hold the dumbbell with the other hand.</li>
-                    <li>Pull the dumbbell up to your hip.</li>
-                    <li>Lower it slowly.</li>
-                </ol>
-                <p class="note"><strong>Safety:</strong> Do not twist your body. Use a light weight first.</p>
-            </div>
-
-            <div class="card" id="core">
-                <img src="images/exercises/ex-plank.svg" alt="Plank - Core exercise" />
-                <h3>Plank</h3>
-                <p><span class="badge">Core</span> <span class="badge level">Beginner</span></p>
-                <p><strong>How to do it:</strong></p>
-                <ol>
-                    <li>Lie face down, then lift your body on your forearms and toes.</li>
-                    <li>Keep a straight line from head to heels.</li>
-                    <li>Hold for 20 to 30 seconds.</li>
-                </ol>
-                <p class="note"><strong>Safety:</strong> Do not let your hips drop. Breathe normally.</p>
-            </div>
-
-            <div class="card" id="shoulders">
-                <img src="images/exercises/ex-press.svg" alt="Dumbbell Shoulder Press - Shoulders exercise" />
-                <h3>Dumbbell Shoulder Press</h3>
-                <p><span class="badge">Shoulders</span> <span class="badge level">Intermediate</span></p>
-                <p><strong>How to do it:</strong></p>
-                <ol>
-                    <li>Sit on a bench with back support.</li>
-                    <li>Hold dumbbells at shoulder height.</li>
-                    <li>Press them up above your head.</li>
-                    <li>Lower them slowly.</li>
-                </ol>
-                <p class="note"><strong>Safety:</strong> Do not arch your lower back. Stop if you feel pain in the shoulder.</p>
-            </div>
-
-            <div class="card" id="arms">
-                <img src="images/exercises/ex-curl.svg" alt="Biceps Curl - Arms exercise" />
-                <h3>Biceps Curl</h3>
-                <p><span class="badge">Arms</span> <span class="badge level">Beginner</span></p>
-                <p><strong>How to do it:</strong></p>
-                <ol>
-                    <li>Stand with a dumbbell in each hand, arms down.</li>
-                    <li>Keep your elbows close to your body.</li>
-                    <li>Curl the weights up to your shoulders.</li>
-                    <li>Lower them slowly.</li>
-                </ol>
-                <p class="note"><strong>Safety:</strong> Do not swing your body to lift the weight.</p>
+    <!-- ===== NAVIGATION BAR (same on all pages) =====
+         navbar-expand-xl: full menu on big screens, a "hamburger" button on small screens -->
+    <nav class="navbar navbar-expand-xl bg-success sticky-top border-bottom border-warning border-3 shadow" data-bs-theme="dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                <img src="images/logo.svg" alt="Nashaat logo" width="36" height="36" class="rounded-3" />
+                <span class="fw-bold">NASHAAT</span>
+            </a>
+            <!-- this button only shows on small screens and slides the menu in from the right -->
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mainMenu"
+                    aria-controls="mainMenu" aria-label="Open the menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Bootstrap OFFCANVAS: a side menu on phones, a normal menu bar on big screens -->
+            <div class="offcanvas offcanvas-end text-bg-success" tabindex="-1" id="mainMenu" aria-labelledby="mainMenuLabel">
+                <div class="offcanvas-header border-bottom border-light border-opacity-25">
+                    <h2 class="offcanvas-title h5 d-flex align-items-center gap-2 mb-0" id="mainMenuLabel">
+                        <img src="images/logo.svg" alt="" width="32" height="32" class="rounded-3" /> NASHAAT
+                    </h2>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body align-items-xl-center">
+                    <ul class="navbar-nav ms-auto small fw-medium">
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="index.html"><i class="bi bi-house me-2 d-xl-none"></i>Home</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="about.html"><i class="bi bi-info-circle me-2 d-xl-none"></i>About</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="plans.html"><i class="bi bi-tags me-2 d-xl-none"></i>Plans</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="classes.html"><i class="bi bi-calendar-week me-2 d-xl-none"></i>Classes</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="trainers.html"><i class="bi bi-people me-2 d-xl-none"></i>Trainers</a></li>
+                        <li class="nav-item"><a class="nav-link active fw-semibold text-warning text-nowrap px-xl-2" aria-current="page" href="workout.html"><i class="bi bi-lightning-charge me-2 d-xl-none"></i>Workouts</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="questionnaire.html"><i class="bi bi-chat-heart me-2 d-xl-none"></i>Feedback</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="calculator.html"><i class="bi bi-calculator me-2 d-xl-none"></i>Calculator</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="funpage.html"><i class="bi bi-controller me-2 d-xl-none"></i>Fun Game</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="contact.html"><i class="bi bi-envelope me-2 d-xl-none"></i>Contact</a></li>
+                    </ul>
+                    <div class="d-flex align-items-center gap-2 ms-xl-3 mt-3 mt-xl-0">
+                        <!-- dark / light mode button (js/effects.js) -->
+                        <button type="button" id="themeToggle" class="btn btn-sm btn-outline-light rounded-circle"
+                                aria-label="Switch between dark and light mode" title="Dark / light mode">
+                            <i class="bi bi-moon-stars-fill"></i>
+                        </button>
+                        <a class="btn btn-warning btn-sm rounded-pill px-3 fw-semibold text-nowrap" href="dashboard.html">
+                            <i class="bi bi-person-circle me-1"></i>My Account</a>
+                    </div>
+                </div>
             </div>
         </div>
+    </nav>
 
-        <h2>Beginner 3-Day Plan</h2>
-        <div class="table-box">
-            <table class="data" border="1" cellspacing="3" cellpadding="8">
-                <caption>Table 4: A simple full-body plan for your first month</caption>
-                <thead>
-                    <tr>
-                        <th>Day</th>
-                        <th>Exercise</th>
-                        <th>Sets</th>
-                        <th>Repetitions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th class="rowhead" rowspan="2">Day 1</th>
-                        <td><a href="#legs">Bodyweight Squat</a></td>
-                        <td>3</td>
-                        <td>10</td>
-                    </tr>
-                    <tr>
-                        <td><a href="#chest">Push-up</a></td>
-                        <td>3</td>
-                        <td>8</td>
-                    </tr>
-                    <tr class="odd">
-                        <th class="rowhead" rowspan="2">Day 2</th>
-                        <td><a href="#back">One-arm Dumbbell Row</a></td>
-                        <td>3</td>
-                        <td>10 each arm</td>
-                    </tr>
-                    <tr class="odd">
-                        <td><a href="#core">Plank</a></td>
-                        <td>3</td>
-                        <td>20 seconds</td>
-                    </tr>
-                    <tr>
-                        <th class="rowhead" rowspan="2">Day 3</th>
-                        <td><a href="#shoulders">Dumbbell Shoulder Press</a></td>
-                        <td>2</td>
-                        <td>10</td>
-                    </tr>
-                    <tr>
-                        <td><a href="#arms">Biceps Curl</a></td>
-                        <td>2</td>
-                        <td>12</td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td>Other days</td>
-                        <td colspan="3">Rest, or walk for 30 minutes</td>
-                    </tr>
-                </tfoot>
-            </table>
+    <!-- ===== PAGE TITLE (dark band with a pattern picture behind the text + 3 quick facts) ===== -->
+    <header class="position-relative overflow-hidden bg-success text-white" data-bs-theme="dark">
+        <img src="images/pattern.svg" alt="" class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+        <div class="container position-relative py-5">
+            <div class="row g-4 align-items-center py-lg-3">
+                <div class="col-lg-7" data-enter="data-enter">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb small mb-3">
+                            <li class="breadcrumb-item"><a class="link-warning" href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Workout Library</li>
+                        </ol>
+                    </nav>
+                    <span class="d-inline-flex bg-warning text-dark rounded-3 p-2 fs-4 lh-1 mb-3 shadow"><i class="bi bi-lightning-charge"></i></span>
+                    <h1 class="display-5 fw-bold mb-2">Workout Library</h1>
+                    <p class="lead text-white-50 mb-0">Six exercises with the steps, the muscles they train and the safety note for each one.</p>
+                </div>
+                <div class="col-lg-5">
+                    <div class="row g-2 text-center" data-enter="data-enter">
+                        <div class="col-4">
+                            <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
+                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="6">6</span></p>
+                                <p class="small text-white-50 mb-0 lh-sm">exercises</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
+                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="6">6</span></p>
+                                <p class="small text-white-50 mb-0 lh-sm">muscle groups</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
+                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="3">3</span></p>
+                                <p class="small text-white-50 mb-0 lh-sm">day plan</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </header>
 
-        <p class="small">Source for activity advice: <a href="https://www.who.int/publications/i/item/9789240015128">WHO
-        guidelines on physical activity and sedentary behaviour (2020)</a>.</p>
-    </div>
-
-    <!-- footer -->
-    <div id="footer">
-        <div class="row">
-
+    <!-- ===== MAIN CONTENT ===== -->
+    <main id="content" class="container py-5">
+        <div class="alert border-0 shadow-sm rounded-4 alert-warning d-flex gap-3 align-items-start">
+            <i class="bi bi-exclamation-triangle-fill fs-3"></i>
             <div>
-                <h3>Opening Hours</h3>
-                <ul>
-                    <li>Saturday - Thursday: 6:00 AM - 11:00 PM</li>
-                    <li>Friday: 2:00 PM - 10:00 PM</li>
-                </ul>
-            </div>
-
-            <div>
-                <h3>Contact</h3>
-                <ul>
-                    <li>Al Ansab, Muscat, Sultanate of Oman</li>
-                    <li>Phone: +968 2400 0000</li>
-                    <li>Email: <a href="mailto:info@nashaat.om">info@nashaat.om</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h3>Privacy</h3>
-                <p class="small">We only keep the information we need for your membership.
-                We never share it, and you can ask us to delete it at any time.
-                You can still register and book in person at reception.</p>
+                <strong>Please note:</strong> this library explains exercises only. It is general information
+                and <em>not</em> medical advice. If you have a health condition or an injury, speak to a doctor
+                before you start, and ask one of our <a class="alert-link" href="trainers.html">trainers</a>
+                to check your technique.
             </div>
         </div>
 
-        <p class="copy">&copy; 2026 Nashaat Gym &ndash; COMP3700 student project, Sultan Qaboos University.
-        The information on this site is general and is not medical advice.</p>
-    </div>
+        <!-- ===== FILTER BY MUSCLE GROUP (buttons are handled by js/workout.js) ===== -->
+        <section class="mb-4">
+            <h2 class="h3 fw-bold border-start border-warning border-4 ps-3 mb-3">Choose a muscle group</h2>
+            <div class="d-flex flex-wrap gap-2" id="filterButtons">
+                <button type="button" class="btn rounded-pill btn-success fw-semibold" data-filter="all">
+                    <i class="bi bi-grid me-1"></i>All</button>
+                <button type="button" class="btn rounded-pill btn-outline-success" data-filter="legs">Legs</button>
+                <button type="button" class="btn rounded-pill btn-outline-success" data-filter="chest">Chest</button>
+                <button type="button" class="btn rounded-pill btn-outline-success" data-filter="back">Back</button>
+                <button type="button" class="btn rounded-pill btn-outline-success" data-filter="core">Core</button>
+                <button type="button" class="btn rounded-pill btn-outline-success" data-filter="shoulders">Shoulders</button>
+                <button type="button" class="btn rounded-pill btn-outline-success" data-filter="arms">Arms</button>
+            </div>
+            <p class="small text-body-secondary mt-3 mb-0" id="filterCount">Showing 6 of 6 exercises</p>
+        </section>
 
+        <!-- ===== THE EXERCISE CARDS =====
+             data-muscle says which muscle group a card belongs to, so the
+             filter buttons can hide the other cards with the class d-none. -->
+        <section class="row g-4 mb-5" id="exerciseList">
+
+            <div class="col-md-6 col-xl-4" data-muscle="legs">
+                <div class="card h-100 border-0 shadow-sm rounded-4">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <img src="images/exercises/ex-squat.svg" alt="" width="56" height="56" class="rounded-3 bg-success-subtle p-2" />
+                            <div>
+                                <h3 class="h5 fw-bold mb-1">Bodyweight Squat</h3>
+                                <span class="badge text-bg-success">Legs</span>
+                                <span class="badge text-bg-warning">Beginner</span>
+                            </div>
+                        </div>
+                        <p class="fw-semibold mb-1 small">How to do it:</p>
+                        <ol class="small mb-3 ps-3">
+                            <li>Stand with your feet shoulder-width apart.</li>
+                            <li>Push your hips back and bend your knees.</li>
+                            <li>Go down until your thighs are parallel to the floor.</li>
+                            <li>Push through your heels to stand up.</li>
+                        </ol>
+                        <p class="alert alert-warning border-0 rounded-3 small mb-0">
+                            <strong>Safety:</strong> keep your knees in line with your toes and your back straight.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-4" data-muscle="chest">
+                <div class="card h-100 border-0 shadow-sm rounded-4">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <img src="images/exercises/ex-pushup.svg" alt="" width="56" height="56" class="rounded-3 bg-success-subtle p-2" />
+                            <div>
+                                <h3 class="h5 fw-bold mb-1">Push-up</h3>
+                                <span class="badge text-bg-success">Chest</span>
+                                <span class="badge text-bg-warning">Beginner</span>
+                            </div>
+                        </div>
+                        <p class="fw-semibold mb-1 small">How to do it:</p>
+                        <ol class="small mb-3 ps-3">
+                            <li>Put your hands on the floor, a little wider than your shoulders.</li>
+                            <li>Keep your body in a straight line.</li>
+                            <li>Lower your chest close to the floor.</li>
+                            <li>Push back up.</li>
+                        </ol>
+                        <p class="alert alert-warning border-0 rounded-3 small mb-0">
+                            <strong>Safety:</strong> start on your knees if a full push-up is too hard.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-4" data-muscle="back">
+                <div class="card h-100 border-0 shadow-sm rounded-4">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <img src="images/exercises/ex-row.svg" alt="" width="56" height="56" class="rounded-3 bg-success-subtle p-2" />
+                            <div>
+                                <h3 class="h5 fw-bold mb-1">One-arm Dumbbell Row</h3>
+                                <span class="badge text-bg-success">Back</span>
+                                <span class="badge text-bg-warning">Beginner</span>
+                            </div>
+                        </div>
+                        <p class="fw-semibold mb-1 small">How to do it:</p>
+                        <ol class="small mb-3 ps-3">
+                            <li>Put one knee and one hand on a bench.</li>
+                            <li>Hold the dumbbell with the other hand.</li>
+                            <li>Pull the dumbbell up to your hip.</li>
+                            <li>Lower it slowly.</li>
+                        </ol>
+                        <p class="alert alert-warning border-0 rounded-3 small mb-0">
+                            <strong>Safety:</strong> do not twist your body. Use a light weight first.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-4" data-muscle="core">
+                <div class="card h-100 border-0 shadow-sm rounded-4">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <img src="images/exercises/ex-plank.svg" alt="" width="56" height="56" class="rounded-3 bg-success-subtle p-2" />
+                            <div>
+                                <h3 class="h5 fw-bold mb-1">Plank</h3>
+                                <span class="badge text-bg-success">Core</span>
+                                <span class="badge text-bg-warning">Beginner</span>
+                            </div>
+                        </div>
+                        <p class="fw-semibold mb-1 small">How to do it:</p>
+                        <ol class="small mb-3 ps-3">
+                            <li>Lie face down, then lift your body on your forearms and toes.</li>
+                            <li>Keep a straight line from your head to your heels.</li>
+                            <li>Hold for 20 to 30 seconds.</li>
+                        </ol>
+                        <p class="alert alert-warning border-0 rounded-3 small mb-0">
+                            <strong>Safety:</strong> do not let your hips drop. Breathe normally.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-4" data-muscle="shoulders">
+                <div class="card h-100 border-0 shadow-sm rounded-4">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <img src="images/exercises/ex-press.svg" alt="" width="56" height="56" class="rounded-3 bg-success-subtle p-2" />
+                            <div>
+                                <h3 class="h5 fw-bold mb-1">Dumbbell Shoulder Press</h3>
+                                <span class="badge text-bg-success">Shoulders</span>
+                                <span class="badge text-bg-warning">Intermediate</span>
+                            </div>
+                        </div>
+                        <p class="fw-semibold mb-1 small">How to do it:</p>
+                        <ol class="small mb-3 ps-3">
+                            <li>Sit on a bench with back support.</li>
+                            <li>Hold the dumbbells at shoulder height.</li>
+                            <li>Press them up above your head.</li>
+                            <li>Lower them slowly.</li>
+                        </ol>
+                        <p class="alert alert-warning border-0 rounded-3 small mb-0">
+                            <strong>Safety:</strong> do not arch your lower back. Stop if your shoulder hurts.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-4" data-muscle="arms">
+                <div class="card h-100 border-0 shadow-sm rounded-4">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <img src="images/exercises/ex-curl.svg" alt="" width="56" height="56" class="rounded-3 bg-success-subtle p-2" />
+                            <div>
+                                <h3 class="h5 fw-bold mb-1">Biceps Curl</h3>
+                                <span class="badge text-bg-success">Arms</span>
+                                <span class="badge text-bg-warning">Beginner</span>
+                            </div>
+                        </div>
+                        <p class="fw-semibold mb-1 small">How to do it:</p>
+                        <ol class="small mb-3 ps-3">
+                            <li>Stand with a dumbbell in each hand, arms down.</li>
+                            <li>Keep your elbows close to your body.</li>
+                            <li>Curl the weights up to your shoulders.</li>
+                            <li>Lower them slowly.</li>
+                        </ol>
+                        <p class="alert alert-warning border-0 rounded-3 small mb-0">
+                            <strong>Safety:</strong> do not swing your body to lift the weight.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== THE 3-DAY BEGINNER PLAN (Table 4) ===== -->
+        <section class="mb-5">
+            <h2 class="h3 fw-bold border-start border-warning border-4 ps-3 mb-3">Beginner 3-Day Plan</h2>
+            <div class="table-responsive bg-body rounded-4 shadow-sm p-2">
+                <table class="table table-striped table-hover align-middle text-center caption-top mb-0">
+                    <caption>Table 4: A simple full-body plan for your first month</caption>
+                    <thead class="table-success">
+                        <tr>
+                            <th>Day</th>
+                            <th>Exercise</th>
+                            <th>Sets</th>
+                            <th>Repetitions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Day 1</th>
+                            <td>Bodyweight Squat</td>
+                            <td>3</td>
+                            <td>10</td>
+                        </tr>
+                        <tr>
+                            <th>Day 1</th>
+                            <td>Push-up</td>
+                            <td>3</td>
+                            <td>8</td>
+                        </tr>
+                        <tr>
+                            <th>Day 2</th>
+                            <td>One-arm Dumbbell Row</td>
+                            <td>3</td>
+                            <td>10 each arm</td>
+                        </tr>
+                        <tr>
+                            <th>Day 2</th>
+                            <td>Plank</td>
+                            <td>3</td>
+                            <td>20 seconds</td>
+                        </tr>
+                        <tr>
+                            <th>Day 3</th>
+                            <td>Dumbbell Shoulder Press</td>
+                            <td>2</td>
+                            <td>10</td>
+                        </tr>
+                        <tr>
+                            <th>Day 3</th>
+                            <td>Biceps Curl</td>
+                            <td>2</td>
+                            <td>12</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" class="text-body-secondary">Other days: rest, or walk for 30 minutes.</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </section>
+
+        <!-- ===== TWO SMALL CARDS: gym help + the game ===== -->
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm rounded-4">
+                    <div class="card-body p-4">
+                        <h2 class="h5 fw-bold"><i class="bi bi-person-video3 text-success me-2"></i>Not sure about your technique?</h2>
+                        <p class="text-body-secondary mb-3">Book one personal session and a trainer will show you every
+                            movement, then watch you do it.</p>
+                        <a href="trainers.html" class="btn rounded-pill btn-success">See the trainers</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm rounded-4">
+                    <div class="card-body p-4">
+                        <h2 class="h5 fw-bold"><i class="bi bi-controller text-success me-2"></i>Learn the muscles the fun way</h2>
+                        <p class="text-body-secondary mb-3">Our memory game asks you to match each exercise with the muscle
+                            group it trains. Two minutes, and you will remember them.</p>
+                        <a href="funpage.html" class="btn rounded-pill btn-outline-success">Play the memory game</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p class="small text-body-secondary mt-4 mb-0">Source for the activity advice:
+            <a href="https://www.who.int/publications/i/item/9789240015128" class="link-success">WHO guidelines on
+            physical activity and sedentary behaviour (2020)</a>.</p>
+    </main>
+
+    <!-- ===== FOOTER (same on all pages) ===== -->
+    <!-- the footer.svg picture gives the footer our dark teal colour (#0B5242) -->
+    <footer class="position-relative overflow-hidden bg-success text-light mt-auto pt-5 border-top border-warning border-3" data-bs-theme="dark">
+        <img src="images/footer.svg" alt="" class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+        <div class="container position-relative">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <a class="d-flex align-items-center gap-2 text-decoration-none text-white mb-3" href="index.html">
+                        <img src="images/logo.svg" alt="" width="40" height="40" class="rounded-3" />
+                        <span class="fs-4 fw-bold">NASHAAT</span>
+                    </a>
+                    <p class="text-white-50 small">A friendly neighbourhood gym in Al Ansab, Muscat.
+                    We only keep the information we need for your membership and never share it.</p>
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="#" aria-label="Instagram" data-bs-toggle="tooltip" data-bs-title="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="#" aria-label="WhatsApp" data-bs-toggle="tooltip" data-bs-title="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="mailto:info@nashaat.om" aria-label="Email" data-bs-toggle="tooltip" data-bs-title="Email"><i class="bi bi-envelope"></i></a>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Explore</h2>
+                    <ul class="list-unstyled small d-grid gap-1">
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="plans.html">Plans</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="classes.html">Classes</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="trainers.html">Trainers</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="workout.html">Workouts</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Try</h2>
+                    <ul class="list-unstyled small d-grid gap-1">
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="questionnaire.html">Feedback</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="calculator.html">Cost Calculator</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="funpage.html">Memory Game</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Visit us</h2>
+                    <ul class="list-unstyled small text-white-50 d-grid gap-2">
+                        <li><i class="bi bi-geo-alt text-warning me-2"></i>Al Ansab, Muscat, Sultanate of Oman</li>
+                        <li><i class="bi bi-clock text-warning me-2"></i>Sat &ndash; Thu 6:00 AM &ndash; 11:00 PM, Fri 2:00 &ndash; 10:00 PM</li>
+                        <li><i class="bi bi-telephone text-warning me-2"></i>+968 2400 0000</li>
+                        <li><i class="bi bi-envelope text-warning me-2"></i><a class="link-light" href="mailto:info@nashaat.om">info@nashaat.om</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p class="text-center small text-white-50 border-top border-light border-opacity-25 pt-3 mt-4 mb-0 pb-3">
+                &copy; 2026 Nashaat Gym &ndash; COMP3700 student project, Sultan Qaboos University.
+                The information on this site is general and is not medical advice.
+            </p>
+        </div>
+    </footer>
+
+    <!-- back to top button (shown by js/effects.js after scrolling down) -->
+    <button type="button" id="toTop" class="btn btn-warning rounded-circle shadow position-fixed bottom-0 end-0 m-4 z-3 d-none" aria-label="Back to top">
+        <i class="bi bi-arrow-up fs-5"></i>
+    </button>
+
+    <!-- Bootstrap JavaScript (needed for the menu button, carousel, modal, accordion ...) -->
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- our animations (page entrance, scroll reveal, counting numbers ...) -->
+    <script src="js/effects.js"></script>
+    <script src="js/workout.js"></script>
 </body>
 </html>

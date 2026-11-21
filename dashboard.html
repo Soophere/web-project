@@ -1,270 +1,485 @@
 <!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<!-- Nashaat Gym - COMP3700 Project Part III
+     Page: dashboard.html - My Account: login, last workouts, log a workout and the progress pop-up (js/dashboard.js)
+     Styling: Bootstrap 5.3 only (no CSS file, no style tags, no inline styles). -->
+<html lang="en">
 <head>
-
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Nashaat member area: log in, see your membership, log your workouts and see your progress." />
     <meta name="keywords" content="gym, fitness, Oman, Muscat, Al Ansab, classes, Nashaat" />
     <meta name="author" content="Sulaiman Nasser, Hazza Albadi, Yazn Alhajri" />
-
     <title>My Account | Nashaat Gym</title>
-
     <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
 
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <!-- Bootstrap (a local copy, so the website also works without internet) -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    <!-- Bootstrap Icons (the small pictures like <i class="bi bi-clock"></i>) -->
+    <link rel="stylesheet" href="bootstrap/icons/bootstrap-icons.min.css" />
 
-    <style type="text/css">
-
-        p.big {
-            font-size: 2.2em;
-            font-weight: bold;
-            color: #0E6B57;
-            margin: 0;
-            text-align: center;
-        }
-
-        #login-form {
-            max-width: 500px;
-            border-top: 5px solid #0E6B57;
-        }
-
-        #log-form {
-            border-top: 5px solid #F2A33C;
-        }
-
-        input[type="range"] {
-            width: 100%;
-            max-width: 300px;
-        }
-    </style>
+    <!-- dark / light mode: use the visitor's last choice before the page is drawn
+         (Bootstrap 5.3 changes all its colours when <html> has data-bs-theme="dark") -->
+    <script>
+        try {
+            if (localStorage.getItem("nashaatTheme") == "dark") {
+                document.documentElement.setAttribute("data-bs-theme", "dark");
+            }
+        } catch (error) { /* storage blocked: stay in light mode */ }
+    </script>
 </head>
 
-<body>
+<!-- d-flex flex-column min-vh-100 keeps the footer at the bottom on short pages -->
+<body class="d-flex flex-column min-vh-100 bg-body-tertiary">
 
-    <!-- header -->
-    <div id="header">
-        <a href="index.html"><img src="images/logo.svg" alt="Nashaat logo: a white dumbbell badge" /></a>
-        <div>
-            <h1>NASHAAT</h1>
-            <p class="tagline">MOVE &bull; TRACK &bull; IMPROVE</p>
-        </div>
-    </div>
+    <!-- for keyboard users: press Tab once and this link appears -->
+    <a class="visually-hidden-focusable btn btn-warning position-absolute top-0 start-0 m-2 z-3" href="#content">Skip to main content</a>
 
-    <!-- menu -->
-    <div id="menu">
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="plans.html">Plans</a></li>
-            <li><a href="classes.html">Classes</a></li>
-            <li><a href="trainers.html">Trainers</a></li>
-            <li><a href="workout.html">Workouts</a></li>
-            <li><a href="dashboard.html" class="current">My Account</a></li>
-            <li><a href="contact.html">Contact Us</a></li>
-        </ul>
-    </div>
-
-    <!-- main -->
-    <div id="main">
-        <h2>My Account</h2>
-        <p>Members can log in to see their membership, book classes and record their workouts.</p>
-
-        <form id="login-form" action="https://httpbin.org/get" method="get">
-            <h3 style="margin-top: 0;">Member Login</h3>
-
-            <label class="field" for="l-email">Email:</label>
-            <input type="email" id="l-email" name="email" required="required" />
-
-            <label class="field" for="l-pass">Password:</label>
-            <input type="password" id="l-pass" name="password" required="required" />
-
-            <label class="field">
-                <input type="checkbox" name="remember_me" value="yes" /> Remember me on this device
-            </label>
-
-            <input type="hidden" name="form_name" value="login" />
-
-            <div class="buttons">
-                <input class="button" type="submit" value="Log In" />
-                <input type="reset" value="Clear" />
-            </div>
-            <p class="small">Not a member yet? <a href="plans.html#join">Register here</a>.</p>
-        </form>
-
-        <hr />
-
-        <h2>Welcome back, Salim</h2>
-        <div class="row">
-            <div class="card">
-                <h3 class="center">Days left</h3>
-                <p class="big">23</p>
-                <p class="center">Monthly plan &ndash; ends 11 Nov 2026</p>
-            </div>
-            <div class="card">
-                <h3 class="center">Sessions this month</h3>
-                <p class="big">9</p>
-                <p class="center">Great consistency!</p>
-            </div>
-            <div class="card">
-                <h3 class="center">Next class</h3>
-                <p class="big" style="font-size: 1.4em;">HIIT Burn</p>
-                <p class="center">Saturday 6:00 PM with Ahmed</p>
+    <!-- ===== NAVIGATION BAR (same on all pages) =====
+         navbar-expand-xl: full menu on big screens, a "hamburger" button on small screens -->
+    <nav class="navbar navbar-expand-xl bg-success sticky-top border-bottom border-warning border-3 shadow" data-bs-theme="dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                <img src="images/logo.svg" alt="Nashaat logo" width="36" height="36" class="rounded-3" />
+                <span class="fw-bold">NASHAAT</span>
+            </a>
+            <!-- this button only shows on small screens and slides the menu in from the right -->
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mainMenu"
+                    aria-controls="mainMenu" aria-label="Open the menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Bootstrap OFFCANVAS: a side menu on phones, a normal menu bar on big screens -->
+            <div class="offcanvas offcanvas-end text-bg-success" tabindex="-1" id="mainMenu" aria-labelledby="mainMenuLabel">
+                <div class="offcanvas-header border-bottom border-light border-opacity-25">
+                    <h2 class="offcanvas-title h5 d-flex align-items-center gap-2 mb-0" id="mainMenuLabel">
+                        <img src="images/logo.svg" alt="" width="32" height="32" class="rounded-3" /> NASHAAT
+                    </h2>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body align-items-xl-center">
+                    <ul class="navbar-nav ms-auto small fw-medium">
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="index.html"><i class="bi bi-house me-2 d-xl-none"></i>Home</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="about.html"><i class="bi bi-info-circle me-2 d-xl-none"></i>About</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="plans.html"><i class="bi bi-tags me-2 d-xl-none"></i>Plans</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="classes.html"><i class="bi bi-calendar-week me-2 d-xl-none"></i>Classes</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="trainers.html"><i class="bi bi-people me-2 d-xl-none"></i>Trainers</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="workout.html"><i class="bi bi-lightning-charge me-2 d-xl-none"></i>Workouts</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="questionnaire.html"><i class="bi bi-chat-heart me-2 d-xl-none"></i>Feedback</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="calculator.html"><i class="bi bi-calculator me-2 d-xl-none"></i>Calculator</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="funpage.html"><i class="bi bi-controller me-2 d-xl-none"></i>Fun Game</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="contact.html"><i class="bi bi-envelope me-2 d-xl-none"></i>Contact</a></li>
+                    </ul>
+                    <div class="d-flex align-items-center gap-2 ms-xl-3 mt-3 mt-xl-0">
+                        <!-- dark / light mode button (js/effects.js) -->
+                        <button type="button" id="themeToggle" class="btn btn-sm btn-outline-light rounded-circle"
+                                aria-label="Switch between dark and light mode" title="Dark / light mode">
+                            <i class="bi bi-moon-stars-fill"></i>
+                        </button>
+                        <a class="btn btn-warning btn-sm rounded-pill px-3 fw-semibold text-nowrap active" aria-current="page" href="dashboard.html">
+                            <i class="bi bi-person-circle me-1"></i>My Account</a>
+                    </div>
+                </div>
             </div>
         </div>
+    </nav>
 
-        <h2>My Recent Workouts</h2>
-        <div class="table-box">
-            <table class="data" border="1" cellspacing="3" cellpadding="8">
-                <caption>Table 5: Last 5 workouts</caption>
-                <thead>
-                    <tr>
-                        <th rowspan="2">Date</th>
-                        <th colspan="2">Workout</th>
-                        <th rowspan="2">Body weight (kg)</th>
-                    </tr>
-                    <tr>
-                        <th>Type</th>
-                        <th>Minutes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>18 Oct 2026</td>
-                        <td>Strength</td>
-                        <td>50</td>
-                        <td>82.0</td>
-                    </tr>
-                    <tr class="odd">
-                        <td>16 Oct 2026</td>
-                        <td>HIIT class</td>
-                        <td>45</td>
-
-                        <td>&ndash;</td>
-                    </tr>
-                    <tr>
-                        <td>14 Oct 2026</td>
-                        <td>Cardio</td>
-                        <td>30</td>
-                        <td>82.4</td>
-                    </tr>
-                    <tr class="odd">
-                        <td>12 Oct 2026</td>
-                        <td>Strength</td>
-                        <td>55</td>
-                        <td>&ndash;</td>
-                    </tr>
-                    <tr>
-                        <td>10 Oct 2026</td>
-                        <td>Core &amp; Stretch</td>
-                        <td>40</td>
-                        <td>82.9</td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="2">Total time</td>
-                        <td>220 min</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                </tfoot>
-            </table>
+    <!-- ===== PAGE TITLE (dark band with a pattern picture behind the text + 3 quick facts) ===== -->
+    <header class="position-relative overflow-hidden bg-success text-white" data-bs-theme="dark">
+        <img src="images/pattern.svg" alt="" class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+        <div class="container position-relative py-5">
+            <div class="row g-4 align-items-center py-lg-3">
+                <div class="col-lg-7" data-enter="data-enter">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb small mb-3">
+                            <li class="breadcrumb-item"><a class="link-warning" href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">My Account</li>
+                        </ol>
+                    </nav>
+                    <span class="d-inline-flex bg-warning text-dark rounded-3 p-2 fs-4 lh-1 mb-3 shadow"><i class="bi bi-person-circle"></i></span>
+                    <h1 class="display-5 fw-bold mb-2">My Account</h1>
+                    <p class="lead text-white-50 mb-0">Log your workouts, see how many days are left in your membership and check your progress.</p>
+                </div>
+                <div class="col-lg-5">
+                    <div class="row g-2 text-center" data-enter="data-enter">
+                        <div class="col-4">
+                            <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
+                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="23">23</span></p>
+                                <p class="small text-white-50 mb-0 lh-sm">days left</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
+                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="9">9</span></p>
+                                <p class="small text-white-50 mb-0 lh-sm">sessions this month</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
+                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="4">4</span></p>
+                                <p class="small text-white-50 mb-0 lh-sm">weeks in a row</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </header>
 
-        <p class="note">Progress is not a straight line. Showing up is what matters most &ndash;
-        your weight is optional and you can delete your records at any time.</p>
+    <!-- ===== MAIN CONTENT ===== -->
+    <main id="content" class="container py-5">
 
-        <form id="log-form" action="https://httpbin.org/get" method="get">
-            <h2 style="margin-top: 0;">Log a Workout</h2>
+        <div class="row g-4 mb-5">
 
-            <fieldset>
-                <legend>Workout</legend>
-
-                <label class="field" for="w-date">Date:</label>
-                <input type="date" id="w-date" name="workout_date" required="required" />
-
-                <label class="field" for="w-type">Type of workout:</label>
-                <select id="w-type" name="workout_type">
-                    <option value="strength" selected="selected">Strength</option>
-                    <option value="cardio">Cardio</option>
-                    <option value="class">Group class</option>
-                    <option value="stretch">Stretching</option>
-                </select>
-
-                <label class="field" for="w-min">Duration (minutes):</label>
-                <input type="number" id="w-min" name="duration_minutes" min="5" max="300" value="45" />
-
-                <label class="field">How hard was it?</label>
-                <label class="choice"><input type="radio" name="intensity" value="easy" /> Easy</label>
-                <label class="choice"><input type="radio" name="intensity" value="medium" checked="checked" /> Medium</label>
-                <label class="choice"><input type="radio" name="intensity" value="hard" /> Hard</label>
-
-                <label class="field">Muscle groups trained:</label>
-                <label class="choice"><input type="checkbox" name="muscles" value="legs" /> Legs</label>
-                <label class="choice"><input type="checkbox" name="muscles" value="chest" /> Chest</label>
-                <label class="choice"><input type="checkbox" name="muscles" value="back" /> Back</label>
-                <label class="choice"><input type="checkbox" name="muscles" value="core" /> Core</label>
-                <label class="choice"><input type="checkbox" name="muscles" value="arms" /> Arms</label>
-
-                <label class="field" for="w-mood">Energy after the workout (1 = tired, 10 = great):</label>
-                <input type="range" id="w-mood" name="energy" min="1" max="10" value="7" />
-            </fieldset>
-
-            <fieldset>
-                <legend>Optional</legend>
-
-                <label class="field" for="w-weight">Body weight (kg) &ndash; you can leave this empty:</label>
-                <input type="number" id="w-weight" name="body_weight" min="30" max="250" step="0.1" />
-
-                <label class="field" for="w-notes">Notes:</label>
-                <textarea id="w-notes" name="notes" rows="3" cols="45"></textarea>
-            </fieldset>
-
-            <input type="hidden" name="member_id" value="M1024" />
-            <input type="hidden" name="form_name" value="workout_log" />
-
-            <div class="buttons">
-                <input class="button" type="submit" value="Save Workout" />
-                <input type="reset" value="Clear" />
-
-                <button type="button">Show My Progress Chart</button>
-            </div>
-        </form>
-    </div>
-
-    <!-- footer -->
-    <div id="footer">
-        <div class="row">
-
-            <div>
-                <h3>Opening Hours</h3>
-                <ul>
-                    <li>Saturday - Thursday: 6:00 AM - 11:00 PM</li>
-                    <li>Friday: 2:00 PM - 10:00 PM</li>
-                </ul>
+            <!-- ===== LOGIN (Bootstrap validation from js/validation.js) ===== -->
+            <div class="col-lg-5">
+                <form id="loginForm" class="card border-0 shadow-sm rounded-4 h-100 needs-validation" action="https://httpbin.org/get" method="get" novalidate="novalidate">
+                    <div class="card-header bg-success text-white py-3 border-0 rounded-top-4 fw-semibold">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Member login
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control rounded-3" id="loginEmail" name="email"
+                                   placeholder="you@example.com" required="required" />
+                            <div class="invalid-feedback">Please write your email address, for example salim@gmail.com.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control rounded-3" id="loginPassword" name="password"
+                                   minlength="8" required="required" />
+                            <div class="invalid-feedback">Your password needs at least 8 characters.</div>
+                        </div>
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" id="rememberMe" name="remember_me" value="yes" />
+                            <label class="form-check-label" for="rememberMe">Remember me on this device</label>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn rounded-pill btn-success px-4">Log in</button>
+                            <button type="reset" class="btn rounded-pill btn-outline-secondary">Clear</button>
+                        </div>
+                        <!-- a welcome message appears here after a correct login (js/dashboard.js) -->
+                        <div id="loginMessage" class="alert border-0 rounded-4 alert-success mt-3 mb-0 d-none" role="status"></div>
+                        <p class="small text-body-secondary mt-3 mb-0">Not a member yet?
+                            <a href="plans.html#join" class="link-success fw-semibold">Register here</a>.</p>
+                    </div>
+                </form>
             </div>
 
-            <div>
-                <h3>Contact</h3>
-                <ul>
-                    <li>Al Ansab, Muscat, Sultanate of Oman</li>
-                    <li>Phone: +968 2400 0000</li>
-                    <li>Email: <a href="mailto:info@nashaat.om">info@nashaat.om</a></li>
-                </ul>
-            </div>
+            <!-- ===== A SHORT SUMMARY OF THE MEMBERSHIP ===== -->
+            <div class="col-lg-7">
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                            <h2 class="h4 fw-bold mb-0">Welcome back, Salim</h2>
+                            <span class="badge text-bg-success rounded-pill fs-6">Membership active</span>
+                        </div>
+                        <p class="text-body-secondary">Monthly plan &ndash; ends 11 November 2026.
+                            You trained 9 times this month, which is more than August.</p>
 
-            <div>
-                <h3>Privacy</h3>
-                <p class="small">We only keep the information we need for your membership.
-                We never share it, and you can ask us to delete it at any time.
-                You can still register and book in person at reception.</p>
+                        <div class="row g-3 text-center mb-4">
+                            <div class="col-4">
+                                <div class="bg-success-subtle rounded-4 py-3">
+                                    <p class="fs-2 fw-bold text-success mb-0">23</p>
+                                    <p class="small text-body-secondary mb-0">days left</p>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="bg-success-subtle rounded-4 py-3">
+                                    <p class="fs-2 fw-bold text-success mb-0">9</p>
+                                    <p class="small text-body-secondary mb-0">sessions</p>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="bg-success-subtle rounded-4 py-3">
+                                    <p class="fs-2 fw-bold text-success mb-0">220</p>
+                                    <p class="small text-body-secondary mb-0">minutes</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info border-0 rounded-4 d-flex gap-3 align-items-start mb-4">
+                            <i class="bi bi-alarm fs-4"></i>
+                            <div><strong>Your next class:</strong> HIIT Burn, Saturday 6:00 PM with coach Ahmed.
+                                You can cancel it at reception if you cannot come.</div>
+                        </div>
+
+                        <div class="d-flex flex-wrap gap-2">
+                            <button type="button" class="btn rounded-pill btn-success" data-bs-toggle="modal" data-bs-target="#progressModal">
+                                <i class="bi bi-graph-up me-1"></i>Show my progress</button>
+                            <a href="classes.html" class="btn rounded-pill btn-outline-success">Book a class</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <p class="copy">&copy; 2026 Nashaat Gym &ndash; COMP3700 student project, Sultan Qaboos University.
-        The information on this site is general and is not medical advice.</p>
+        <!-- ===== LAST WORKOUTS (Table 5). JavaScript adds a new row when you log a workout ===== -->
+        <section class="mb-5">
+            <h2 class="h3 fw-bold border-start border-warning border-4 ps-3 mb-3">My Recent Workouts</h2>
+            <div class="table-responsive bg-body rounded-4 shadow-sm p-2">
+                <table class="table table-striped table-hover align-middle text-center caption-top mb-0" id="workoutTable">
+                    <caption>Table 5: My last workouts</caption>
+                    <thead class="table-success">
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Minutes</th>
+                            <th>Body weight (kg)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="workoutBody">
+                        <tr>
+                            <td>18 Oct 2026</td>
+                            <td>Strength</td>
+                            <td>50</td>
+                            <td>82.0</td>
+                        </tr>
+                        <tr>
+                            <td>16 Oct 2026</td>
+                            <td>Group class</td>
+                            <td>45</td>
+                            <td>&ndash;</td>
+                        </tr>
+                        <tr>
+                            <td>14 Oct 2026</td>
+                            <td>Cardio</td>
+                            <td>30</td>
+                            <td>82.4</td>
+                        </tr>
+                        <tr>
+                            <td>12 Oct 2026</td>
+                            <td>Strength</td>
+                            <td>55</td>
+                            <td>&ndash;</td>
+                        </tr>
+                        <tr>
+                            <td>10 Oct 2026</td>
+                            <td>Core &amp; Stretch</td>
+                            <td>40</td>
+                            <td>82.9</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2" class="text-body-secondary">Total time</td>
+                            <td class="fw-bold">220 min</td>
+                            <td class="text-body-secondary">&nbsp;</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <p class="small text-body-secondary mt-3 mb-0">
+                <i class="bi bi-info-circle me-1"></i>Progress is not a straight line. Showing up is what matters most.
+                Your weight is optional and you can delete your records at any time.
+            </p>
+        </section>
+
+        <!-- ===== LOG A WORKOUT (Bootstrap validation + js/dashboard.js adds the row) ===== -->
+        <section class="row g-4">
+            <div class="col-lg-8">
+                <form id="logForm" class="card border-0 shadow-sm rounded-4 needs-validation" novalidate="novalidate">
+                    <div class="card-header bg-warning py-3 border-0 rounded-top-4 fw-semibold">
+                        <i class="bi bi-pencil-square me-2"></i>Log a workout
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="logDate" class="form-label">Date</label>
+                                <input type="date" class="form-control rounded-3" id="logDate" required="required" />
+                                <div class="invalid-feedback">Please choose the date of the workout.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="logType" class="form-label">Type of workout</label>
+                                <select class="form-select rounded-3" id="logType" required="required">
+                                    <option value="">Choose...</option>
+                                    <option value="Strength">Strength</option>
+                                    <option value="Cardio">Cardio</option>
+                                    <option value="Group class">Group class</option>
+                                    <option value="Core &amp; Stretch">Core &amp; Stretch</option>
+                                    <option value="Stretching">Stretching</option>
+                                </select>
+                                <div class="invalid-feedback">Please choose the type of workout.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="logMinutes" class="form-label">Duration (minutes)</label>
+                                <input type="number" class="form-control rounded-3" id="logMinutes" value="45"
+                                       min="5" max="300" required="required" />
+                                <div class="invalid-feedback">Please write a number between 5 and 300.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="logWeight" class="form-label">Body weight (kg) <span class="text-body-secondary fw-normal">optional</span></label>
+                                <input type="number" class="form-control rounded-3" id="logWeight" min="30" max="250" step="0.1" />
+                                <div class="invalid-feedback">Please write a weight between 30 and 250, or leave it empty.</div>
+                            </div>
+                            <div class="col-12">
+                                <span class="form-label d-block mb-1">How hard was it?</span>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="intensity" id="easy" value="easy" required="required" />
+                                    <label class="form-check-label" for="easy">Easy</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="intensity" id="medium" value="medium" required="required" />
+                                    <label class="form-check-label" for="medium">Medium</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="intensity" id="hard" value="hard" required="required" />
+                                    <label class="form-check-label" for="hard">Hard</label>
+                                </div>
+                                <div class="invalid-feedback d-block">Please choose one: easy, medium or hard.</div>
+                            </div>
+                            <div class="col-12">
+                                <span class="form-label d-block mb-1">Muscle groups trained</span>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="legs" value="legs" />
+                                    <label class="form-check-label" for="legs">Legs</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="chest" value="chest" />
+                                    <label class="form-check-label" for="chest">Chest</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="back" value="back" />
+                                    <label class="form-check-label" for="back">Back</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="core" value="core" />
+                                    <label class="form-check-label" for="core">Core</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="arms" value="arms" />
+                                    <label class="form-check-label" for="arms">Arms</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label for="logMood" class="form-label d-flex justify-content-between">
+                                    <span>Energy after the workout</span>
+                                    <span class="badge text-bg-success rounded-pill" id="moodValue">7 / 10</span>
+                                </label>
+                                <input type="range" class="form-range" id="logMood" min="1" max="10" value="7" />
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-wrap gap-2 mt-4">
+                            <button type="submit" class="btn rounded-pill btn-success px-4">
+                                <i class="bi bi-check2-circle me-1"></i>Save workout</button>
+                            <button type="reset" class="btn rounded-pill btn-outline-secondary" id="resetLog">Clear</button>
+                        </div>
+
+                        <!-- a green message appears here after the workout is added -->
+                        <div id="logMessage" class="alert border-0 rounded-4 alert-success mt-3 mb-0 d-none" role="status"></div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+                    <div class="card-header bg-success-subtle py-3 border-0 rounded-top-4 fw-semibold">
+                        <i class="bi bi-lightbulb me-2"></i>Small tips
+                    </div>
+                    <div class="card-body small">
+                        <ul class="mb-0 ps-3 d-grid gap-2">
+                            <li>Log the workout on the same day. Later you will forget the details.</li>
+                            <li>Write the real minutes, not the perfect ones.</li>
+                            <li>Leave the weight empty when you do not want to weight yourself.</li>
+                            <li>Three short sessions a week are better than one long session.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== PROGRESS POP-UP: a Bootstrap MODAL. The bars are made by js/dashboard.js ===== -->
+    <div class="modal fade" id="progressModal" tabindex="-1" aria-labelledby="progressTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 shadow rounded-4">
+                <div class="modal-header bg-success text-white border-0 rounded-top-4">
+                    <h2 class="modal-title h5 fw-bold" id="progressTitle"><i class="bi bi-graph-up me-2"></i>My progress</h2>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-body-secondary small mb-3">
+                        Minutes per workout in the last month. The green bars are the workouts of the last two weeks.
+                    </p>
+                    <div id="progressBars" class="d-grid gap-3">
+                        <!-- one line per workout, added by js/dashboard.js -->
+                    </div>
+                    <div class="alert alert-success border-0 rounded-4 mt-4 mb-0 small">
+                        <strong>Total:</strong> <span id="progressTotal"></span> in <span id="progressCount"></span>.
+                        Your best workout was <span id="progressBest"></span>.
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <a href="classes.html" class="btn rounded-pill btn-success">Book my next class</a>
+                    <button type="button" class="btn rounded-pill btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <!-- ===== FOOTER (same on all pages) ===== -->
+    <!-- the footer.svg picture gives the footer our dark teal colour (#0B5242) -->
+    <footer class="position-relative overflow-hidden bg-success text-light mt-auto pt-5 border-top border-warning border-3" data-bs-theme="dark">
+        <img src="images/footer.svg" alt="" class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+        <div class="container position-relative">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <a class="d-flex align-items-center gap-2 text-decoration-none text-white mb-3" href="index.html">
+                        <img src="images/logo.svg" alt="" width="40" height="40" class="rounded-3" />
+                        <span class="fs-4 fw-bold">NASHAAT</span>
+                    </a>
+                    <p class="text-white-50 small">A friendly neighbourhood gym in Al Ansab, Muscat.
+                    We only keep the information we need for your membership and never share it.</p>
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="#" aria-label="Instagram" data-bs-toggle="tooltip" data-bs-title="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="#" aria-label="WhatsApp" data-bs-toggle="tooltip" data-bs-title="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="mailto:info@nashaat.om" aria-label="Email" data-bs-toggle="tooltip" data-bs-title="Email"><i class="bi bi-envelope"></i></a>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Explore</h2>
+                    <ul class="list-unstyled small d-grid gap-1">
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="plans.html">Plans</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="classes.html">Classes</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="trainers.html">Trainers</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="workout.html">Workouts</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Try</h2>
+                    <ul class="list-unstyled small d-grid gap-1">
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="questionnaire.html">Feedback</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="calculator.html">Cost Calculator</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="funpage.html">Memory Game</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Visit us</h2>
+                    <ul class="list-unstyled small text-white-50 d-grid gap-2">
+                        <li><i class="bi bi-geo-alt text-warning me-2"></i>Al Ansab, Muscat, Sultanate of Oman</li>
+                        <li><i class="bi bi-clock text-warning me-2"></i>Sat &ndash; Thu 6:00 AM &ndash; 11:00 PM, Fri 2:00 &ndash; 10:00 PM</li>
+                        <li><i class="bi bi-telephone text-warning me-2"></i>+968 2400 0000</li>
+                        <li><i class="bi bi-envelope text-warning me-2"></i><a class="link-light" href="mailto:info@nashaat.om">info@nashaat.om</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p class="text-center small text-white-50 border-top border-light border-opacity-25 pt-3 mt-4 mb-0 pb-3">
+                &copy; 2026 Nashaat Gym &ndash; COMP3700 student project, Sultan Qaboos University.
+                The information on this site is general and is not medical advice.
+            </p>
+        </div>
+    </footer>
+
+    <!-- back to top button (shown by js/effects.js after scrolling down) -->
+    <button type="button" id="toTop" class="btn btn-warning rounded-circle shadow position-fixed bottom-0 end-0 m-4 z-3 d-none" aria-label="Back to top">
+        <i class="bi bi-arrow-up fs-5"></i>
+    </button>
+
+    <!-- Bootstrap JavaScript (needed for the menu button, carousel, modal, accordion ...) -->
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- our animations (page entrance, scroll reveal, counting numbers ...) -->
+    <script src="js/effects.js"></script>
+    <script src="js/validation.js"></script>
+    <script src="js/dashboard.js"></script>
 </body>
 </html>
