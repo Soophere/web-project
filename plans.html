@@ -176,7 +176,7 @@
                 <div class="card h-100 border-0 shadow-sm rounded-4 border-success">
                     <div class="card-header bg-success text-white py-3 border-0 fw-semibold"><i class="bi bi-search me-2"></i>Search Plans</div>
                     <div class="card-body">
-                        <form id="searchForm" novalidate="novalidate">
+                        <form id="searchForm" class="needs-validation" novalidate="novalidate">
                             <div class="mb-3">
                                 <label for="searchText" class="form-label">Plan name or category</label>
                                 <input type="text" class="form-control rounded-3" id="searchText" placeholder="e.g. year, student" maxlength="30" pattern="[A-Za-z ]*" />
@@ -203,7 +203,7 @@
                 <div class="card h-100 border-0 shadow-sm rounded-4 border-warning">
                     <div class="card-header bg-warning py-3 border-0 fw-semibold"><i class="bi bi-plus-circle me-2"></i>Add a Plan (staff only)</div>
                     <div class="card-body">
-                        <form id="addPlanForm" novalidate="novalidate">
+                        <form id="addPlanForm" class="needs-validation" novalidate="novalidate">
                             <div class="row g-3">
                                 <div class="col-sm-6">
                                     <label for="newName" class="form-label">Plan name</label>
@@ -502,3 +502,4 @@
     <script src="js/plans.js"></script>
 </body>
 </html>
+
