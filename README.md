@@ -37,7 +37,6 @@ Team (Section 01):
 - js/funpage.js - memory game
 - js/banner.js - moving welcome banner with the date and time, welcome toast
 - js/workout.js - muscle group filter in the workout library
-- js/dashboard.js - login message, workout log, progress pop-up
 - js/effects.js - animations, back-to-top button, tooltips, dark / light mode
 - images/ - logo, slideshow, trainer, exercise and facility pictures
 - docs/ - our Part I report and the page screenshots
