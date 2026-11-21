@@ -1,222 +1,319 @@
 <!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<!-- Nashaat Gym - COMP3700 Project Part III
+     Page: about.html - story, mission, facilities, rules, team and the email link
+     Styling: Bootstrap 5.3 only (no CSS file, no style tags, no inline styles). -->
+<html lang="en">
 <head>
-
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="About Nashaat Gym: our story, mission, facilities, gym rules and the team. Email us with any question." />
     <meta name="keywords" content="gym, fitness, Oman, Muscat, Al Ansab, classes, Nashaat" />
     <meta name="author" content="Sulaiman Nasser, Hazza Albadi, Yazn Alhajri" />
-
     <title>About Us | Nashaat Gym</title>
-
     <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
 
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <!-- Bootstrap (a local copy, so the website also works without internet) -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    <!-- Bootstrap Icons (the small pictures like <i class="bi bi-clock"></i>) -->
+    <link rel="stylesheet" href="bootstrap/icons/bootstrap-icons.min.css" />
 
-    <style type="text/css">
-
-        blockquote {
-            background-color: #EEF5F3;
-            border-left: 6px solid #0E6B57;
-            padding: 15px 20px;
-            margin: 15px 0;
-            font-style: italic;
-            font-size: 1.1em;
-            color: #0B5242;
-        }
-
-        ol ul {
-            list-style-type: circle;
-            margin-top: 4px;
-        }
-
-        #email-box {
-            border: 2px dashed #F2A33C;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 15px;
-        }
-    </style>
+    <!-- dark / light mode: use the visitor's last choice before the page is drawn
+         (Bootstrap 5.3 changes all its colours when <html> has data-bs-theme="dark") -->
+    <script>
+        try {
+            if (localStorage.getItem("nashaatTheme") == "dark") {
+                document.documentElement.setAttribute("data-bs-theme", "dark");
+            }
+        } catch (error) { /* storage blocked: stay in light mode */ }
+    </script>
 </head>
 
-<body>
+<!-- d-flex flex-column min-vh-100 keeps the footer at the bottom on short pages -->
+<body class="d-flex flex-column min-vh-100 bg-body-tertiary">
 
-    <!-- header -->
-    <div id="header">
-        <a href="index.html"><img src="images/logo.svg" alt="Nashaat logo: a white dumbbell badge" /></a>
-        <div>
-            <h1>NASHAAT</h1>
-            <p class="tagline">MOVE &bull; TRACK &bull; IMPROVE</p>
-        </div>
-    </div>
+    <!-- for keyboard users: press Tab once and this link appears -->
+    <a class="visually-hidden-focusable btn btn-warning position-absolute top-0 start-0 m-2 z-3" href="#content">Skip to main content</a>
 
-    <!-- menu -->
-    <div id="menu">
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html" class="current">About Us</a></li>
-            <li><a href="plans.html">Plans</a></li>
-            <li><a href="classes.html">Classes</a></li>
-            <li><a href="trainers.html">Trainers</a></li>
-            <li><a href="workout.html">Workouts</a></li>
-            <li><a href="dashboard.html">My Account</a></li>
-            <li><a href="contact.html">Contact Us</a></li>
-        </ul>
-    </div>
-
-    <!-- main -->
-    <div id="main">
-        <h2>About Nashaat</h2>
-
-        <img class="float-right" src="images/facilities/facility-weights.svg" alt="The free weights area at Nashaat Gym" />
-        <h3>Our Story</h3>
-        <p class="intro">Nashaat started as a small neighbourhood gym in Al Ansab. Like many small
-        gyms in Oman, we used paper forms, a printed timetable and a WhatsApp group. Members often
-        travelled to the gym for a class that was already full, and the timetable photo was hard to read.</p>
-        <p>This website fixes those problems. Prices, class times and trainers are now online, and
-        members can see how many places are left in every class. We still keep reception and the
-        phone working for anyone who prefers to register in person.</p>
-
-        <div class="clear"></div>
-
-        <h3>Our Mission</h3>
-        <blockquote>
-            <p>To make exercise easy, friendly and affordable for everyone in our community
-            &ndash; beginners first.</p>
-        </blockquote>
-
-        <h3>Our Values</h3>
-        <dl>
-            <dt>Respect</dt>
-            <dd>Everyone is welcome, whatever their age, size or level.</dd>
-            <dt>Honesty</dt>
-            <dd>No fake promises such as &quot;lose 10 kg in 2 weeks&quot;.</dd>
-            <dt>Privacy</dt>
-            <dd>Your personal and health data stays private.</dd>
-        </dl>
-
-        <h2>Our Facilities</h2>
-        <div class="row">
-            <div class="card center">
-                <img src="images/facilities/facility-weights.svg" alt="Free weights area" />
-                <p>Free weights and machines</p>
-            </div>
-            <div class="card center">
-                <img src="images/facilities/facility-cardio.svg" alt="Cardio zone with treadmills" />
-                <p>Cardio zone</p>
-            </div>
-            <div class="card center">
-                <img src="images/facilities/facility-studio.svg" alt="Group class studio" />
-                <p>Group class studio</p>
+    <!-- ===== NAVIGATION BAR (same on all pages) =====
+         navbar-expand-xl: full menu on big screens, a "hamburger" button on small screens -->
+    <nav class="navbar navbar-expand-xl bg-success sticky-top border-bottom border-warning border-3 shadow" data-bs-theme="dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                <img src="images/logo.svg" alt="Nashaat logo" width="36" height="36" class="rounded-3" />
+                <span class="fw-bold">NASHAAT</span>
+            </a>
+            <!-- this button only shows on small screens and slides the menu in from the right -->
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mainMenu"
+                    aria-controls="mainMenu" aria-label="Open the menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Bootstrap OFFCANVAS: a side menu on phones, a normal menu bar on big screens -->
+            <div class="offcanvas offcanvas-end text-bg-success" tabindex="-1" id="mainMenu" aria-labelledby="mainMenuLabel">
+                <div class="offcanvas-header border-bottom border-light border-opacity-25">
+                    <h2 class="offcanvas-title h5 d-flex align-items-center gap-2 mb-0" id="mainMenuLabel">
+                        <img src="images/logo.svg" alt="" width="32" height="32" class="rounded-3" /> NASHAAT
+                    </h2>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body align-items-xl-center">
+                    <ul class="navbar-nav ms-auto small fw-medium">
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="index.html"><i class="bi bi-house me-2 d-xl-none"></i>Home</a></li>
+                        <li class="nav-item"><a class="nav-link active fw-semibold text-warning text-nowrap px-xl-2" aria-current="page" href="about.html"><i class="bi bi-info-circle me-2 d-xl-none"></i>About</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="plans.html"><i class="bi bi-tags me-2 d-xl-none"></i>Plans</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="classes.html"><i class="bi bi-calendar-week me-2 d-xl-none"></i>Classes</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="trainers.html"><i class="bi bi-people me-2 d-xl-none"></i>Trainers</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="workout.html"><i class="bi bi-lightning-charge me-2 d-xl-none"></i>Workouts</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="questionnaire.html"><i class="bi bi-chat-heart me-2 d-xl-none"></i>Feedback</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="calculator.html"><i class="bi bi-calculator me-2 d-xl-none"></i>Calculator</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="funpage.html"><i class="bi bi-controller me-2 d-xl-none"></i>Fun Game</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="contact.html"><i class="bi bi-envelope me-2 d-xl-none"></i>Contact</a></li>
+                    </ul>
+                    <div class="d-flex align-items-center gap-2 ms-xl-3 mt-3 mt-xl-0">
+                        <!-- dark / light mode button (js/effects.js) -->
+                        <button type="button" id="themeToggle" class="btn btn-sm btn-outline-light rounded-circle"
+                                aria-label="Switch between dark and light mode" title="Dark / light mode">
+                            <i class="bi bi-moon-stars-fill"></i>
+                        </button>
+                        <a class="btn btn-warning btn-sm rounded-pill px-3 fw-semibold text-nowrap" href="dashboard.html">
+                            <i class="bi bi-person-circle me-1"></i>My Account</a>
+                    </div>
+                </div>
             </div>
         </div>
+    </nav>
 
-        <h2>Gym Rules</h2>
-        <ol>
-            <li>Bring a towel and a water bottle.</li>
-            <li>Wear clean sports shoes on the gym floor.</li>
-            <li>Respect the class times:
+    <!-- ===== PAGE TITLE (dark band with a pattern picture behind the text + 3 quick facts) ===== -->
+    <header class="position-relative overflow-hidden bg-success text-white" data-bs-theme="dark">
+        <img src="images/pattern.svg" alt="" class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+        <div class="container position-relative py-5">
+            <div class="row g-4 align-items-center py-lg-3">
+                <div class="col-lg-7" data-enter="data-enter">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb small mb-3">
+                            <li class="breadcrumb-item"><a class="link-warning" href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">About Us</li>
+                        </ol>
+                    </nav>
+                    <span class="d-inline-flex bg-warning text-dark rounded-3 p-2 fs-4 lh-1 mb-3 shadow"><i class="bi bi-info-circle"></i></span>
+                    <h1 class="display-5 fw-bold mb-2">About Nashaat</h1>
+                    <p class="lead text-white-50 mb-0">A friendly neighbourhood gym in Al Ansab, built for beginners first.</p>
+                </div>
+                <div class="col-lg-5">
+                    <div class="row g-2 text-center" data-enter="data-enter">
+                        <div class="col-4">
+                            <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
+                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="2024">2024</span></p>
+                                <p class="small text-white-50 mb-0 lh-sm">opened</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
+                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="4">4</span></p>
+                                <p class="small text-white-50 mb-0 lh-sm">certified coaches</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
+                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="3">3</span></p>
+                                <p class="small text-white-50 mb-0 lh-sm">training zones</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main id="content" class="container py-5">
+        <!-- ===== OUR STORY (text + picture in 2 columns) ===== -->
+        <section class="row g-4 align-items-center mb-5">
+            <div class="col-md-7">
+                <h2 class="h3 fw-bold border-start border-warning border-4 ps-3 mb-3">Our Story</h2>
+                <p>Nashaat started as a small neighbourhood gym in Al Ansab. Like many small gyms in Oman, we used
+                paper forms, a printed timetable and a WhatsApp group. Members often travelled to the gym for a
+                class that was already full, and the timetable photo was hard to read.</p>
+                <p>This website fixes those problems. Prices, class times and trainers are now online, and members
+                can see how many places are left in every class. We still keep reception and the phone working
+                for anyone who prefers to register in person.</p>
+            </div>
+            <div class="col-md-5">
+                <img class="img-fluid rounded-4 shadow-sm" src="images/facilities/facility-weights.svg" alt="The free weights area at Nashaat Gym" />
+            </div>
+        </section>
+
+        <!-- ===== MISSION + VALUES ===== -->
+        <section class="row g-4 mb-5">
+            <div class="col-md-6">
+                <h2 class="h3 fw-bold border-start border-warning border-4 ps-3 mb-3">Our Mission</h2>
+                <figure class="bg-success-subtle border-start border-5 border-success rounded p-4 mb-0">
+                    <blockquote class="blockquote mb-0">
+                        <p class="fst-italic">To make exercise easy, friendly and affordable for everyone in our community &ndash; beginners first.</p>
+                    </blockquote>
+                </figure>
+            </div>
+            <div class="col-md-6">
+                <h2 class="h3 fw-bold border-start border-warning border-4 ps-3 mb-3">Our Values</h2>
+                <dl class="row mb-0">
+                    <dt class="col-sm-3">Respect</dt>
+                    <dd class="col-sm-9">Everyone is welcome, whatever their age, size or level.</dd>
+                    <dt class="col-sm-3">Honesty</dt>
+                    <dd class="col-sm-9">No fake promises such as &quot;lose 10 kg in 2 weeks&quot;.</dd>
+                    <dt class="col-sm-3">Privacy</dt>
+                    <dd class="col-sm-9">Your personal and health data stays private.</dd>
+                </dl>
+            </div>
+        </section>
+
+        <!-- ===== FACILITIES: 3 cards ===== -->
+        <section class="mb-5">
+            <h2 class="h3 fw-bold border-start border-warning border-4 ps-3 mb-3">Our Facilities</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm rounded-4">
+                        <img src="images/facilities/facility-weights.svg" class="card-img-top" alt="Free weights area" />
+                        <div class="card-body"><p class="card-text text-center fw-semibold">Free weights and machines</p></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm rounded-4">
+                        <img src="images/facilities/facility-cardio.svg" class="card-img-top" alt="Cardio zone with treadmills" />
+                        <div class="card-body"><p class="card-text text-center fw-semibold">Cardio zone</p></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm rounded-4">
+                        <img src="images/facilities/facility-studio.svg" class="card-img-top" alt="Group class studio" />
+                        <div class="card-body"><p class="card-text text-center fw-semibold">Group class studio</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== GYM RULES ===== -->
+        <section class="mb-5">
+            <h2 class="h3 fw-bold border-start border-warning border-4 ps-3 mb-3">Gym Rules</h2>
+            <ol class="list-group list-group-numbered">
+                <li class="list-group-item">Bring a towel and a water bottle.</li>
+                <li class="list-group-item">Wear clean sports shoes on the gym floor.</li>
+                <li class="list-group-item">Respect the class times:
+                    <ul class="mt-1 mb-0">
+                        <li>Arrive 5 minutes before the class starts.</li>
+                        <li>Cancel your booking if you cannot come, so someone else can use the place.</li>
+                    </ul>
+                </li>
+                <li class="list-group-item">Return weights to their place after use.</li>
+                <li class="list-group-item">Respect the women-only hours and women-only classes.</li>
+            </ol>
+        </section>
+
+        <!-- ===== THE TEAM ===== -->
+        <section class="mb-5">
+            <h2 class="h3 fw-bold border-start border-warning border-4 ps-3 mb-3">The Team Behind This Website</h2>
+            <p>This website is a student project for COMP3700 at Sultan Qaboos University.</p>
+            <div class="table-responsive bg-body rounded-4 shadow-sm p-2 mb-3">
+                <table class="table table-striped align-middle caption-top">
+                    <caption>Website team (Section 01)</caption>
+                    <thead class="table-success">
+                        <tr><th>Name</th><th>Student ID</th><th>Main pages</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Sulaiman Nasser</td><td>144524</td><td>Home, About Us, Contact Us, Feedback</td></tr>
+                        <tr><td>Hazza Hamdan Albadi</td><td>144644</td><td>Plans, Classes, Trainers, Calculator</td></tr>
+                        <tr><td>Yazn Khamis Alhajri</td><td>145411</td><td>Workouts, My Account, Fun Game</td></tr>
+                    </tbody>
+                    <tfoot class="table-warning">
+                        <tr><td colspan="3">Course instructor: Dr. Abdullah Alhajri</td></tr>
+                    </tfoot>
+                </table>
+            </div>
+        </section>
+
+        <!-- ===== EMAIL US (mailto link) ===== -->
+        <section class="card border-warning border-2">
+            <div class="card-body p-4">
+                <h2 class="h3 fw-bold border-start border-warning border-4 ps-3 mb-3">Email Us</h2>
+                <p>Have a question about membership, classes or trainers? Send us an email and we will reply
+                within <strong>one working day</strong>. Please include:</p>
                 <ul>
-                    <li>Arrive 5 minutes before the class starts.</li>
-                    <li>Cancel your booking if you cannot come, so someone else can use the place.</li>
+                    <li>Your full name and phone number</li>
+                    <li>Your membership number (if you are already a member)</li>
+                    <li>Your question or the class you are asking about</li>
                 </ul>
-            </li>
-            <li>Return weights to their place after use.</li>
-            <li>Respect the women-only hours and women-only classes.</li>
-        </ol>
-
-        <h2>The Team Behind This Website</h2>
-        <p>This website is a student project for COMP3700 at Sultan Qaboos University.</p>
-        <div class="table-box">
-            <table class="data" border="1" cellspacing="3" cellpadding="8">
-                <caption>Website team (Section 01)</caption>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Student ID</th>
-                        <th>Main pages</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Sulaiman Nasser</td>
-                        <td>144524</td>
-                        <td>Home, About Us, Contact Us</td>
-                    </tr>
-                    <tr class="odd">
-                        <td>Hazza Hamdan Albadi</td>
-                        <td>144644</td>
-                        <td>Plans, Classes, Trainers</td>
-                    </tr>
-                    <tr>
-                        <td>Yazn Khamis Alhajri</td>
-                        <td>145411</td>
-                        <td>Workouts, My Account</td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-
-                        <td colspan="3">Course instructor: Dr. Abdullah Alhajri</td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-
-        <div id="email-box">
-            <h2 style="margin-top: 0;">Email Us</h2>
-            <p>Have a question about membership, classes or trainers? Send us an email and
-            we will reply within <strong>one working day</strong>. Please include:</p>
-            <ul>
-                <li>Your full name and phone number</li>
-                <li>Your membership number (if you are already a member)</li>
-                <li>Your question or the class you are asking about</li>
-            </ul>
-            <p>
-                <a class="button"
+                <a class="btn rounded-pill btn-warning btn-lg"
                    href="mailto:info@nashaat.om?subject=Question%20about%20Nashaat%20Gym&amp;body=Hello%20Nashaat%20team%2C%20I%20want%20to%20ask%20about...&amp;cc=manager@nashaat.om">
                    Email info@nashaat.om</a>
+                <p class="small text-secondary mt-3 mb-0">For complaints you can email the manager directly:
+                <a class="link-success" href="mailto:manager@nashaat.om?subject=Complaint">manager@nashaat.om</a>.
+                You can also use our <a class="link-success" href="contact.html">Contact Us form</a> or the
+                <a class="link-success" href="questionnaire.html">feedback questionnaire</a>.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== FOOTER (same on all pages) ===== -->
+    <!-- the footer.svg picture gives the footer our dark teal colour (#0B5242) -->
+    <footer class="position-relative overflow-hidden bg-success text-light mt-auto pt-5 border-top border-warning border-3" data-bs-theme="dark">
+        <img src="images/footer.svg" alt="" class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+        <div class="container position-relative">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <a class="d-flex align-items-center gap-2 text-decoration-none text-white mb-3" href="index.html">
+                        <img src="images/logo.svg" alt="" width="40" height="40" class="rounded-3" />
+                        <span class="fs-4 fw-bold">NASHAAT</span>
+                    </a>
+                    <p class="text-white-50 small">A friendly neighbourhood gym in Al Ansab, Muscat.
+                    We only keep the information we need for your membership and never share it.</p>
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="#" aria-label="Instagram" data-bs-toggle="tooltip" data-bs-title="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="#" aria-label="WhatsApp" data-bs-toggle="tooltip" data-bs-title="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="mailto:info@nashaat.om" aria-label="Email" data-bs-toggle="tooltip" data-bs-title="Email"><i class="bi bi-envelope"></i></a>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Explore</h2>
+                    <ul class="list-unstyled small d-grid gap-1">
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="plans.html">Plans</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="classes.html">Classes</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="trainers.html">Trainers</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="workout.html">Workouts</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Try</h2>
+                    <ul class="list-unstyled small d-grid gap-1">
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="questionnaire.html">Feedback</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="calculator.html">Cost Calculator</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="funpage.html">Memory Game</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Visit us</h2>
+                    <ul class="list-unstyled small text-white-50 d-grid gap-2">
+                        <li><i class="bi bi-geo-alt text-warning me-2"></i>Al Ansab, Muscat, Sultanate of Oman</li>
+                        <li><i class="bi bi-clock text-warning me-2"></i>Sat &ndash; Thu 6:00 AM &ndash; 11:00 PM, Fri 2:00 &ndash; 10:00 PM</li>
+                        <li><i class="bi bi-telephone text-warning me-2"></i>+968 2400 0000</li>
+                        <li><i class="bi bi-envelope text-warning me-2"></i><a class="link-light" href="mailto:info@nashaat.om">info@nashaat.om</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p class="text-center small text-white-50 border-top border-light border-opacity-25 pt-3 mt-4 mb-0 pb-3">
+                &copy; 2026 Nashaat Gym &ndash; COMP3700 student project, Sultan Qaboos University.
+                The information on this site is general and is not medical advice.
             </p>
-            <p class="small">For complaints you can email the manager directly:
-            <a href="mailto:manager@nashaat.om?subject=Complaint">manager@nashaat.om</a>.
-            You can also use our <a href="contact.html">Contact Us form</a>.</p>
         </div>
-    </div>
+    </footer>
 
-    <!-- footer -->
-    <div id="footer">
-        <div class="row">
+    <!-- back to top button (shown by js/effects.js after scrolling down) -->
+    <button type="button" id="toTop" class="btn btn-warning rounded-circle shadow position-fixed bottom-0 end-0 m-4 z-3 d-none" aria-label="Back to top">
+        <i class="bi bi-arrow-up fs-5"></i>
+    </button>
 
-            <div>
-                <h3>Opening Hours</h3>
-                <ul>
-                    <li>Saturday - Thursday: 6:00 AM - 11:00 PM</li>
-                    <li>Friday: 2:00 PM - 10:00 PM</li>
-                </ul>
-            </div>
-
-            <div>
-                <h3>Contact</h3>
-                <ul>
-                    <li>Al Ansab, Muscat, Sultanate of Oman</li>
-                    <li>Phone: +968 2400 0000</li>
-                    <li>Email: <a href="mailto:info@nashaat.om">info@nashaat.om</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h3>Privacy</h3>
-                <p class="small">We only keep the information we need for your membership.
-                We never share it, and you can ask us to delete it at any time.
-                You can still register and book in person at reception.</p>
-            </div>
-        </div>
-
-        <p class="copy">&copy; 2026 Nashaat Gym &ndash; COMP3700 student project, Sultan Qaboos University.
-        The information on this site is general and is not medical advice.</p>
-    </div>
+    <!-- Bootstrap JavaScript (needed for the menu button, carousel, modal, accordion ...) -->
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- our animations (page entrance, scroll reveal, counting numbers ...) -->
+    <script src="js/effects.js"></script>
 
 </body>
 </html>

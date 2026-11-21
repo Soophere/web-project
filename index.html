@@ -1,202 +1,485 @@
 <!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<!-- Nashaat Gym - COMP3700 Project Part III
+     Page: index.html - Home page: photo gallery, links to the new pages, moving welcome banner
+     Styling: Bootstrap 5.3 only (no CSS file, no style tags, no inline styles). -->
+<html lang="en">
 <head>
-
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Nashaat Gym in Al Ansab, Muscat: membership prices, class timetable, trainers and opening hours." />
     <meta name="keywords" content="gym, fitness, Oman, Muscat, Al Ansab, classes, Nashaat" />
     <meta name="author" content="Sulaiman Nasser, Hazza Albadi, Yazn Alhajri" />
-
     <title>Home | Nashaat Gym</title>
-
     <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
 
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <!-- Bootstrap (a local copy, so the website also works without internet) -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    <!-- Bootstrap Icons (the small pictures like <i class="bi bi-clock"></i>) -->
+    <link rel="stylesheet" href="bootstrap/icons/bootstrap-icons.min.css" />
 
-    <style type="text/css">
-
-        ul.why li {
-            margin-bottom: 6px;
-        }
-
-        #map-box iframe {
-            width: 100%;
-            height: 260px;
-            border: 0;
-            border-radius: 10px;
-        }
-
-        .card img.round {
-            border-radius: 50%;
-            border: 4px solid #F2A33C;
-        }
-    </style>
+    <!-- dark / light mode: use the visitor's last choice before the page is drawn
+         (Bootstrap 5.3 changes all its colours when <html> has data-bs-theme="dark") -->
+    <script>
+        try {
+            if (localStorage.getItem("nashaatTheme") == "dark") {
+                document.documentElement.setAttribute("data-bs-theme", "dark");
+            }
+        } catch (error) { /* storage blocked: stay in light mode */ }
+    </script>
 </head>
 
-<body>
+<!-- d-flex flex-column min-vh-100 keeps the footer at the bottom on short pages -->
+<body class="d-flex flex-column min-vh-100 bg-body-tertiary">
 
-    <!-- header -->
-    <div id="header">
-        <a href="index.html"><img src="images/logo.svg" alt="Nashaat logo: a white dumbbell badge" /></a>
-        <div>
-            <h1>NASHAAT</h1>
-            <p class="tagline">MOVE &bull; TRACK &bull; IMPROVE</p>
+    <!-- for keyboard users: press Tab once and this link appears -->
+    <a class="visually-hidden-focusable btn btn-warning position-absolute top-0 start-0 m-2 z-3" href="#content">Skip to main content</a>
+
+    <!-- ===== NAVIGATION BAR (same on all pages) =====
+         navbar-expand-xl: full menu on big screens, a "hamburger" button on small screens -->
+    <nav class="navbar navbar-expand-xl bg-success sticky-top border-bottom border-warning border-3 shadow" data-bs-theme="dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                <img src="images/logo.svg" alt="Nashaat logo" width="36" height="36" class="rounded-3" />
+                <span class="fw-bold">NASHAAT</span>
+            </a>
+            <!-- this button only shows on small screens and slides the menu in from the right -->
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mainMenu"
+                    aria-controls="mainMenu" aria-label="Open the menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Bootstrap OFFCANVAS: a side menu on phones, a normal menu bar on big screens -->
+            <div class="offcanvas offcanvas-end text-bg-success" tabindex="-1" id="mainMenu" aria-labelledby="mainMenuLabel">
+                <div class="offcanvas-header border-bottom border-light border-opacity-25">
+                    <h2 class="offcanvas-title h5 d-flex align-items-center gap-2 mb-0" id="mainMenuLabel">
+                        <img src="images/logo.svg" alt="" width="32" height="32" class="rounded-3" /> NASHAAT
+                    </h2>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body align-items-xl-center">
+                    <ul class="navbar-nav ms-auto small fw-medium">
+                        <li class="nav-item"><a class="nav-link active fw-semibold text-warning text-nowrap px-xl-2" aria-current="page" href="index.html"><i class="bi bi-house me-2 d-xl-none"></i>Home</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="about.html"><i class="bi bi-info-circle me-2 d-xl-none"></i>About</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="plans.html"><i class="bi bi-tags me-2 d-xl-none"></i>Plans</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="classes.html"><i class="bi bi-calendar-week me-2 d-xl-none"></i>Classes</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="trainers.html"><i class="bi bi-people me-2 d-xl-none"></i>Trainers</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="workout.html"><i class="bi bi-lightning-charge me-2 d-xl-none"></i>Workouts</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="questionnaire.html"><i class="bi bi-chat-heart me-2 d-xl-none"></i>Feedback</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="calculator.html"><i class="bi bi-calculator me-2 d-xl-none"></i>Calculator</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="funpage.html"><i class="bi bi-controller me-2 d-xl-none"></i>Fun Game</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="contact.html"><i class="bi bi-envelope me-2 d-xl-none"></i>Contact</a></li>
+                    </ul>
+                    <div class="d-flex align-items-center gap-2 ms-xl-3 mt-3 mt-xl-0">
+                        <!-- dark / light mode button (js/effects.js) -->
+                        <button type="button" id="themeToggle" class="btn btn-sm btn-outline-light rounded-circle"
+                                aria-label="Switch between dark and light mode" title="Dark / light mode">
+                            <i class="bi bi-moon-stars-fill"></i>
+                        </button>
+                        <a class="btn btn-warning btn-sm rounded-pill px-3 fw-semibold text-nowrap" href="dashboard.html">
+                            <i class="bi bi-person-circle me-1"></i>My Account</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== HERO: big welcome + PHOTO GALLERY (Bootstrap carousel) ===== -->
+    <section class="position-relative overflow-hidden bg-success text-white" data-bs-theme="dark">
+        <img src="images/pattern.svg" alt="" class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+        <div class="container position-relative py-5">
+            <div class="row g-5 align-items-center py-lg-5">
+                <div class="col-lg-5" data-enter="data-enter">
+                    <p class="text-warning text-uppercase fw-bold small mb-3"><i class="bi bi-lightning-charge-fill me-1"></i>Your neighbourhood gym</p>
+                    <h1 class="display-3 fw-bold lh-1 mb-4">Move. Track. <span class="text-warning">Improve.</span></h1>
+                    <p class="lead text-white-50 mb-4">Check prices, see the class timetable and know if there is a place
+                    for you <strong class="text-white">before</strong> you leave home.</p>
+                    <div class="d-flex flex-wrap gap-2 mb-4">
+                        <a class="btn btn-warning btn-lg rounded-pill px-4 fw-semibold" href="plans.html#join">Join Now <i class="bi bi-arrow-right"></i></a>
+                        <a class="btn btn-outline-light btn-lg rounded-pill px-4" href="classes.html"><i class="bi bi-calendar-week me-1"></i>Timetable</a>
+                    </div>
+                    <!-- 3 small numbers -->
+                    <div class="row g-3">
+                        <div class="col-4"><div class="border-start border-warning border-3 ps-3"><p class="fs-2 fw-bold mb-0"><span data-count="12">12</span></p><p class="small text-white-50 mb-0">classes a week</p></div></div>
+                        <div class="col-4"><div class="border-start border-warning border-3 ps-3"><p class="fs-2 fw-bold mb-0"><span data-count="4">4</span></p><p class="small text-white-50 mb-0">certified coaches</p></div></div>
+                        <div class="col-4"><div class="border-start border-warning border-3 ps-3"><p class="fs-2 fw-bold mb-0"><span data-count="15">15</span><span class="fs-6 fw-normal"> OMR</span></p><p class="small text-white-50 mb-0">a month, from</p></div></div>
+                    </div>
+                </div>
+                <div class="col-lg-7" data-enter="data-enter">
+                    <!-- data-bs-ride="carousel": starts by itself; data-bs-interval="3000": each photo stays 3 seconds -->
+                    <div id="gallery" class="carousel slide carousel-fade rounded-4 overflow-hidden shadow-lg border border-3 border-warning-subtle" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#gallery" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#gallery" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                            <button type="button" data-bs-target="#gallery" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                            <button type="button" data-bs-target="#gallery" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active" data-bs-interval="3000">
+                                <img src="images/slides/slide1.svg" class="d-block w-100" alt="Free weights and machines" />
+                                <div class="carousel-caption text-start start-0 end-auto ms-4 mb-3 p-0">
+                                    <h2 class="h6 mb-0"><span class="badge rounded-pill text-bg-warning fs-6 shadow">Free weights and machines</span></h2>
+                                </div>
+                            </div>
+                            <div class="carousel-item" data-bs-interval="3000">
+                                <img src="images/slides/slide2.svg" class="d-block w-100" alt="Cardio zone" />
+                                <div class="carousel-caption text-start start-0 end-auto ms-4 mb-3 p-0">
+                                    <h2 class="h6 mb-0"><span class="badge rounded-pill text-bg-warning fs-6 shadow">Cardio zone</span></h2>
+                                </div>
+                            </div>
+                            <div class="carousel-item" data-bs-interval="3000">
+                                <img src="images/slides/slide3.svg" class="d-block w-100" alt="Group classes" />
+                                <div class="carousel-caption text-start start-0 end-auto ms-4 mb-3 p-0">
+                                    <h2 class="h6 mb-0"><span class="badge rounded-pill text-bg-warning fs-6 shadow">Group classes</span></h2>
+                                </div>
+                            </div>
+                            <div class="carousel-item" data-bs-interval="3000">
+                                <img src="images/slides/slide4.svg" class="d-block w-100" alt="Personal training" />
+                                <div class="carousel-caption text-start start-0 end-auto ms-4 mb-3 p-0">
+                                    <h2 class="h6 mb-0"><span class="badge rounded-pill text-bg-warning fs-6 shadow">Personal training</span></h2>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#gallery" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#gallery" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main id="content" class="container py-5">
+        <!-- ===== WHY TRAIN WITH US (4 cards with icons) ===== -->
+        <section class="mb-5">
+            <p class="text-success fw-bold text-uppercase small mb-1">Welcome to Nashaat</p>
+            <h2 class="display-6 fw-bold mb-2">A gym that respects your time</h2>
+            <p class="lead text-body-secondary col-lg-8 mb-4">Nashaat (&#1606;&#1588;&#1575;&#1591;) means <em>activity</em> in Arabic.
+            We are a friendly local gym for men and women of all levels &ndash; beginners first.</p>
+            <div class="row g-4">
+            <div class="col-sm-6 col-lg-3">
+                <div class="card h-100 border-0 shadow-sm rounded-4 p-2">
+                    <div class="card-body">
+                        <span class="d-inline-flex align-items-center justify-content-center bg-success-subtle text-success rounded-3 fs-3 p-3 mb-3"><i class="bi bi-cash-coin"></i></span>
+                        <h3 class="h5 fw-bold">Clear prices</h3>
+                        <p class="text-body-secondary mb-0">Every plan in Omani Rial. No hidden fees.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="card h-100 border-0 shadow-sm rounded-4 p-2">
+                    <div class="card-body">
+                        <span class="d-inline-flex align-items-center justify-content-center bg-success-subtle text-success rounded-3 fs-3 p-3 mb-3"><i class="bi bi-calendar-check"></i></span>
+                        <h3 class="h5 fw-bold">Online timetable</h3>
+                        <p class="text-body-secondary mb-0">Always up to date &ndash; no blurry WhatsApp photos.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="card h-100 border-0 shadow-sm rounded-4 p-2">
+                    <div class="card-body">
+                        <span class="d-inline-flex align-items-center justify-content-center bg-success-subtle text-success rounded-3 fs-3 p-3 mb-3"><i class="bi bi-person-check"></i></span>
+                        <h3 class="h5 fw-bold">Book your place</h3>
+                        <p class="text-body-secondary mb-0">See the places left before you travel.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="card h-100 border-0 shadow-sm rounded-4 p-2">
+                    <div class="card-body">
+                        <span class="d-inline-flex align-items-center justify-content-center bg-success-subtle text-success rounded-3 fs-3 p-3 mb-3"><i class="bi bi-gender-ambiguous"></i></span>
+                        <h3 class="h5 fw-bold">For everyone</h3>
+                        <p class="text-body-secondary mb-0">Men-only, women-only and mixed classes, clearly labelled.</p>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </section>
+
+        <!-- ===== LINKS TO THE 3 NEW PAGES ===== -->
+        <section class="mb-5">
+            <p class="text-success fw-bold text-uppercase small mb-1">New on the website</p>
+            <h2 class="display-6 fw-bold mb-4">Try our new tools</h2>
+            <div class="row g-4">
+            <div class="col-md-4">
+                <a href="questionnaire.html" class="card h-100 border-0 shadow rounded-4 text-decoration-none text-bg-light bg-gradient border-bottom border-4 border-warning">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-4">
+                            <i class="bi bi-chat-heart display-5"></i>
+                            <span class="badge rounded-pill text-bg-warning">NEW</span>
+                        </div>
+                        <h3 class="h4 fw-bold">Feedback</h3>
+                        <p class="opacity-75">Tell us about your visit and help us improve the gym.</p>
+                        <span class="fw-semibold">Give feedback <i class="bi bi-arrow-right"></i></span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="calculator.html" class="card h-100 border-0 shadow rounded-4 text-decoration-none text-bg-warning bg-gradient border-bottom border-4 border-warning">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-4">
+                            <i class="bi bi-calculator display-5"></i>
+                            <span class="badge rounded-pill text-bg-warning">NEW</span>
+                        </div>
+                        <h3 class="h4 fw-bold">Cost Calculator</h3>
+                        <p class="opacity-75">See the full price of your membership with discounts, extras and VAT.</p>
+                        <span class="fw-semibold">Calculate my price <i class="bi bi-arrow-right"></i></span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="funpage.html" class="card h-100 border-0 shadow rounded-4 text-decoration-none text-bg-success bg-gradient border-bottom border-4 border-warning">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-4">
+                            <i class="bi bi-controller display-5"></i>
+                            <span class="badge rounded-pill text-bg-warning">NEW</span>
+                        </div>
+                        <h3 class="h4 fw-bold">Memory Match</h3>
+                        <p class="opacity-75">A quick game: match each exercise with the muscle it trains.</p>
+                        <span class="fw-semibold">Play the game <i class="bi bi-arrow-right"></i></span>
+                    </div>
+                </a>
+            </div>
+            </div>
+        </section>
+
+        <!-- ===== PLANS (pricing cards) ===== -->
+        <section class="mb-5">
+            <div class="text-center mb-4">
+                <p class="text-success fw-bold text-uppercase small mb-1">Membership</p>
+                <h2 class="display-6 fw-bold">Simple, honest prices</h2>
+            </div>
+            <div class="row g-4 align-items-stretch pt-2">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4">
+                    
+                    <div class="card-body p-4">
+                        <h3 class="h5 text-body-secondary text-uppercase fw-semibold">Student</h3>
+                        <p class="mb-3"><span class="display-5 fw-bold" data-count="15">15</span> <span class="text-body-secondary">OMR / month</span></p>
+                        <ul class="list-unstyled d-grid gap-2 mb-4">
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Gym floor and all classes</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Bring your student ID</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>No personal training</li>
+                        </ul>
+                        <a href="plans.html#join" class="btn rounded-pill btn-outline-success rounded-pill w-100 fw-semibold">Choose Student</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border border-warning border-3 shadow rounded-4 position-relative">
+                    <span class="badge rounded-pill text-bg-warning position-absolute top-0 start-50 translate-middle px-3 py-2">Best value</span>
+                    <div class="card-body p-4">
+                        <h3 class="h5 text-body-secondary text-uppercase fw-semibold">Yearly</h3>
+                        <p class="mb-3"><span class="display-5 fw-bold" data-count="180">180</span> <span class="text-body-secondary">OMR / year</span></p>
+                        <ul class="list-unstyled d-grid gap-2 mb-4">
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Gym floor and all classes</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>4 free personal training sessions</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Freeze once for 30 days</li>
+                        </ul>
+                        <a href="plans.html#join" class="btn rounded-pill btn-warning rounded-pill w-100 fw-semibold">Choose Yearly</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4">
+                    
+                    <div class="card-body p-4">
+                        <h3 class="h5 text-body-secondary text-uppercase fw-semibold">Monthly</h3>
+                        <p class="mb-3"><span class="display-5 fw-bold" data-count="20">20</span> <span class="text-body-secondary">OMR / month</span></p>
+                        <ul class="list-unstyled d-grid gap-2 mb-4">
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Gym floor and all classes</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Free locker and Wi-Fi</li>
+                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Cancel any time</li>
+                        </ul>
+                        <a href="plans.html#join" class="btn rounded-pill btn-outline-success rounded-pill w-100 fw-semibold">Choose Monthly</a>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <p class="text-center mt-4 mb-0"><a href="plans.html" class="link-success fw-semibold">Compare all plans <i class="bi bi-arrow-right"></i></a></p>
+        </section>
+
+        <!-- ===== NEXT CLASSES + TRAINERS ===== -->
+        <section class="row g-4 mb-5">
+            <div class="col-lg-5">
+                <div class="card h-100 border-0 shadow-sm rounded-4">
+                    <div class="card-body p-4">
+                        <h2 class="h4 fw-bold mb-3"><i class="bi bi-alarm text-success me-2"></i>Next classes</h2>
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item px-0 d-flex justify-content-between align-items-center">
+                                <div><div class="fw-bold">HIIT Burn</div><div class="small text-body-secondary">Sat 6:00 PM &middot; Coach Ahmed</div></div>
+                                <span class="badge rounded-pill text-bg-success">8 left</span>
+                            </div>
+                            <div class="list-group-item px-0 d-flex justify-content-between align-items-center">
+                                <div><div class="fw-bold">Yoga Flow</div><div class="small text-body-secondary">Sat 8:00 PM &middot; Coach Maryam</div></div>
+                                <span class="badge rounded-pill text-bg-danger">Women</span>
+                            </div>
+                            <div class="list-group-item px-0 d-flex justify-content-between align-items-center">
+                                <div><div class="fw-bold">Strength Basics</div><div class="small text-body-secondary">Sun 7:00 AM &middot; Coach Khalid</div></div>
+                                <span class="badge rounded-pill text-bg-success">12 left</span>
+                            </div>
+                        </div>
+                        <a href="classes.html" class="btn rounded-pill btn-success rounded-pill mt-3">Full timetable</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="card h-100 border-0 shadow-sm rounded-4">
+                    <div class="card-body p-4">
+                        <h2 class="h4 fw-bold mb-4"><i class="bi bi-people text-success me-2"></i>Meet some of our trainers</h2>
+                        <div class="row g-3">
+                    <div class="col-4">
+                        <div class="text-center">
+                            <img src="images/trainers/trainer1.svg" alt="Coach Ahmed Al Saadi" width="120" height="120" class="img-fluid rounded-circle border border-4 border-white shadow mb-2" />
+                            <h3 class="h6 fw-bold mb-0">Ahmed Al Saadi</h3>
+                            <p class="small text-body-secondary mb-0">Strength &amp; HIIT</p>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-center">
+                            <img src="images/trainers/trainer2.svg" alt="Coach Maryam Al Kindi" width="120" height="120" class="img-fluid rounded-circle border border-4 border-white shadow mb-2" />
+                            <h3 class="h6 fw-bold mb-0">Maryam Al Kindi</h3>
+                            <p class="small text-body-secondary mb-0">Yoga &amp; Pilates</p>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-center">
+                            <img src="images/trainers/trainer4.svg" alt="Coach Khalid Al Hinai" width="120" height="120" class="img-fluid rounded-circle border border-4 border-white shadow mb-2" />
+                            <h3 class="h6 fw-bold mb-0">Khalid Al Hinai</h3>
+                            <p class="small text-body-secondary mb-0">Personal training</p>
+                        </div>
+                    </div>
+                        </div>
+                        <a href="trainers.html" class="btn rounded-pill btn-outline-success rounded-pill mt-4">All trainers</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== FIND US: opening hours + map ===== -->
+        <section class="row g-4 mb-5 align-items-stretch">
+            <div class="col-lg-5">
+                <div class="card h-100 border-0 shadow-sm rounded-4 text-bg-success bg-gradient">
+                    <div class="card-body p-4">
+                        <h2 class="h4 fw-bold mb-3"><i class="bi bi-clock me-2"></i>Opening hours</h2>
+                        <dl class="row mb-0">
+                            <dt class="col-7 fw-normal text-white-50">Saturday &ndash; Thursday</dt>
+                            <dd class="col-5 fw-semibold">6 AM &ndash; 11 PM</dd>
+                            <dt class="col-7 fw-normal text-white-50">Friday</dt>
+                            <dd class="col-5 fw-semibold">2 PM &ndash; 10 PM</dd>
+                            <dt class="col-7 fw-normal text-white-50">Women-only floor</dt>
+                            <dd class="col-5 fw-semibold">9 AM &ndash; 12 PM</dd>
+                        </dl>
+                        <hr class="border-light" />
+                        <p class="mb-0"><i class="bi bi-geo-alt me-2"></i>Al Ansab, Muscat &ndash; next to the main roundabout.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <!-- ratio ratio-16x9 keeps the map the right shape on every screen -->
+                <div class="ratio ratio-21x9 rounded-4 overflow-hidden shadow-sm bg-body h-100">
+                    <iframe src="https://www.google.com/maps?q=Al%20Ansab%2C%20Muscat&amp;output=embed"
+                            title="Map of Al Ansab, Muscat" class="border-0" loading="lazy"></iframe>
+                </div>
+            </div>
+        </section>
+
+        <div class="alert border-0 shadow-sm rounded-4 alert-light border-0 shadow-sm rounded-4 d-flex gap-3 align-items-start mb-0">
+            <i class="bi bi-lightbulb-fill text-warning fs-3"></i>
+            <div><strong>Did you know?</strong> About 38% of people in Oman do not get enough physical activity
+            (Source: <a class="alert-link" href="https://applications.emro.who.int/docs/Oman-NCD-IC-v15-eng.pdf">WHO EMRO, 2018</a>).
+            Even two or three short sessions a week make a difference.</div>
+        </div>
+    </main>
+
+    <!-- ===== Bootstrap TOAST: a small message that pops up (opened by js/banner.js) ===== -->
+    <div class="toast-container position-fixed bottom-0 start-0 p-3">
+        <div id="welcomeToast" class="toast bg-body border-0 shadow-lg" role="status" aria-live="polite" aria-atomic="true" data-bs-delay="7000">
+            <div class="toast-header bg-success text-white border-0">
+                <i class="bi bi-stars text-warning me-2"></i>
+                <strong class="me-auto">New on Nashaat</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                How much will your membership really cost?
+                <a href="calculator.html" class="btn btn-warning btn-sm rounded-pill mt-2 d-block">Try the calculator</a>
+            </div>
         </div>
     </div>
 
-    <!-- menu -->
-    <div id="menu">
-        <ul>
-            <li><a href="index.html" class="current">Home</a></li>
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="plans.html">Plans</a></li>
-            <li><a href="classes.html">Classes</a></li>
-            <li><a href="trainers.html">Trainers</a></li>
-            <li><a href="workout.html">Workouts</a></li>
-            <li><a href="dashboard.html">My Account</a></li>
-            <li><a href="contact.html">Contact Us</a></li>
-        </ul>
+    <!-- ===== MOVING WELCOME BANNER (moved by js/banner.js) =====
+         The text starts on the right and moves to the left. -->
+    <div id="welcomeBanner" class="bg-warning overflow-hidden py-2 shadow-sm">
+        <p id="welcomeText" class="d-inline-block text-nowrap fw-semibold mb-0"><i class="bi bi-megaphone-fill me-2"></i>Welcome to the Nashaat Gym website!</p>
     </div>
 
-    <!-- main -->
-    <div id="main">
-
-        <div id="banner">
-            <h2>Train smarter in Al Ansab</h2>
-            <p>Check the prices, see the class timetable and know if there is a place
-            for you <strong>before</strong> you leave home. No more travelling to a full class.</p>
-
-            <a class="button" href="plans.html#join">Join Now</a>
+    <!-- ===== FOOTER (same on all pages) ===== -->
+    <!-- the footer.svg picture gives the footer our dark teal colour (#0B5242) -->
+    <footer class="position-relative overflow-hidden bg-success text-light mt-auto pt-5 border-top border-warning border-3" data-bs-theme="dark">
+        <img src="images/footer.svg" alt="" class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+        <div class="container position-relative">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <a class="d-flex align-items-center gap-2 text-decoration-none text-white mb-3" href="index.html">
+                        <img src="images/logo.svg" alt="" width="40" height="40" class="rounded-3" />
+                        <span class="fs-4 fw-bold">NASHAAT</span>
+                    </a>
+                    <p class="text-white-50 small">A friendly neighbourhood gym in Al Ansab, Muscat.
+                    We only keep the information we need for your membership and never share it.</p>
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="#" aria-label="Instagram" data-bs-toggle="tooltip" data-bs-title="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="#" aria-label="WhatsApp" data-bs-toggle="tooltip" data-bs-title="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="mailto:info@nashaat.om" aria-label="Email" data-bs-toggle="tooltip" data-bs-title="Email"><i class="bi bi-envelope"></i></a>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Explore</h2>
+                    <ul class="list-unstyled small d-grid gap-1">
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="plans.html">Plans</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="classes.html">Classes</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="trainers.html">Trainers</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="workout.html">Workouts</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Try</h2>
+                    <ul class="list-unstyled small d-grid gap-1">
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="questionnaire.html">Feedback</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="calculator.html">Cost Calculator</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="funpage.html">Memory Game</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Visit us</h2>
+                    <ul class="list-unstyled small text-white-50 d-grid gap-2">
+                        <li><i class="bi bi-geo-alt text-warning me-2"></i>Al Ansab, Muscat, Sultanate of Oman</li>
+                        <li><i class="bi bi-clock text-warning me-2"></i>Sat &ndash; Thu 6:00 AM &ndash; 11:00 PM, Fri 2:00 &ndash; 10:00 PM</li>
+                        <li><i class="bi bi-telephone text-warning me-2"></i>+968 2400 0000</li>
+                        <li><i class="bi bi-envelope text-warning me-2"></i><a class="link-light" href="mailto:info@nashaat.om">info@nashaat.om</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p class="text-center small text-white-50 border-top border-light border-opacity-25 pt-3 mt-4 mb-0 pb-3">
+                &copy; 2026 Nashaat Gym &ndash; COMP3700 student project, Sultan Qaboos University.
+                The information on this site is general and is not medical advice.
+            </p>
         </div>
+    </footer>
 
-        <h2>Welcome to Nashaat</h2>
+    <!-- back to top button (shown by js/effects.js after scrolling down) -->
+    <button type="button" id="toTop" class="btn btn-warning rounded-circle shadow position-fixed bottom-0 end-0 m-4 z-3 d-none" aria-label="Back to top">
+        <i class="bi bi-arrow-up fs-5"></i>
+    </button>
 
-        <p class="intro">Nashaat (&#1606;&#1588;&#1575;&#1591;) means <em>activity</em> in Arabic.
-        We are a friendly local gym for men and women of all levels. Whether this is your
-        first time in a gym or you have trained for years, our trainers will help you
-        <strong>move</strong>, <strong>track</strong> your progress and <strong>improve</strong>.</p>
-
-        <h2>Why train with us?</h2>
-        <ul class="why">
-            <li><strong>Clear prices</strong> &ndash; every plan is shown in Omani Rial, no hidden fees.</li>
-            <li><strong>Online timetable</strong> &ndash; always up to date, no blurry photos in WhatsApp.</li>
-            <li><strong>Book your place</strong> &ndash; every class has a fixed number of places.</li>
-            <li><strong>Workout library</strong> &ndash; simple guides for beginners.</li>
-            <li><strong>Men-only, women-only and mixed classes</strong> &ndash; clearly labelled.</li>
-        </ul>
-
-        <h2>Membership Plans</h2>
-        <div class="row">
-            <div class="card center">
-                <h3>Monthly</h3>
-                <p class="price">20 OMR</p>
-                <p>Full gym access and all group classes for one month.</p>
-            </div>
-            <div class="card center">
-                <h3>Student</h3>
-                <p class="price">15 OMR</p>
-                <p>Monthly plan for university students (bring your student ID).</p>
-            </div>
-            <div class="card center">
-                <h3>Yearly</h3>
-                <p class="price">180 OMR</p>
-                <p>Best value: 12 months plus 4 personal training sessions.</p>
-            </div>
-        </div>
-
-        <p class="center"><a href="plans.html">Compare all plans &raquo;</a></p>
-
-        <h2>Next Classes</h2>
-        <ol>
-            <li>Saturday 6:00 PM &ndash; <strong>HIIT Burn</strong> with Coach Ahmed
-                <span class="badge">8 places left</span></li>
-            <li>Saturday 8:00 PM &ndash; <strong>Yoga Flow</strong> with Coach Maryam
-                <span class="badge women">Women only</span></li>
-            <li>Sunday 7:00 AM &ndash; <strong>Strength Basics</strong> with Coach Khalid
-                <span class="badge">12 places left</span></li>
-        </ol>
-        <p><a href="classes.html">See the full weekly timetable &raquo;</a></p>
-
-        <h2>Meet Some of Our Trainers</h2>
-        <div class="row">
-            <div class="card center">
-                <img class="round" src="images/trainers/trainer1.svg" alt="Coach Ahmed Al Saadi" width="120" height="120" />
-                <h3>Ahmed Al Saadi</h3>
-                <p>Strength and HIIT</p>
-            </div>
-            <div class="card center">
-                <img class="round" src="images/trainers/trainer2.svg" alt="Coach Maryam Al Kindi" width="120" height="120" />
-                <h3>Maryam Al Kindi</h3>
-                <p>Yoga and Pilates</p>
-            </div>
-            <div class="card center">
-                <img class="round" src="images/trainers/trainer4.svg" alt="Coach Khalid Al Hinai" width="120" height="120" />
-                <h3>Khalid Al Hinai</h3>
-                <p>Personal training</p>
-            </div>
-        </div>
-
-        <h2>Find Us</h2>
-        <div class="row">
-            <div class="card">
-                <h3>Opening Hours</h3>
-
-                <dl>
-                    <dt>Saturday &ndash; Thursday</dt>
-                    <dd>6:00 AM &ndash; 11:00 PM</dd>
-                    <dt>Friday</dt>
-                    <dd>2:00 PM &ndash; 10:00 PM</dd>
-                    <dt>Women-only gym floor</dt>
-                    <dd>Daily 9:00 AM &ndash; 12:00 PM</dd>
-                </dl>
-                <p>Al Ansab, Muscat &ndash; next to the main roundabout.</p>
-            </div>
-
-            <div class="card" id="map-box" style="padding: 8px;">
-                <iframe src="https://www.google.com/maps?q=Al%20Ansab%2C%20Muscat&amp;output=embed"
-                        title="Map of Al Ansab, Muscat"></iframe>
-            </div>
-        </div>
-
-        <p class="note">Did you know? About 38% of people in Oman do not get enough physical
-        activity (Source: <a href="https://applications.emro.who.int/docs/Oman-NCD-IC-v15-eng.pdf">WHO EMRO, 2018</a>).
-        Even two or three short sessions a week make a difference.</p>
-    </div>
-
-    <!-- footer -->
-    <div id="footer">
-        <div class="row">
-
-            <div>
-                <h3>Opening Hours</h3>
-                <ul>
-                    <li>Saturday - Thursday: 6:00 AM - 11:00 PM</li>
-                    <li>Friday: 2:00 PM - 10:00 PM</li>
-                </ul>
-            </div>
-
-            <div>
-                <h3>Contact</h3>
-                <ul>
-                    <li>Al Ansab, Muscat, Sultanate of Oman</li>
-                    <li>Phone: +968 2400 0000</li>
-                    <li>Email: <a href="mailto:info@nashaat.om">info@nashaat.om</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h3>Privacy</h3>
-                <p class="small">We only keep the information we need for your membership.
-                We never share it, and you can ask us to delete it at any time.
-                You can still register and book in person at reception.</p>
-            </div>
-        </div>
-
-        <p class="copy">&copy; 2026 Nashaat Gym &ndash; COMP3700 student project, Sultan Qaboos University.
-        The information on this site is general and is not medical advice.</p>
-    </div>
-
+    <!-- Bootstrap JavaScript (needed for the menu button, carousel, modal, accordion ...) -->
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- our animations (page entrance, scroll reveal, counting numbers ...) -->
+    <script src="js/effects.js"></script>
+    <script src="js/banner.js"></script>
 </body>
 </html>

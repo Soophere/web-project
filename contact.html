@@ -1,172 +1,313 @@
 <!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<!-- Nashaat Gym - COMP3700 Project Part III
+     Page: contact.html - contact details, map and a contact form that sends to our email
+     Styling: Bootstrap 5.3 only (no CSS file, no style tags, no inline styles). -->
+<html lang="en">
 <head>
-
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Contact Nashaat Gym: address, phone, opening hours, map and a contact form." />
     <meta name="keywords" content="gym, fitness, Oman, Muscat, Al Ansab, classes, Nashaat" />
     <meta name="author" content="Sulaiman Nasser, Hazza Albadi, Yazn Alhajri" />
-
     <title>Contact Us | Nashaat Gym</title>
-
     <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
 
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <!-- Bootstrap (a local copy, so the website also works without internet) -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    <!-- Bootstrap Icons (the small pictures like <i class="bi bi-clock"></i>) -->
+    <link rel="stylesheet" href="bootstrap/icons/bootstrap-icons.min.css" />
 
-    <style type="text/css">
-
-        #contact-form {
-            border-top: 5px solid #F2A33C;
-        }
-
-        #map-box iframe {
-            width: 100%;
-            height: 280px;
-            border: 0;
-            border-radius: 10px;
-        }
-    </style>
+    <!-- dark / light mode: use the visitor's last choice before the page is drawn
+         (Bootstrap 5.3 changes all its colours when <html> has data-bs-theme="dark") -->
+    <script>
+        try {
+            if (localStorage.getItem("nashaatTheme") == "dark") {
+                document.documentElement.setAttribute("data-bs-theme", "dark");
+            }
+        } catch (error) { /* storage blocked: stay in light mode */ }
+    </script>
 </head>
 
-<body>
+<!-- d-flex flex-column min-vh-100 keeps the footer at the bottom on short pages -->
+<body class="d-flex flex-column min-vh-100 bg-body-tertiary">
 
-    <!-- header -->
-    <div id="header">
-        <a href="index.html"><img src="images/logo.svg" alt="Nashaat logo: a white dumbbell badge" /></a>
-        <div>
-            <h1>NASHAAT</h1>
-            <p class="tagline">MOVE &bull; TRACK &bull; IMPROVE</p>
-        </div>
-    </div>
+    <!-- for keyboard users: press Tab once and this link appears -->
+    <a class="visually-hidden-focusable btn btn-warning position-absolute top-0 start-0 m-2 z-3" href="#content">Skip to main content</a>
 
-    <!-- menu -->
-    <div id="menu">
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="plans.html">Plans</a></li>
-            <li><a href="classes.html">Classes</a></li>
-            <li><a href="trainers.html">Trainers</a></li>
-            <li><a href="workout.html">Workouts</a></li>
-            <li><a href="dashboard.html">My Account</a></li>
-            <li><a href="contact.html" class="current">Contact Us</a></li>
-        </ul>
-    </div>
-
-    <!-- main -->
-    <div id="main">
-        <h2>Contact Us</h2>
-        <p>We are happy to answer your questions. Visit us, call us, or send a message using the form below.</p>
-
-        <div class="row">
-            <div class="card">
-                <h3>Visit or Call</h3>
-                <dl>
-                    <dt>Address</dt>
-                    <dd>Al Ansab, Muscat, Sultanate of Oman</dd>
-                    <dt>Phone / WhatsApp</dt>
-                    <dd>+968 2400 0000</dd>
-                    <dt>Email</dt>
-                    <dd><a href="mailto:info@nashaat.om">info@nashaat.om</a></dd>
-                    <dt>Opening Hours</dt>
-                    <dd>Saturday &ndash; Thursday: 6:00 AM &ndash; 11:00 PM<br />
-                        Friday: 2:00 PM &ndash; 10:00 PM</dd>
-                </dl>
-            </div>
-            <div class="card" id="map-box">
-                <iframe src="https://www.google.com/maps?q=Al%20Ansab%2C%20Muscat&amp;output=embed"
-                        title="Map of Al Ansab, Muscat"></iframe>
-            </div>
-        </div>
-
-        <form id="contact-form" action="mailto:info@nashaat.om" method="post" enctype="text/plain">
-            <h2 style="margin-top: 0;">Send Us a Message</h2>
-
-            <fieldset>
-                <legend>Your details</legend>
-
-                <label class="field" for="c-name">Full name:</label>
-                <input type="text" id="c-name" name="full_name" size="30" maxlength="60" required="required" />
-
-                <label class="field" for="c-email">Email:</label>
-                <input type="email" id="c-email" name="email" required="required" />
-
-                <label class="field" for="c-phone">Phone (optional):</label>
-                <input type="tel" id="c-phone" name="phone" maxlength="15" />
-
-                <label class="field">How should we reply?</label>
-                <label class="choice"><input type="radio" name="reply_by" value="email" checked="checked" /> Email</label>
-                <label class="choice"><input type="radio" name="reply_by" value="phone" /> Phone call</label>
-                <label class="choice"><input type="radio" name="reply_by" value="whatsapp" /> WhatsApp</label>
-            </fieldset>
-
-            <fieldset>
-                <legend>Your message</legend>
-
-                <label class="field" for="c-subject">Subject:</label>
-                <select id="c-subject" name="subject">
-                    <option value="general" selected="selected">General question</option>
-                    <option value="membership">Membership and prices</option>
-                    <option value="classes">Class booking</option>
-                    <option value="trainers">Personal training</option>
-                    <option value="suggestion">Suggestion</option>
-                    <option value="complaint">Complaint</option>
-                </select>
-
-                <label class="field" for="c-message">Message:</label>
-                <textarea id="c-message" name="message" rows="6" cols="50" required="required"></textarea>
-
-                <label class="field">
-                    <input type="checkbox" name="consent" value="yes" required="required" />
-                    I agree that Nashaat can keep my message to answer it.
-                </label>
-            </fieldset>
-
-            <input type="hidden" name="form_name" value="contact_us" />
-
-            <div class="buttons">
-                <input class="button" type="submit" value="Send Message" />
-                <input type="reset" value="Clear" />
-            </div>
-        </form>
-
-        <p class="small">Prefer to talk in person? You can always visit reception during opening hours.</p>
-    </div>
-
-    <!-- footer -->
-    <div id="footer">
-        <div class="row">
-
-            <div>
-                <h3>Opening Hours</h3>
-                <ul>
-                    <li>Saturday - Thursday: 6:00 AM - 11:00 PM</li>
-                    <li>Friday: 2:00 PM - 10:00 PM</li>
-                </ul>
-            </div>
-
-            <div>
-                <h3>Contact</h3>
-                <ul>
-                    <li>Al Ansab, Muscat, Sultanate of Oman</li>
-                    <li>Phone: +968 2400 0000</li>
-                    <li>Email: <a href="mailto:info@nashaat.om">info@nashaat.om</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h3>Privacy</h3>
-                <p class="small">We only keep the information we need for your membership.
-                We never share it, and you can ask us to delete it at any time.
-                You can still register and book in person at reception.</p>
+    <!-- ===== NAVIGATION BAR (same on all pages) =====
+         navbar-expand-xl: full menu on big screens, a "hamburger" button on small screens -->
+    <nav class="navbar navbar-expand-xl bg-success sticky-top border-bottom border-warning border-3 shadow" data-bs-theme="dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                <img src="images/logo.svg" alt="Nashaat logo" width="36" height="36" class="rounded-3" />
+                <span class="fw-bold">NASHAAT</span>
+            </a>
+            <!-- this button only shows on small screens and slides the menu in from the right -->
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mainMenu"
+                    aria-controls="mainMenu" aria-label="Open the menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Bootstrap OFFCANVAS: a side menu on phones, a normal menu bar on big screens -->
+            <div class="offcanvas offcanvas-end text-bg-success" tabindex="-1" id="mainMenu" aria-labelledby="mainMenuLabel">
+                <div class="offcanvas-header border-bottom border-light border-opacity-25">
+                    <h2 class="offcanvas-title h5 d-flex align-items-center gap-2 mb-0" id="mainMenuLabel">
+                        <img src="images/logo.svg" alt="" width="32" height="32" class="rounded-3" /> NASHAAT
+                    </h2>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body align-items-xl-center">
+                    <ul class="navbar-nav ms-auto small fw-medium">
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="index.html"><i class="bi bi-house me-2 d-xl-none"></i>Home</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="about.html"><i class="bi bi-info-circle me-2 d-xl-none"></i>About</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="plans.html"><i class="bi bi-tags me-2 d-xl-none"></i>Plans</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="classes.html"><i class="bi bi-calendar-week me-2 d-xl-none"></i>Classes</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="trainers.html"><i class="bi bi-people me-2 d-xl-none"></i>Trainers</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="workout.html"><i class="bi bi-lightning-charge me-2 d-xl-none"></i>Workouts</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="questionnaire.html"><i class="bi bi-chat-heart me-2 d-xl-none"></i>Feedback</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="calculator.html"><i class="bi bi-calculator me-2 d-xl-none"></i>Calculator</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="funpage.html"><i class="bi bi-controller me-2 d-xl-none"></i>Fun Game</a></li>
+                        <li class="nav-item"><a class="nav-link active fw-semibold text-warning text-nowrap px-xl-2" aria-current="page" href="contact.html"><i class="bi bi-envelope me-2 d-xl-none"></i>Contact</a></li>
+                    </ul>
+                    <div class="d-flex align-items-center gap-2 ms-xl-3 mt-3 mt-xl-0">
+                        <!-- dark / light mode button (js/effects.js) -->
+                        <button type="button" id="themeToggle" class="btn btn-sm btn-outline-light rounded-circle"
+                                aria-label="Switch between dark and light mode" title="Dark / light mode">
+                            <i class="bi bi-moon-stars-fill"></i>
+                        </button>
+                        <a class="btn btn-warning btn-sm rounded-pill px-3 fw-semibold text-nowrap" href="dashboard.html">
+                            <i class="bi bi-person-circle me-1"></i>My Account</a>
+                    </div>
+                </div>
             </div>
         </div>
+    </nav>
 
-        <p class="copy">&copy; 2026 Nashaat Gym &ndash; COMP3700 student project, Sultan Qaboos University.
-        The information on this site is general and is not medical advice.</p>
-    </div>
+    <!-- ===== PAGE TITLE (dark band with a pattern picture behind the text + 3 quick facts) ===== -->
+    <header class="position-relative overflow-hidden bg-success text-white" data-bs-theme="dark">
+        <img src="images/pattern.svg" alt="" class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+        <div class="container position-relative py-5">
+            <div class="row g-4 align-items-center py-lg-3">
+                <div class="col-lg-7" data-enter="data-enter">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb small mb-3">
+                            <li class="breadcrumb-item"><a class="link-warning" href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Contact Us</li>
+                        </ol>
+                    </nav>
+                    <span class="d-inline-flex bg-warning text-dark rounded-3 p-2 fs-4 lh-1 mb-3 shadow"><i class="bi bi-envelope"></i></span>
+                    <h1 class="display-5 fw-bold mb-2">Contact Us</h1>
+                    <p class="lead text-white-50 mb-0">We are happy to answer your questions. Visit us, call us, or send a message.</p>
+                </div>
+                <div class="col-lg-5">
+                    <div class="row g-2 text-center" data-enter="data-enter">
+                        <div class="col-4">
+                            <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
+                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="1">1</span></p>
+                                <p class="small text-white-50 mb-0 lh-sm">day to reply</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
+                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="7">7</span></p>
+                                <p class="small text-white-50 mb-0 lh-sm">days open</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
+                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="3">3</span></p>
+                                <p class="small text-white-50 mb-0 lh-sm">ways to reach us</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
+    <!-- ===== MAIN CONTENT ===== -->
+    <main id="content" class="container py-5">
+        <div class="row g-4 mb-5">
+            <div class="col-md-5">
+                <div class="card h-100 border-0 shadow-sm rounded-4">
+                    <div class="card-body p-4">
+                        <h2 class="h4 fw-bold">Visit or Call</h2>
+                        <dl class="mb-0">
+                            <dt>Address</dt>
+                            <dd>Al Ansab, Muscat, Sultanate of Oman</dd>
+                            <dt>Phone / WhatsApp</dt>
+                            <dd>+968 2400 0000</dd>
+                            <dt>Email</dt>
+                            <dd><a class="link-success" href="mailto:info@nashaat.om">info@nashaat.om</a></dd>
+                            <dt>Opening Hours</dt>
+                            <dd class="mb-0">Saturday &ndash; Thursday: 6:00 AM &ndash; 11:00 PM<br />
+                                Friday: 2:00 PM &ndash; 10:00 PM</dd>
+                        </dl>
+
+                        <hr class="my-4" />
+
+                        <p class="small text-body-secondary">
+                            <i class="bi bi-reply-all text-success me-2"></i>We answer emails and WhatsApp messages within
+                            one working day. For a lost locker key or a payment question, calling reception is faster.
+                        </p>
+
+                        <div class="d-grid gap-2">
+                            <a class="btn rounded-pill btn-success" href="mailto:info@nashaat.om?subject=Question%20about%20Nashaat%20Gym">
+                                <i class="bi bi-envelope me-1"></i>Email us</a>
+                            <a class="btn rounded-pill btn-outline-success" href="tel:+96824000000">
+                                <i class="bi bi-telephone me-1"></i>Call reception</a>
+                            <a class="btn rounded-pill btn-outline-success" href="https://www.google.com/maps?q=Al%20Ansab%2C%20Muscat" target="_blank" rel="noopener">
+                                <i class="bi bi-geo-alt me-1"></i>Get directions</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="ratio ratio-4x3 rounded-3 overflow-hidden shadow-sm">
+                    <iframe src="https://www.google.com/maps?q=Al%20Ansab%2C%20Muscat&amp;output=embed"
+                            title="Map of Al Ansab, Muscat" class="border-0" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== CONTACT FORM: sends the message to our email (mailto) =====
+             enctype="text/plain" makes the email easy to read -->
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+                <form class="card border-0 shadow-sm rounded-4 overflow-hidden needs-validation" novalidate="novalidate"
+                      action="mailto:info@nashaat.om" method="post" enctype="text/plain">
+                    <div class="card-header bg-success text-white py-3 border-0"><h2 class="h4 mb-0"><i class="bi bi-send me-2"></i>Send Us a Message</h2></div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="cName" class="form-label">Full name</label>
+                                <input type="text" class="form-control rounded-3" id="cName" name="full_name" required="required" minlength="3" maxlength="60" />
+                                <div class="invalid-feedback">Please write your name.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="cEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control rounded-3" id="cEmail" name="email" required="required" />
+                                <div class="invalid-feedback">Please write a correct email.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="cPhone" class="form-label">Phone (optional)</label>
+                                <input type="tel" class="form-control rounded-3" id="cPhone" name="phone" pattern="(\+968)?[279][0-9]{7}" placeholder="9xxxxxxx" />
+                                <div class="invalid-feedback">8 digits, for example 91234567.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="cSubject" class="form-label">Subject</label>
+                                <select class="form-select rounded-3" id="cSubject" name="subject" required="required">
+                                    <option value="">Choose...</option>
+                                    <option value="general">General question</option>
+                                    <option value="membership">Membership and prices</option>
+                                    <option value="classes">Class booking</option>
+                                    <option value="trainers">Personal training</option>
+                                    <option value="suggestion">Suggestion</option>
+                                    <option value="complaint">Complaint</option>
+                                </select>
+                                <div class="invalid-feedback">Please choose a subject.</div>
+                            </div>
+                            <div class="col-12">
+                                <span class="form-label d-block">How should we reply?</span>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="reply_by" id="replyEmail" value="email" checked="checked" />
+                                    <label class="form-check-label" for="replyEmail">Email</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="reply_by" id="replyPhone" value="phone" />
+                                    <label class="form-check-label" for="replyPhone">Phone call</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="reply_by" id="replyWa" value="whatsapp" />
+                                    <label class="form-check-label" for="replyWa">WhatsApp</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label for="cMessage" class="form-label">Message</label>
+                                <textarea class="form-control rounded-3" id="cMessage" name="message" rows="5" required="required" minlength="10"></textarea>
+                                <div class="invalid-feedback">Please write your message (at least 10 characters).</div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="consent" value="yes" id="cConsent" required="required" />
+                                    <label class="form-check-label" for="cConsent">I agree that Nashaat can keep my message to answer it.</label>
+                                    <div class="invalid-feedback">Please tick this box.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="form_name" value="contact_us" />
+                        <button class="btn rounded-pill btn-success mt-3" type="submit">Send Message</button>
+                        <button class="btn rounded-pill btn-outline-secondary mt-3" type="reset">Clear</button>
+                        <p class="small text-secondary mt-3 mb-0">This opens your email program. Prefer to talk in person?
+                        Visit reception during opening hours.</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== FOOTER (same on all pages) ===== -->
+    <!-- the footer.svg picture gives the footer our dark teal colour (#0B5242) -->
+    <footer class="position-relative overflow-hidden bg-success text-light mt-auto pt-5 border-top border-warning border-3" data-bs-theme="dark">
+        <img src="images/footer.svg" alt="" class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+        <div class="container position-relative">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <a class="d-flex align-items-center gap-2 text-decoration-none text-white mb-3" href="index.html">
+                        <img src="images/logo.svg" alt="" width="40" height="40" class="rounded-3" />
+                        <span class="fs-4 fw-bold">NASHAAT</span>
+                    </a>
+                    <p class="text-white-50 small">A friendly neighbourhood gym in Al Ansab, Muscat.
+                    We only keep the information we need for your membership and never share it.</p>
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="#" aria-label="Instagram" data-bs-toggle="tooltip" data-bs-title="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="#" aria-label="WhatsApp" data-bs-toggle="tooltip" data-bs-title="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="mailto:info@nashaat.om" aria-label="Email" data-bs-toggle="tooltip" data-bs-title="Email"><i class="bi bi-envelope"></i></a>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Explore</h2>
+                    <ul class="list-unstyled small d-grid gap-1">
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="plans.html">Plans</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="classes.html">Classes</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="trainers.html">Trainers</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="workout.html">Workouts</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Try</h2>
+                    <ul class="list-unstyled small d-grid gap-1">
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="questionnaire.html">Feedback</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="calculator.html">Cost Calculator</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="funpage.html">Memory Game</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Visit us</h2>
+                    <ul class="list-unstyled small text-white-50 d-grid gap-2">
+                        <li><i class="bi bi-geo-alt text-warning me-2"></i>Al Ansab, Muscat, Sultanate of Oman</li>
+                        <li><i class="bi bi-clock text-warning me-2"></i>Sat &ndash; Thu 6:00 AM &ndash; 11:00 PM, Fri 2:00 &ndash; 10:00 PM</li>
+                        <li><i class="bi bi-telephone text-warning me-2"></i>+968 2400 0000</li>
+                        <li><i class="bi bi-envelope text-warning me-2"></i><a class="link-light" href="mailto:info@nashaat.om">info@nashaat.om</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p class="text-center small text-white-50 border-top border-light border-opacity-25 pt-3 mt-4 mb-0 pb-3">
+                &copy; 2026 Nashaat Gym &ndash; COMP3700 student project, Sultan Qaboos University.
+                The information on this site is general and is not medical advice.
+            </p>
+        </div>
+    </footer>
+
+    <!-- back to top button (shown by js/effects.js after scrolling down) -->
+    <button type="button" id="toTop" class="btn btn-warning rounded-circle shadow position-fixed bottom-0 end-0 m-4 z-3 d-none" aria-label="Back to top">
+        <i class="bi bi-arrow-up fs-5"></i>
+    </button>
+
+    <!-- Bootstrap JavaScript (needed for the menu button, carousel, modal, accordion ...) -->
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- our animations (page entrance, scroll reveal, counting numbers ...) -->
+    <script src="js/effects.js"></script>
+    <script src="js/validation.js"></script>
 </body>
 </html>

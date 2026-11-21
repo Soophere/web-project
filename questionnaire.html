@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<!-- Nashaat Gym - COMP3700 Project Part III
+     Page: questionnaire.html - Questionnaire (feedback) form with JavaScript validation (js/questionnaire.js)
+     Styling: Bootstrap 5.3 only (no CSS file, no style tags, no inline styles). -->
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Nashaat Gym feedback questionnaire: rate your visit and tell us how we can improve." />
+    <meta name="keywords" content="gym, fitness, Oman, Muscat, Al Ansab, classes, Nashaat" />
+    <meta name="author" content="Sulaiman Nasser, Hazza Albadi, Yazn Alhajri" />
+    <title>Feedback | Nashaat Gym</title>
+    <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
+
+    <!-- Bootstrap (a local copy, so the website also works without internet) -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    <!-- Bootstrap Icons (the small pictures like <i class="bi bi-clock"></i>) -->
+    <link rel="stylesheet" href="bootstrap/icons/bootstrap-icons.min.css" />
+
+    <!-- dark / light mode: use the visitor's last choice before the page is drawn
+         (Bootstrap 5.3 changes all its colours when <html> has data-bs-theme="dark") -->
+    <script>
+        try {
+            if (localStorage.getItem("nashaatTheme") == "dark") {
+                document.documentElement.setAttribute("data-bs-theme", "dark");
+            }
+        } catch (error) { /* storage blocked: stay in light mode */ }
+    </script>
+</head>
+
+<!-- d-flex flex-column min-vh-100 keeps the footer at the bottom on short pages -->
+<body class="d-flex flex-column min-vh-100 bg-body-tertiary">
+
+    <!-- for keyboard users: press Tab once and this link appears -->
+    <a class="visually-hidden-focusable btn btn-warning position-absolute top-0 start-0 m-2 z-3" href="#content">Skip to main content</a>
+
+    <!-- ===== NAVIGATION BAR (same on all pages) =====
+         navbar-expand-xl: full menu on big screens, a "hamburger" button on small screens -->
+    <nav class="navbar navbar-expand-xl bg-success sticky-top border-bottom border-warning border-3 shadow" data-bs-theme="dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                <img src="images/logo.svg" alt="Nashaat logo" width="36" height="36" class="rounded-3" />
+                <span class="fw-bold">NASHAAT</span>
+            </a>
+            <!-- this button only shows on small screens and slides the menu in from the right -->
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mainMenu"
+                    aria-controls="mainMenu" aria-label="Open the menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Bootstrap OFFCANVAS: a side menu on phones, a normal menu bar on big screens -->
+            <div class="offcanvas offcanvas-end text-bg-success" tabindex="-1" id="mainMenu" aria-labelledby="mainMenuLabel">
+                <div class="offcanvas-header border-bottom border-light border-opacity-25">
+                    <h2 class="offcanvas-title h5 d-flex align-items-center gap-2 mb-0" id="mainMenuLabel">
+                        <img src="images/logo.svg" alt="" width="32" height="32" class="rounded-3" /> NASHAAT
+                    </h2>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body align-items-xl-center">
+                    <ul class="navbar-nav ms-auto small fw-medium">
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="index.html"><i class="bi bi-house me-2 d-xl-none"></i>Home</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="about.html"><i class="bi bi-info-circle me-2 d-xl-none"></i>About</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="plans.html"><i class="bi bi-tags me-2 d-xl-none"></i>Plans</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="classes.html"><i class="bi bi-calendar-week me-2 d-xl-none"></i>Classes</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="trainers.html"><i class="bi bi-people me-2 d-xl-none"></i>Trainers</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="workout.html"><i class="bi bi-lightning-charge me-2 d-xl-none"></i>Workouts</a></li>
+                        <li class="nav-item"><a class="nav-link active fw-semibold text-warning text-nowrap px-xl-2" aria-current="page" href="questionnaire.html"><i class="bi bi-chat-heart me-2 d-xl-none"></i>Feedback</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="calculator.html"><i class="bi bi-calculator me-2 d-xl-none"></i>Calculator</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="funpage.html"><i class="bi bi-controller me-2 d-xl-none"></i>Fun Game</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="contact.html"><i class="bi bi-envelope me-2 d-xl-none"></i>Contact</a></li>
+                    </ul>
+                    <div class="d-flex align-items-center gap-2 ms-xl-3 mt-3 mt-xl-0">
+                        <!-- dark / light mode button (js/effects.js) -->
+                        <button type="button" id="themeToggle" class="btn btn-sm btn-outline-light rounded-circle"
+                                aria-label="Switch between dark and light mode" title="Dark / light mode">
+                            <i class="bi bi-moon-stars-fill"></i>
+                        </button>
+                        <a class="btn btn-warning btn-sm rounded-pill px-3 fw-semibold text-nowrap" href="dashboard.html">
+                            <i class="bi bi-person-circle me-1"></i>My Account</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== PAGE TITLE (dark band with a pattern picture behind the text + 3 quick facts) ===== -->
+    <header class="position-relative overflow-hidden bg-success text-white" data-bs-theme="dark">
+        <img src="images/pattern.svg" alt="" class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+        <div class="container position-relative py-5">
+            <div class="row g-4 align-items-center py-lg-3">
+                <div class="col-lg-7" data-enter="data-enter">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb small mb-3">
+                            <li class="breadcrumb-item"><a class="link-warning" href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Feedback</li>
+                        </ol>
+                    </nav>
+                    <span class="d-inline-flex bg-warning text-dark rounded-3 p-2 fs-4 lh-1 mb-3 shadow"><i class="bi bi-chat-heart"></i></span>
+                    <h1 class="display-5 fw-bold mb-2">Tell Us What You Think</h1>
+                    <p class="lead text-white-50 mb-0">Your feedback helps us improve Nashaat. It takes about 2 minutes.</p>
+                </div>
+                <div class="col-lg-5">
+                    <div class="row g-2 text-center" data-enter="data-enter">
+                        <div class="col-4">
+                            <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
+                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="2">2</span></p>
+                                <p class="small text-white-50 mb-0 lh-sm">minutes</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
+                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="10">10</span></p>
+                                <p class="small text-white-50 mb-0 lh-sm">questions</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
+                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="100" data-suffix="%">100%</span></p>
+                                <p class="small text-white-50 mb-0 lh-sm">private</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main id="content" class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-9 col-xl-8">
+
+                <!-- red message shown by JavaScript when something is wrong -->
+                <div id="formError" class="alert border-0 shadow-sm rounded-4 alert-danger d-none" role="alert">
+                    Some answers need fixing. Look for the red boxes below.
+                </div>
+
+                <!-- novalidate: we check the form with our own JavaScript (js/questionnaire.js) -->
+                <form id="feedbackForm" class="card border-0 shadow-sm rounded-4 overflow-hidden" novalidate="novalidate">
+                    <div class="card-body p-4">
+
+                        <!-- ===== Part 1: about you ===== -->
+                        <h2 class="h6 fw-bold text-uppercase text-body-secondary border-bottom pb-2 mb-3">1. About you</h2>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label for="fbName" class="form-label">Full name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control rounded-3" id="fbName" placeholder="e.g. Salim Al Habsi" />
+                                <div class="invalid-feedback" id="nameError"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="fbEmail" class="form-label">Email <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control rounded-3" id="fbEmail" placeholder="name@example.com" />
+                                <div class="invalid-feedback" id="emailError"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="fbPhone" class="form-label">Mobile number <span class="text-danger">*</span></label>
+                                <input type="tel" class="form-control rounded-3" id="fbPhone" placeholder="9xxxxxxx or +9689xxxxxxx" />
+                                <div class="invalid-feedback" id="phoneError"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="fbMember" class="form-label">Membership number <span class="text-secondary small">(optional)</span></label>
+                                <input type="text" class="form-control rounded-3 text-uppercase" id="fbMember" placeholder="NSH-1024" />
+                                <div class="invalid-feedback" id="memberError"></div>
+                            </div>
+                        </div>
+
+                        <!-- ===== Part 2: your visit ===== -->
+                        <h2 class="h6 fw-bold text-uppercase text-body-secondary border-bottom pb-2 mb-3">2. Your visit</h2>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label for="fbDate" class="form-label">Date of your last visit <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control rounded-3" id="fbDate" min="2024-01-01" />
+                                <div class="invalid-feedback" id="dateError"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="fbVisits" class="form-label">How often do you train with us?</label>
+                                <select class="form-select rounded-3" id="fbVisits">
+                                    <option>First visit</option>
+                                    <option>Once a week</option>
+                                    <option selected="selected">2 &ndash; 3 times a week</option>
+                                    <option>4 or more times a week</option>
+                                </select>
+                            </div>
+
+                            <div class="col-12">
+                                <span class="form-label d-block">How do you rate Nashaat overall? <span class="text-danger">*</span></span>
+                                <!-- radio buttons that look like buttons (Bootstrap "btn-check") -->
+                                <div class="btn-group flex-wrap" role="group" id="ratingGroup" aria-label="Rating from 1 to 5">
+                                <input type="radio" class="btn-check" name="rating" id="rate1" value="1" autocomplete="off" />
+                                <label class="btn btn-outline-warning" for="rate1">1 &#9733;<span class="d-none d-sm-inline"> Poor</span></label>
+                                <input type="radio" class="btn-check" name="rating" id="rate2" value="2" autocomplete="off" />
+                                <label class="btn btn-outline-warning" for="rate2">2 &#9733;<span class="d-none d-sm-inline"> Fair</span></label>
+                                <input type="radio" class="btn-check" name="rating" id="rate3" value="3" autocomplete="off" />
+                                <label class="btn btn-outline-warning" for="rate3">3 &#9733;<span class="d-none d-sm-inline"> Good</span></label>
+                                <input type="radio" class="btn-check" name="rating" id="rate4" value="4" autocomplete="off" />
+                                <label class="btn btn-outline-warning" for="rate4">4 &#9733;<span class="d-none d-sm-inline"> Very good</span></label>
+                                <input type="radio" class="btn-check" name="rating" id="rate5" value="5" autocomplete="off" />
+                                <label class="btn btn-outline-warning" for="rate5">5 &#9733;<span class="d-none d-sm-inline"> Excellent</span></label>
+                                </div>
+                                <div class="invalid-feedback" id="ratingError"></div>
+                            </div>
+
+                            <div class="col-12">
+                                <span class="form-label d-block">What did you like? (tick one or more) <span class="text-danger">*</span></span>
+                                <div class="row g-1" id="likedGroup">
+                                <div class="col-6 col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="liked" value="Trainers" id="likeTrainers" />
+                                        <label class="form-check-label" for="likeTrainers">Trainers</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="liked" value="Classes" id="likeClasses" />
+                                        <label class="form-check-label" for="likeClasses">Classes</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="liked" value="Equipment" id="likeEquipment" />
+                                        <label class="form-check-label" for="likeEquipment">Equipment</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="liked" value="Cleanliness" id="likeClean" />
+                                        <label class="form-check-label" for="likeClean">Cleanliness</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="liked" value="Prices" id="likePrices" />
+                                        <label class="form-check-label" for="likePrices">Prices</label>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="liked" value="Website" id="likeWebsite" />
+                                        <label class="form-check-label" for="likeWebsite">Website</label>
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="invalid-feedback" id="likedError"></div>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="fbRecommend" class="form-label">
+                                    How likely are you to recommend us to a friend?
+                                    <span class="badge text-bg-success" id="recommendValue">8</span>
+                                </label>
+                                <input type="range" class="form-range" id="fbRecommend" min="0" max="10" value="8" />
+                                <div class="d-flex justify-content-between small text-secondary">
+                                    <span>0 = not at all</span><span>10 = for sure</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== Part 3: comment ===== -->
+                        <h2 class="h6 fw-bold text-uppercase text-body-secondary border-bottom pb-2 mb-3">3. Your comment</h2>
+                        <div class="mb-4">
+                            <label for="fbComment" class="form-label">What can we do better? <span class="text-danger">*</span></label>
+                            <textarea class="form-control rounded-3" id="fbComment" rows="4" maxlength="500"
+                                      placeholder="At least 15 characters, no web links please"></textarea>
+                            <div class="invalid-feedback" id="commentError"></div>
+                            <div class="form-text text-end" id="charCount">0 / 500</div>
+                        </div>
+
+                        <div class="form-check form-switch mb-4">
+                            <input class="form-check-input" type="checkbox" role="switch" id="fbContact" checked="checked" />
+                            <label class="form-check-label" for="fbContact">You can contact me about my feedback</label>
+                        </div>
+
+                        <div class="d-flex flex-wrap gap-2">
+                            <button type="submit" class="btn rounded-pill btn-success btn-lg px-4">Send Feedback</button>
+                            <button type="reset" class="btn rounded-pill btn-outline-secondary btn-lg">Clear</button>
+                        </div>
+                        <p class="small text-secondary mt-3 mb-0"><span class="text-danger">*</span> required</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- ===== Bootstrap MODAL: the thank-you pop-up (opened by JavaScript) ===== -->
+        <div class="modal fade" id="thanksModal" tabindex="-1" aria-labelledby="thanksTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-success text-white border-bottom border-warning border-3">
+                        <h2 class="modal-title h5" id="thanksTitle">Thank you, <span id="modalName"></span>!</h2>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="fs-3 text-warning mb-1" id="modalStars"></p>
+                        <p class="fw-semibold" id="modalReply"></p>
+                        <ul class="list-group list-group-flush small">
+                            <li class="list-group-item px-0"><strong>You train:</strong> <span id="modalVisits"></span></li>
+                            <li class="list-group-item px-0"><strong>You liked:</strong> <span id="modalLiked"></span></li>
+                            <li class="list-group-item px-0"><strong>Recommend us:</strong> <span id="modalRecommend"></span></li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="index.html" class="btn rounded-pill btn-outline-success">Back to Home</a>
+                        <button type="button" class="btn rounded-pill btn-success" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== FOOTER (same on all pages) ===== -->
+    <!-- the footer.svg picture gives the footer our dark teal colour (#0B5242) -->
+    <footer class="position-relative overflow-hidden bg-success text-light mt-auto pt-5 border-top border-warning border-3" data-bs-theme="dark">
+        <img src="images/footer.svg" alt="" class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+        <div class="container position-relative">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <a class="d-flex align-items-center gap-2 text-decoration-none text-white mb-3" href="index.html">
+                        <img src="images/logo.svg" alt="" width="40" height="40" class="rounded-3" />
+                        <span class="fs-4 fw-bold">NASHAAT</span>
+                    </a>
+                    <p class="text-white-50 small">A friendly neighbourhood gym in Al Ansab, Muscat.
+                    We only keep the information we need for your membership and never share it.</p>
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="#" aria-label="Instagram" data-bs-toggle="tooltip" data-bs-title="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="#" aria-label="WhatsApp" data-bs-toggle="tooltip" data-bs-title="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="mailto:info@nashaat.om" aria-label="Email" data-bs-toggle="tooltip" data-bs-title="Email"><i class="bi bi-envelope"></i></a>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Explore</h2>
+                    <ul class="list-unstyled small d-grid gap-1">
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="plans.html">Plans</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="classes.html">Classes</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="trainers.html">Trainers</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="workout.html">Workouts</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Try</h2>
+                    <ul class="list-unstyled small d-grid gap-1">
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="questionnaire.html">Feedback</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="calculator.html">Cost Calculator</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="funpage.html">Memory Game</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Visit us</h2>
+                    <ul class="list-unstyled small text-white-50 d-grid gap-2">
+                        <li><i class="bi bi-geo-alt text-warning me-2"></i>Al Ansab, Muscat, Sultanate of Oman</li>
+                        <li><i class="bi bi-clock text-warning me-2"></i>Sat &ndash; Thu 6:00 AM &ndash; 11:00 PM, Fri 2:00 &ndash; 10:00 PM</li>
+                        <li><i class="bi bi-telephone text-warning me-2"></i>+968 2400 0000</li>
+                        <li><i class="bi bi-envelope text-warning me-2"></i><a class="link-light" href="mailto:info@nashaat.om">info@nashaat.om</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p class="text-center small text-white-50 border-top border-light border-opacity-25 pt-3 mt-4 mb-0 pb-3">
+                &copy; 2026 Nashaat Gym &ndash; COMP3700 student project, Sultan Qaboos University.
+                The information on this site is general and is not medical advice.
+            </p>
+        </div>
+    </footer>
+
+    <!-- back to top button (shown by js/effects.js after scrolling down) -->
+    <button type="button" id="toTop" class="btn btn-warning rounded-circle shadow position-fixed bottom-0 end-0 m-4 z-3 d-none" aria-label="Back to top">
+        <i class="bi bi-arrow-up fs-5"></i>
+    </button>
+
+    <!-- Bootstrap JavaScript (needed for the menu button, carousel, modal, accordion ...) -->
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- our animations (page entrance, scroll reveal, counting numbers ...) -->
+    <script src="js/effects.js"></script>
+    <script src="js/questionnaire.js"></script>
+</body>
+</html>
