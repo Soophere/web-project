@@ -3,9 +3,9 @@
 COMP3700 Project Part III. A website for the Nashaat gym in Al Ansab, Muscat,
 styled only with Bootstrap 5 and made interactive with our own JavaScript.
 
-Website: https://nashaat-gym.netlify.app/
-GitHub Pages: https://soophere.github.io/web-project/
+Website: https://soophere.github.io/web-project/
 GitHub: https://github.com/hazza-albadi/web-project
+Mirror: https://nashaat-gym.netlify.app/
 
 Team (Section 01):
 - Sulaiman Nasser (144524)
