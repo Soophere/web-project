@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<!-- Nashaat Gym - COMP3700 Project Part III
+     Page: funpage.html - Gym Memory Match game (js/funpage.js)
+     Styling: Bootstrap 5.3 only (no CSS file, no style tags, no inline styles). -->
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Play the Nashaat Gym Memory Match game: turn the cards and match every exercise with the muscle group it trains." />
+    <meta name="keywords" content="gym, fitness, Oman, Muscat, Al Ansab, classes, Nashaat" />
+    <meta name="author" content="Sulaiman Nasser, Hazza Albadi, Yazn Alhajri" />
+    <title>Gym Memory Match | Nashaat Gym</title>
+    <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
+
+    <!-- Bootstrap (a local copy, so the website also works without internet) -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    <!-- Bootstrap Icons (the small pictures like <i class="bi bi-clock"></i>) -->
+    <link rel="stylesheet" href="bootstrap/icons/bootstrap-icons.min.css" />
+
+    <!-- dark / light mode: use the visitor's last choice before the page is drawn
+         (Bootstrap 5.3 changes all its colours when <html> has data-bs-theme="dark") -->
+    <script>
+        try {
+            if (localStorage.getItem("nashaatTheme") == "dark") {
+                document.documentElement.setAttribute("data-bs-theme", "dark");
+            }
+        } catch (error) { /* storage blocked: stay in light mode */ }
+    </script>
+</head>
+
+<!-- d-flex flex-column min-vh-100 keeps the footer at the bottom on short pages -->
+<body class="d-flex flex-column min-vh-100 bg-body-tertiary">
+
+    <!-- for keyboard users: press Tab once and this link appears -->
+    <a class="visually-hidden-focusable btn btn-warning position-absolute top-0 start-0 m-2 z-3" href="#content">Skip to main content</a>
+
+    <!-- ===== NAVIGATION BAR (same on all pages) =====
+         navbar-expand-xl: full menu on big screens, a "hamburger" button on small screens -->
+    <nav class="navbar navbar-expand-xl bg-success sticky-top border-bottom border-warning border-3 shadow" data-bs-theme="dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                <img src="images/logo.svg" alt="Nashaat logo" width="36" height="36" class="rounded-3" />
+                <span class="fw-bold">NASHAAT</span>
+            </a>
+            <!-- this button only shows on small screens and slides the menu in from the right -->
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mainMenu"
+                    aria-controls="mainMenu" aria-label="Open the menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Bootstrap OFFCANVAS: a side menu on phones, a normal menu bar on big screens -->
+            <div class="offcanvas offcanvas-end text-bg-success" tabindex="-1" id="mainMenu" aria-labelledby="mainMenuLabel">
+                <div class="offcanvas-header border-bottom border-light border-opacity-25">
+                    <h2 class="offcanvas-title h5 d-flex align-items-center gap-2 mb-0" id="mainMenuLabel">
+                        <img src="images/logo.svg" alt="" width="32" height="32" class="rounded-3" /> NASHAAT
+                    </h2>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body align-items-xl-center">
+                    <ul class="navbar-nav ms-auto small fw-medium">
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="index.html"><i class="bi bi-house me-2 d-xl-none"></i>Home</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="about.html"><i class="bi bi-info-circle me-2 d-xl-none"></i>About</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="plans.html"><i class="bi bi-tags me-2 d-xl-none"></i>Plans</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="classes.html"><i class="bi bi-calendar-week me-2 d-xl-none"></i>Classes</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="trainers.html"><i class="bi bi-people me-2 d-xl-none"></i>Trainers</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="workout.html"><i class="bi bi-lightning-charge me-2 d-xl-none"></i>Workouts</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="questionnaire.html"><i class="bi bi-chat-heart me-2 d-xl-none"></i>Feedback</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="calculator.html"><i class="bi bi-calculator me-2 d-xl-none"></i>Calculator</a></li>
+                        <li class="nav-item"><a class="nav-link active fw-semibold text-warning text-nowrap px-xl-2" aria-current="page" href="funpage.html"><i class="bi bi-controller me-2 d-xl-none"></i>Fun Game</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="contact.html"><i class="bi bi-envelope me-2 d-xl-none"></i>Contact</a></li>
+                    </ul>
+                    <div class="d-flex align-items-center gap-2 ms-xl-3 mt-3 mt-xl-0">
+                        <!-- dark / light mode button (js/effects.js) -->
+                        <button type="button" id="themeToggle" class="btn btn-sm btn-outline-light rounded-circle"
+                                aria-label="Switch between dark and light mode" title="Dark / light mode">
+                            <i class="bi bi-moon-stars-fill"></i>
+                        </button>
+                        <a class="btn btn-warning btn-sm rounded-pill px-3 fw-semibold text-nowrap" href="dashboard.html">
+                            <i class="bi bi-person-circle me-1"></i>My Account</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== PAGE TITLE (dark band with a pattern picture behind the text + 3 quick facts) ===== -->
+    <header class="position-relative overflow-hidden bg-success text-white" data-bs-theme="dark">
+        <img src="images/pattern.svg" alt="" class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+        <div class="container position-relative py-5">
+            <div class="row g-4 align-items-center py-lg-3">
+                <div class="col-lg-7" data-enter="data-enter">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb small mb-3">
+                            <li class="breadcrumb-item"><a class="link-warning" href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Fun Game</li>
+                        </ol>
+                    </nav>
+                    <span class="d-inline-flex bg-warning text-dark rounded-3 p-2 fs-4 lh-1 mb-3 shadow"><i class="bi bi-controller"></i></span>
+                    <h1 class="display-5 fw-bold mb-2">Gym Memory Match</h1>
+                    <p class="lead text-white-50 mb-0">Turn two cards at a time and match every exercise with the muscle group it trains.</p>
+                </div>
+                <div class="col-lg-5">
+                    <div class="row g-2 text-center" data-enter="data-enter">
+                        <div class="col-4">
+                            <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
+                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="12">12</span></p>
+                                <p class="small text-white-50 mb-0 lh-sm">cards</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
+                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="6">6</span></p>
+                                <p class="small text-white-50 mb-0 lh-sm">pairs to find</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
+                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="3">3</span></p>
+                                <p class="small text-white-50 mb-0 lh-sm">free peeks</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main id="content" class="container py-5">
+        <div class="row g-4">
+
+            <!-- ===== LEFT: the game board. The 12 cards are made by js/funpage.js ===== -->
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                    <div class="card-header bg-success text-white py-3 border-0 d-flex flex-wrap gap-2 justify-content-between align-items-center">
+                        <span class="fw-semibold"><i class="bi bi-grid-3x3-gap me-2"></i>Find the 6 pairs</span>
+                        <span class="badge text-bg-warning rounded-pill fs-6 px-3" id="matchedBadge">0 / 6 pairs</span>
+                    </div>
+                    <div class="card-body p-3 p-md-4">
+                        <!-- the board is EMPTY in the HTML; JavaScript puts the cards inside -->
+                        <div class="row g-3" id="board" aria-live="polite">
+                            <!-- cards are added here by js/funpage.js -->
+                        </div>
+
+                        <!-- a short message under the board (e.g. "Good match!") -->
+                        <div id="gameMessage" class="alert border-0 shadow-sm rounded-4 alert-info mt-4 mb-0" role="status">
+                            Press any card to start. The timer starts with your first card.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== RIGHT: score + buttons + how to play ===== -->
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm rounded-4 mb-4">
+                    <div class="card-header bg-warning py-3 border-0 fw-semibold"><i class="bi bi-stopwatch me-2"></i>Your game</div>
+                    <div class="card-body">
+                        <div class="row g-3 text-center mb-3">
+                            <div class="col-4">
+                                <p class="text-body-secondary small mb-1">Moves</p>
+                                <p class="fs-2 fw-bold text-success mb-0" id="movesCount">0</p>
+                            </div>
+                            <div class="col-4">
+                                <p class="text-body-secondary small mb-1">Time</p>
+                                <p class="fs-2 fw-bold text-success mb-0" id="timeCount">0:00</p>
+                            </div>
+                            <div class="col-4">
+                                <p class="text-body-secondary small mb-1">Peeks</p>
+                                <p class="fs-2 fw-bold text-success mb-0" id="peekCount">3</p>
+                            </div>
+                        </div>
+                        <p class="text-body-secondary small mb-2">
+                            <i class="bi bi-trophy text-warning me-1"></i>Your best: <span id="bestScore">no game finished yet</span>
+                        </p>
+                        <div class="d-grid gap-2">
+                            <button type="button" id="restartBtn" class="btn rounded-pill btn-success">
+                                <i class="bi bi-arrow-repeat me-1"></i>New game</button>
+                            <button type="button" id="peekBtn" class="btn rounded-pill btn-outline-success">
+                                <i class="bi bi-eye me-1"></i>Peek for 2 seconds</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm rounded-4">
+                    <div class="card-header bg-success-subtle py-3 border-0 fw-semibold"><i class="bi bi-info-circle me-2"></i>How to play</div>
+                    <div class="card-body small">
+                        <ol class="mb-3 ps-3">
+                            <li>Every exercise card hides its muscle group somewhere on the board.</li>
+                            <li>Press two cards. The same pair stays open and turns orange.</li>
+                            <li>Different cards close again after one second, and that costs you one move.</li>
+                            <li>Find all 6 pairs with as few moves as you can.</li>
+                        </ol>
+                        <p class="mb-0 text-secondary">
+                            You get 3 free peeks: they show the whole board for two seconds.
+                            The card order is random, so every game is new.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- a small card bank so the game also teaches the exercises -->
+        <section class="mt-5">
+            <h2 class="h3 fw-bold border-start border-warning border-4 ps-3 mb-3">The exercises in the game</h2>
+            <div class="row g-3">
+                <div class="col-6 col-lg-2">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 text-center py-3">
+                        <img src="images/exercises/ex-squat.svg" alt="" width="64" height="64" class="mx-auto" />
+                        <p class="small fw-semibold mb-0 mt-2">Squat<br /><span class="text-body-secondary fw-normal">Legs</span></p>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 text-center py-3">
+                        <img src="images/exercises/ex-pushup.svg" alt="" width="64" height="64" class="mx-auto" />
+                        <p class="small fw-semibold mb-0 mt-2">Push-up<br /><span class="text-body-secondary fw-normal">Chest</span></p>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 text-center py-3">
+                        <img src="images/exercises/ex-row.svg" alt="" width="64" height="64" class="mx-auto" />
+                        <p class="small fw-semibold mb-0 mt-2">Dumbbell Row<br /><span class="text-body-secondary fw-normal">Back</span></p>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 text-center py-3">
+                        <img src="images/exercises/ex-plank.svg" alt="" width="64" height="64" class="mx-auto" />
+                        <p class="small fw-semibold mb-0 mt-2">Plank<br /><span class="text-body-secondary fw-normal">Core</span></p>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 text-center py-3">
+                        <img src="images/exercises/ex-press.svg" alt="" width="64" height="64" class="mx-auto" />
+                        <p class="small fw-semibold mb-0 mt-2">Shoulder Press<br /><span class="text-body-secondary fw-normal">Shoulders</span></p>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 text-center py-3">
+                        <img src="images/exercises/ex-curl.svg" alt="" width="64" height="64" class="mx-auto" />
+                        <p class="small fw-semibold mb-0 mt-2">Biceps Curl<br /><span class="text-body-secondary fw-normal">Arms</span></p>
+                    </div>
+                </div>
+            </div>
+            <p class="small text-body-secondary mt-3 mb-0">Want the steps and the safety notes for these exercises?
+                They are in our <a href="workout.html" class="link-success fw-semibold">workout library</a>.</p>
+        </section>
+    </main>
+
+    <!-- ===== WIN POP-UP: a Bootstrap MODAL, filled and opened by js/funpage.js ===== -->
+    <div class="modal fade" id="winModal" tabindex="-1" aria-labelledby="winTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow rounded-4">
+                <div class="modal-header bg-success text-white border-0 rounded-top-4">
+                    <h2 class="modal-title h5 fw-bold" id="winTitle"><i class="bi bi-trophy-fill text-warning me-2"></i>Well done!</h2>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <p class="display-4 mb-1" id="winStars"></p>
+                    <p class="fs-5 fw-semibold mb-1" id="winText"></p>
+                    <p class="text-body-secondary mb-0" id="winDetails"></p>
+                    <p class="small text-success mt-3 mb-0 d-none" id="winBest"><i class="bi bi-star-fill me-1"></i>This is your best game so far!</p>
+                </div>
+                <div class="modal-footer border-0 justify-content-center pb-4">
+                    <button type="button" class="btn rounded-pill btn-success px-4" id="playAgainBtn">
+                        <i class="bi bi-arrow-repeat me-1"></i>Play again</button>
+                    <a href="plans.html#join" class="btn rounded-pill btn-outline-success px-4">Join the gym</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER (same on all pages) ===== -->
+    <!-- the footer.svg picture gives the footer our dark teal colour (#0B5242) -->
+    <footer class="position-relative overflow-hidden bg-success text-light mt-auto pt-5 border-top border-warning border-3" data-bs-theme="dark">
+        <img src="images/footer.svg" alt="" class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+        <div class="container position-relative">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <a class="d-flex align-items-center gap-2 text-decoration-none text-white mb-3" href="index.html">
+                        <img src="images/logo.svg" alt="" width="40" height="40" class="rounded-3" />
+                        <span class="fs-4 fw-bold">NASHAAT</span>
+                    </a>
+                    <p class="text-white-50 small">A friendly neighbourhood gym in Al Ansab, Muscat.
+                    We only keep the information we need for your membership and never share it.</p>
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="#" aria-label="Instagram" data-bs-toggle="tooltip" data-bs-title="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="#" aria-label="WhatsApp" data-bs-toggle="tooltip" data-bs-title="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="mailto:info@nashaat.om" aria-label="Email" data-bs-toggle="tooltip" data-bs-title="Email"><i class="bi bi-envelope"></i></a>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Explore</h2>
+                    <ul class="list-unstyled small d-grid gap-1">
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="plans.html">Plans</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="classes.html">Classes</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="trainers.html">Trainers</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="workout.html">Workouts</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Try</h2>
+                    <ul class="list-unstyled small d-grid gap-1">
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="questionnaire.html">Feedback</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="calculator.html">Cost Calculator</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="funpage.html">Memory Game</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Visit us</h2>
+                    <ul class="list-unstyled small text-white-50 d-grid gap-2">
+                        <li><i class="bi bi-geo-alt text-warning me-2"></i>Al Ansab, Muscat, Sultanate of Oman</li>
+                        <li><i class="bi bi-clock text-warning me-2"></i>Sat &ndash; Thu 6:00 AM &ndash; 11:00 PM, Fri 2:00 &ndash; 10:00 PM</li>
+                        <li><i class="bi bi-telephone text-warning me-2"></i>+968 2400 0000</li>
+                        <li><i class="bi bi-envelope text-warning me-2"></i><a class="link-light" href="mailto:info@nashaat.om">info@nashaat.om</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p class="text-center small text-white-50 border-top border-light border-opacity-25 pt-3 mt-4 mb-0 pb-3">
+                &copy; 2026 Nashaat Gym &ndash; COMP3700 student project, Sultan Qaboos University.
+                The information on this site is general and is not medical advice.
+            </p>
+        </div>
+    </footer>
+
+    <!-- back to top button (shown by js/effects.js after scrolling down) -->
+    <button type="button" id="toTop" class="btn btn-warning rounded-circle shadow position-fixed bottom-0 end-0 m-4 z-3 d-none" aria-label="Back to top">
+        <i class="bi bi-arrow-up fs-5"></i>
+    </button>
+
+    <!-- Bootstrap JavaScript (needed for the menu button, carousel, modal, accordion ...) -->
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- our animations (page entrance, scroll reveal, counting numbers ...) -->
+    <script src="js/effects.js"></script>
+    <script src="js/funpage.js"></script>
+</body>
+</html>
