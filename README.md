@@ -3,9 +3,9 @@
 COMP3700 Project Part III. A website for the Nashaat gym in Al Ansab, Muscat,
 styled only with Bootstrap 5 and made interactive with our own JavaScript.
 
-Website: https://nashaat-gym.netlify.app/
-GitHub Pages: https://soophere.github.io/web-project/
+Website: https://soophere.github.io/web-project/
 GitHub: https://github.com/hazza-albadi/web-project
+Mirror: https://nashaat-gym.netlify.app/
 
 Team (Section 01):
 - Sulaiman Nasser (144524)
@@ -37,6 +37,7 @@ Team (Section 01):
 - js/funpage.js - memory game
 - js/banner.js - moving welcome banner with the date and time, welcome toast
 - js/workout.js - muscle group filter in the workout library
+- js/dashboard.js - login message, workout log, progress pop-up
 - js/effects.js - animations, back-to-top button, tooltips, dark / light mode
 - images/ - logo, slideshow, trainer, exercise and facility pictures
 - docs/ - our Part I report and the page screenshots
