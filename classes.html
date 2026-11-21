@@ -1,82 +1,147 @@
 <!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<!-- Nashaat Gym - COMP3700 Project Part III
+     Page: classes.html - timetable made with JavaScript (js/classes.js), add + search forms, booking form
+     Styling: Bootstrap 5.3 only (no CSS file, no style tags, no inline styles). -->
+<html lang="en">
 <head>
-
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Weekly class timetable at Nashaat Gym with places left, and the class booking form." />
+    <meta name="description" content="Weekly class timetable at Nashaat Gym with places left, search, and the class booking form." />
     <meta name="keywords" content="gym, fitness, Oman, Muscat, Al Ansab, classes, Nashaat" />
     <meta name="author" content="Sulaiman Nasser, Hazza Albadi, Yazn Alhajri" />
-
     <title>Class Timetable | Nashaat Gym</title>
-
     <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
 
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <!-- Bootstrap (a local copy, so the website also works without internet) -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    <!-- Bootstrap Icons (the small pictures like <i class="bi bi-clock"></i>) -->
+    <link rel="stylesheet" href="bootstrap/icons/bootstrap-icons.min.css" />
 
-    <style type="text/css">
-
-        ul.key {
-            list-style-type: none;
-            margin-left: 0;
-        }
-
-        ul.key li {
-            display: inline-block;
-            margin-right: 15px;
-        }
-
-        #booking {
-            border-top: 5px solid #F2A33C;
-        }
-    </style>
+    <!-- dark / light mode: use the visitor's last choice before the page is drawn
+         (Bootstrap 5.3 changes all its colours when <html> has data-bs-theme="dark") -->
+    <script>
+        try {
+            if (localStorage.getItem("nashaatTheme") == "dark") {
+                document.documentElement.setAttribute("data-bs-theme", "dark");
+            }
+        } catch (error) { /* storage blocked: stay in light mode */ }
+    </script>
 </head>
 
-<body>
+<!-- d-flex flex-column min-vh-100 keeps the footer at the bottom on short pages -->
+<body class="d-flex flex-column min-vh-100 bg-body-tertiary">
 
-    <!-- header -->
-    <div id="header">
-        <a href="index.html"><img src="images/logo.svg" alt="Nashaat logo: a white dumbbell badge" /></a>
-        <div>
-            <h1>NASHAAT</h1>
-            <p class="tagline">MOVE &bull; TRACK &bull; IMPROVE</p>
+    <!-- for keyboard users: press Tab once and this link appears -->
+    <a class="visually-hidden-focusable btn btn-warning position-absolute top-0 start-0 m-2 z-3" href="#content">Skip to main content</a>
+
+    <!-- ===== NAVIGATION BAR (same on all pages) =====
+         navbar-expand-xl: full menu on big screens, a "hamburger" button on small screens -->
+    <nav class="navbar navbar-expand-xl bg-success sticky-top border-bottom border-warning border-3 shadow" data-bs-theme="dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                <img src="images/logo.svg" alt="Nashaat logo" width="36" height="36" class="rounded-3" />
+                <span class="fw-bold">NASHAAT</span>
+            </a>
+            <!-- this button only shows on small screens and slides the menu in from the right -->
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mainMenu"
+                    aria-controls="mainMenu" aria-label="Open the menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Bootstrap OFFCANVAS: a side menu on phones, a normal menu bar on big screens -->
+            <div class="offcanvas offcanvas-end text-bg-success" tabindex="-1" id="mainMenu" aria-labelledby="mainMenuLabel">
+                <div class="offcanvas-header border-bottom border-light border-opacity-25">
+                    <h2 class="offcanvas-title h5 d-flex align-items-center gap-2 mb-0" id="mainMenuLabel">
+                        <img src="images/logo.svg" alt="" width="32" height="32" class="rounded-3" /> NASHAAT
+                    </h2>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body align-items-xl-center">
+                    <ul class="navbar-nav ms-auto small fw-medium">
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="index.html"><i class="bi bi-house me-2 d-xl-none"></i>Home</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="about.html"><i class="bi bi-info-circle me-2 d-xl-none"></i>About</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="plans.html"><i class="bi bi-tags me-2 d-xl-none"></i>Plans</a></li>
+                        <li class="nav-item"><a class="nav-link active fw-semibold text-warning text-nowrap px-xl-2" aria-current="page" href="classes.html"><i class="bi bi-calendar-week me-2 d-xl-none"></i>Classes</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="trainers.html"><i class="bi bi-people me-2 d-xl-none"></i>Trainers</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="workout.html"><i class="bi bi-lightning-charge me-2 d-xl-none"></i>Workouts</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="questionnaire.html"><i class="bi bi-chat-heart me-2 d-xl-none"></i>Feedback</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="calculator.html"><i class="bi bi-calculator me-2 d-xl-none"></i>Calculator</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="funpage.html"><i class="bi bi-controller me-2 d-xl-none"></i>Fun Game</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="contact.html"><i class="bi bi-envelope me-2 d-xl-none"></i>Contact</a></li>
+                    </ul>
+                    <div class="d-flex align-items-center gap-2 ms-xl-3 mt-3 mt-xl-0">
+                        <!-- dark / light mode button (js/effects.js) -->
+                        <button type="button" id="themeToggle" class="btn btn-sm btn-outline-light rounded-circle"
+                                aria-label="Switch between dark and light mode" title="Dark / light mode">
+                            <i class="bi bi-moon-stars-fill"></i>
+                        </button>
+                        <a class="btn btn-warning btn-sm rounded-pill px-3 fw-semibold text-nowrap" href="dashboard.html">
+                            <i class="bi bi-person-circle me-1"></i>My Account</a>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </nav>
 
-    <!-- menu -->
-    <div id="menu">
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="plans.html">Plans</a></li>
-            <li><a href="classes.html" class="current">Classes</a></li>
-            <li><a href="trainers.html">Trainers</a></li>
-            <li><a href="workout.html">Workouts</a></li>
-            <li><a href="dashboard.html">My Account</a></li>
-            <li><a href="contact.html">Contact Us</a></li>
-        </ul>
-    </div>
+    <!-- ===== PAGE TITLE (dark band with a pattern picture behind the text + 3 quick facts) ===== -->
+    <header class="position-relative overflow-hidden bg-success text-white" data-bs-theme="dark">
+        <img src="images/pattern.svg" alt="" class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+        <div class="container position-relative py-5">
+            <div class="row g-4 align-items-center py-lg-3">
+                <div class="col-lg-7" data-enter="data-enter">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb small mb-3">
+                            <li class="breadcrumb-item"><a class="link-warning" href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Class Timetable</li>
+                        </ol>
+                    </nav>
+                    <span class="d-inline-flex bg-warning text-dark rounded-3 p-2 fs-4 lh-1 mb-3 shadow"><i class="bi bi-calendar-week"></i></span>
+                    <h1 class="display-5 fw-bold mb-2">Weekly Class Timetable</h1>
+                    <p class="lead text-white-50 mb-0">Every class has 18 places. When a class is full you cannot book it, so you never travel for nothing.</p>
+                </div>
+                <div class="col-lg-5">
+                    <div class="row g-2 text-center" data-enter="data-enter">
+                        <div class="col-4">
+                            <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
+                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="12">12</span></p>
+                                <p class="small text-white-50 mb-0 lh-sm">classes a week</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
+                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="18">18</span></p>
+                                <p class="small text-white-50 mb-0 lh-sm">places per class</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
+                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="6">6</span></p>
+                                <p class="small text-white-50 mb-0 lh-sm">days a week</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-    <!-- main -->
-    <div id="main">
-        <h2>Weekly Class Timetable</h2>
+    <!-- ===== MAIN CONTENT ===== -->
+    <main id="content" class="container py-5">
+        <!-- colour key for the badges used in the table -->
+        <p class="d-flex flex-wrap gap-2 align-items-center small">
+            <span class="fw-semibold">Key:</span>
+            <span class="badge text-bg-primary">Men</span>
+            <span class="badge text-bg-danger">Women</span>
+            <span class="badge text-bg-success">Mixed</span>
+            <span class="badge text-bg-warning">5 places or less</span>
+            <span class="badge text-bg-dark">FULL</span>
+        </p>
 
-        <p>Last updated: <time datetime="2026-10-19">19 October 2026</time>.
-        Every class has <strong>18 places</strong>. When a class is full you cannot book it,
-        so you will never travel to the gym for nothing.</p>
-
-        <ul class="key">
-            <li><span class="badge">Men</span> men only</li>
-            <li><span class="badge women">Women</span> women only</li>
-            <li><span class="badge">Mixed</span> everyone</li>
-            <li><span class="badge full">FULL</span> no places left</li>
-        </ul>
-
-        <div class="table-box">
-            <table class="data" border="1" cellspacing="3" cellpadding="8">
-                <caption>Table 2: Classes for this week</caption>
-                <thead>
+        <!-- ===== TABLE 2: TIMETABLE =====
+             Empty in the HTML. js/classes.js adds one row for every object in the "classes" array. -->
+        <div class="table-responsive bg-body rounded-4 shadow-sm p-2 mb-3">
+            <table class="table table-hover align-middle text-center caption-top">
+                <caption>Table 2: Classes for this week (Friday: no classes, gym floor open 2:00 PM &ndash; 10:00 PM)</caption>
+                <thead class="table-success">
                     <tr>
                         <th rowspan="2">Day</th>
                         <th rowspan="2">Time</th>
@@ -91,219 +156,248 @@
                         <th>Places left</th>
                     </tr>
                 </thead>
-                <tbody>
-
-                    <tr>
-                        <th class="rowhead" rowspan="3">Saturday</th>
-                        <td>6:00 AM</td>
-                        <td><strong>Morning Cardio</strong></td>
-                        <td>Fatma</td>
-                        <td>Beginner</td>
-                        <td><span class="badge">Mixed</span></td>
-                        <td>10 / 18</td>
-                    </tr>
-                    <tr>
-                        <td>6:00 PM</td>
-                        <td><strong>HIIT Burn</strong></td>
-                        <td>Ahmed</td>
-                        <td>Intermediate</td>
-                        <td><span class="badge">Men</span></td>
-                        <td>8 / 18</td>
-                    </tr>
-                    <tr>
-                        <td>8:00 PM</td>
-                        <td><strong>Yoga Flow</strong></td>
-                        <td>Maryam</td>
-                        <td>All levels</td>
-                        <td><span class="badge women">Women</span></td>
-                        <td>5 / 18</td>
-                    </tr>
-
-                    <tr class="odd">
-                        <th class="rowhead" rowspan="2">Sunday</th>
-                        <td>7:00 AM</td>
-                        <td><strong>Strength Basics</strong></td>
-                        <td>Khalid</td>
-                        <td>Beginner</td>
-                        <td><span class="badge">Men</span></td>
-                        <td>12 / 18</td>
-                    </tr>
-                    <tr class="odd">
-                        <td>7:00 PM</td>
-                        <td><strong>Zumba</strong></td>
-                        <td>Fatma</td>
-                        <td>All levels</td>
-                        <td><span class="badge women">Women</span></td>
-                        <td><span class="badge full">FULL</span></td>
-                    </tr>
-
-                    <tr>
-                        <th class="rowhead" rowspan="2">Monday</th>
-                        <td>6:00 PM</td>
-                        <td><strong>Boxing Fitness</strong></td>
-                        <td>Ahmed</td>
-                        <td>Intermediate</td>
-                        <td><span class="badge">Men</span></td>
-                        <td>6 / 18</td>
-                    </tr>
-                    <tr>
-                        <td>8:00 PM</td>
-                        <td><strong>Pilates</strong></td>
-                        <td>Maryam</td>
-                        <td>Beginner</td>
-                        <td><span class="badge women">Women</span></td>
-                        <td>9 / 18</td>
-                    </tr>
-
-                    <tr class="odd">
-                        <th class="rowhead" rowspan="2">Tuesday</th>
-                        <td>6:30 AM</td>
-                        <td><strong>Core &amp; Stretch</strong></td>
-                        <td>Khalid</td>
-                        <td>All levels</td>
-                        <td><span class="badge">Mixed</span></td>
-                        <td>14 / 18</td>
-                    </tr>
-                    <tr class="odd">
-                        <td>7:00 PM</td>
-                        <td><strong>HIIT Burn</strong></td>
-                        <td>Ahmed</td>
-                        <td>Intermediate</td>
-                        <td><span class="badge">Men</span></td>
-                        <td><span class="badge full">FULL</span></td>
-                    </tr>
-
-                    <tr>
-                        <th class="rowhead" rowspan="2">Wednesday</th>
-                        <td>6:00 PM</td>
-                        <td><strong>Yoga Flow</strong></td>
-                        <td>Maryam</td>
-                        <td>All levels</td>
-                        <td><span class="badge women">Women</span></td>
-                        <td>7 / 18</td>
-                    </tr>
-                    <tr>
-                        <td>8:00 PM</td>
-                        <td><strong>Strength Basics</strong></td>
-                        <td>Khalid</td>
-                        <td>Beginner</td>
-                        <td><span class="badge">Men</span></td>
-                        <td>11 / 18</td>
-                    </tr>
-
-                    <tr class="odd">
-                        <th class="rowhead">Thursday</th>
-                        <td>5:00 PM</td>
-                        <td><strong>Family Fun Workout</strong></td>
-                        <td>Fatma</td>
-                        <td>All levels</td>
-                        <td><span class="badge">Mixed</span></td>
-                        <td>15 / 18</td>
-                    </tr>
-
-                    <tr>
-                        <th class="rowhead">Friday</th>
-                        <td colspan="6">No classes &ndash; gym floor open 2:00 PM &ndash; 10:00 PM</td>
-                    </tr>
+                <tbody id="classesBody">
+                    <!-- rows are added here by JavaScript -->
                 </tbody>
-                <tfoot>
+                <tfoot class="table-warning fw-semibold">
                     <tr>
-                        <td colspan="4">Total this week: 12 classes</td>
-                        <td colspan="3">2 classes are already full</td>
+                        <td colspan="4" id="classCount"></td>
+                        <td colspan="3" id="fullCount"></td>
                     </tr>
                 </tfoot>
             </table>
         </div>
 
-        <p class="note">Please arrive 5 minutes early. If you cannot come, cancel your booking at
-        reception so another member can take your place.</p>
-
-        <form id="booking" action="https://httpbin.org/get" method="get">
-            <h2 style="margin-top: 0;">Book a Class</h2>
-
-            <fieldset>
-                <legend>Member</legend>
-
-                <label class="field" for="b-id">Membership number:</label>
-                <input type="text" id="b-id" name="member_id" size="12" maxlength="10" required="required" />
-
-                <label class="field" for="b-name">Full name:</label>
-                <input type="text" id="b-name" name="full_name" required="required" />
-            </fieldset>
-
-            <fieldset>
-                <legend>Class</legend>
-
-                <label class="field" for="b-class">Class:</label>
-                <select id="b-class" name="class_name" required="required">
-                    <option value="">-- choose a class --</option>
-                    <option value="morning_cardio">Morning Cardio (Mixed)</option>
-                    <option value="hiit_burn">HIIT Burn (Men)</option>
-                    <option value="yoga_flow">Yoga Flow (Women)</option>
-                    <option value="strength_basics">Strength Basics (Men)</option>
-                    <option value="boxing_fitness">Boxing Fitness (Men)</option>
-                    <option value="pilates">Pilates (Women)</option>
-                    <option value="core_stretch">Core &amp; Stretch (Mixed)</option>
-                    <option value="family_fun">Family Fun Workout (Mixed)</option>
-                </select>
-
-                <label class="field" for="b-date">Date:</label>
-                <input type="date" id="b-date" name="class_date" required="required" />
-
-                <label class="field">Time of day:</label>
-                <label class="choice"><input type="radio" name="time_of_day" value="morning" /> Morning</label>
-                <label class="choice"><input type="radio" name="time_of_day" value="evening" checked="checked" /> Evening</label>
-
-                <label class="field">Send me a reminder by:</label>
-                <label class="choice"><input type="checkbox" name="reminder" value="sms" checked="checked" /> SMS</label>
-                <label class="choice"><input type="checkbox" name="reminder" value="email" /> Email</label>
-
-                <label class="field" for="b-notes">Notes for the trainer (optional):</label>
-                <textarea id="b-notes" name="notes" rows="3" cols="45"></textarea>
-            </fieldset>
-
-            <input type="hidden" name="form_name" value="class_booking" />
-            <input type="hidden" name="max_places" value="18" />
-
-            <div class="buttons">
-                <input class="button" type="submit" value="Book My Place" />
-                <input type="reset" value="Clear" />
-            </div>
-        </form>
-    </div>
-
-    <!-- footer -->
-    <div id="footer">
-        <div class="row">
-
-            <div>
-                <h3>Opening Hours</h3>
-                <ul>
-                    <li>Saturday - Thursday: 6:00 AM - 11:00 PM</li>
-                    <li>Friday: 2:00 PM - 10:00 PM</li>
-                </ul>
+        <!-- ===== SEARCH + ADD forms ===== -->
+        <div class="row g-4 my-4">
+            <div class="col-lg-5">
+                <div class="card h-100 border-0 shadow-sm rounded-4 border-success">
+                    <div class="card-header bg-success text-white py-3 border-0 fw-semibold"><i class="bi bi-search me-2"></i>Search the Timetable</div>
+                    <div class="card-body">
+                        <form id="searchForm" novalidate="novalidate">
+                            <div class="mb-3">
+                                <label for="searchDay" class="form-label">Day</label>
+                                <select class="form-select rounded-3" id="searchDay">
+                                    <option value="">Any day</option>
+                                    <option>Saturday</option>
+                                    <option>Sunday</option>
+                                    <option>Monday</option>
+                                    <option>Tuesday</option>
+                                    <option>Wednesday</option>
+                                    <option>Thursday</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="searchText" class="form-label">Class or trainer name</label>
+                                <input type="text" class="form-control rounded-3" id="searchText" placeholder="e.g. yoga, Ahmed" maxlength="30" pattern="[A-Za-z &]*" />
+                                <div class="invalid-feedback">Letters and spaces only.</div>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" role="switch" id="searchFree" />
+                                <label class="form-check-label" for="searchFree">Only classes with free places</label>
+                            </div>
+                            <button type="submit" class="btn rounded-pill btn-success">Search</button>
+                            <button type="button" class="btn rounded-pill btn-outline-secondary" id="showAllBtn">Show all</button>
+                        </form>
+                    </div>
+                </div>
             </div>
 
-            <div>
-                <h3>Contact</h3>
-                <ul>
-                    <li>Al Ansab, Muscat, Sultanate of Oman</li>
-                    <li>Phone: +968 2400 0000</li>
-                    <li>Email: <a href="mailto:info@nashaat.om">info@nashaat.om</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h3>Privacy</h3>
-                <p class="small">We only keep the information we need for your membership.
-                We never share it, and you can ask us to delete it at any time.
-                You can still register and book in person at reception.</p>
+            <div class="col-lg-7">
+                <div class="card h-100 border-0 shadow-sm rounded-4 border-warning">
+                    <div class="card-header bg-warning py-3 border-0 fw-semibold"><i class="bi bi-plus-circle me-2"></i>Add a Class (staff only)</div>
+                    <div class="card-body">
+                        <form id="addClassForm" novalidate="novalidate">
+                            <div class="row g-3">
+                                <div class="col-sm-6">
+                                    <label for="addName" class="form-label">Class name</label>
+                                    <input type="text" class="form-control rounded-3" id="addName" required="required" minlength="3" maxlength="30" />
+                                    <div class="invalid-feedback">Write a class name (3 to 30 letters).</div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="addTrainer" class="form-label">Trainer</label>
+                                    <select class="form-select rounded-3" id="addTrainer" required="required">
+                                        <option value="">Choose...</option>
+                                        <option>Ahmed</option>
+                                        <option>Maryam</option>
+                                        <option>Fatma</option>
+                                        <option>Khalid</option>
+                                    </select>
+                                    <div class="invalid-feedback">Choose a trainer.</div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="addDay" class="form-label">Day</label>
+                                    <select class="form-select rounded-3" id="addDay" required="required">
+                                        <option value="">Choose...</option>
+                                        <option>Saturday</option>
+                                        <option>Sunday</option>
+                                        <option>Monday</option>
+                                        <option>Tuesday</option>
+                                        <option>Wednesday</option>
+                                        <option>Thursday</option>
+                                    </select>
+                                    <div class="invalid-feedback">Choose a day.</div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="addTime" class="form-label">Start time</label>
+                                    <input type="time" class="form-control rounded-3" id="addTime" required="required" min="06:00" max="22:00" />
+                                    <div class="invalid-feedback">Between 6:00 AM and 10:00 PM.</div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="addPlaces" class="form-label">Places left</label>
+                                    <input type="number" class="form-control rounded-3" id="addPlaces" required="required" min="0" max="18" value="18" />
+                                    <div class="invalid-feedback">0 to 18.</div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="addLevel" class="form-label">Level</label>
+                                    <select class="form-select rounded-3" id="addLevel">
+                                        <option>Beginner</option>
+                                        <option>Intermediate</option>
+                                        <option selected="selected">All levels</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <span class="form-label d-block">Who can join</span>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="addWho" id="whoMen" value="Men" />
+                                        <label class="form-check-label" for="whoMen">Men</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="addWho" id="whoWomen" value="Women" />
+                                        <label class="form-check-label" for="whoWomen">Women</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="addWho" id="whoMixed" value="Mixed" checked="checked" />
+                                        <label class="form-check-label" for="whoMixed">Mixed</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn rounded-pill btn-warning mt-3">Add to timetable</button>
+                            <button type="reset" class="btn rounded-pill btn-outline-secondary mt-3">Clear</button>
+                        </form>
+                        <div id="addMessage"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <p class="copy">&copy; 2026 Nashaat Gym &ndash; COMP3700 student project, Sultan Qaboos University.
-        The information on this site is general and is not medical advice.</p>
-    </div>
+        <div class="alert border-0 shadow-sm rounded-4 alert-warning">Please arrive 5 minutes early. If you cannot come, cancel your
+        booking at reception so another member can take your place.</div>
 
+        <!-- ===== BOOKING FORM (the class list is filled by JavaScript) ===== -->
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+            <div class="card-header bg-success text-white py-3 border-0"><h2 class="h4 mb-0"><i class="bi bi-calendar-plus me-2"></i>Book a Class</h2></div>
+            <div class="card-body">
+                <form class="needs-validation" novalidate="novalidate" action="https://httpbin.org/get" method="get">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label for="bookId" class="form-label">Membership number</label>
+                            <input type="text" class="form-control rounded-3" id="bookId" name="member_id" required="required" pattern="NSH-[0-9]{4}" placeholder="NSH-1024" />
+                            <div class="invalid-feedback">Format: NSH- and 4 digits, e.g. NSH-1024</div>
+                        </div>
+                        <div class="col-md-8">
+                            <label for="bookName" class="form-label">Full name</label>
+                            <input type="text" class="form-control rounded-3" id="bookName" name="full_name" required="required" minlength="3" />
+                            <div class="invalid-feedback">Please write your name.</div>
+                        </div>
+                        <div class="col-md-8">
+                            <label for="bookClass" class="form-label">Class (full classes are not shown)</label>
+                            <select class="form-select rounded-3" id="bookClass" name="class_name" required="required"></select>
+                            <div class="invalid-feedback">Please choose a class.</div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="bookDate" class="form-label">Date</label>
+                            <input type="date" class="form-control rounded-3" id="bookDate" name="class_date" required="required" />
+                            <div class="invalid-feedback">Please choose a date.</div>
+                        </div>
+                        <div class="col-12">
+                            <span class="form-label d-block">Send me a reminder by</span>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="reminder" value="sms" id="remSms" checked="checked" />
+                                <label class="form-check-label" for="remSms">SMS</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="reminder" value="email" id="remEmail" />
+                                <label class="form-check-label" for="remEmail">Email</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="bookNotes" class="form-label">Notes for the trainer (optional)</label>
+                            <textarea class="form-control rounded-3" id="bookNotes" name="notes" rows="2"></textarea>
+                        </div>
+                    </div>
+                    <input type="hidden" name="form_name" value="class_booking" />
+                    <button type="submit" class="btn rounded-pill btn-success mt-3">Book My Place</button>
+                    <button type="reset" class="btn rounded-pill btn-outline-secondary mt-3">Clear</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== FOOTER (same on all pages) ===== -->
+    <!-- the footer.svg picture gives the footer our dark teal colour (#0B5242) -->
+    <footer class="position-relative overflow-hidden bg-success text-light mt-auto pt-5 border-top border-warning border-3" data-bs-theme="dark">
+        <img src="images/footer.svg" alt="" class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+        <div class="container position-relative">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <a class="d-flex align-items-center gap-2 text-decoration-none text-white mb-3" href="index.html">
+                        <img src="images/logo.svg" alt="" width="40" height="40" class="rounded-3" />
+                        <span class="fs-4 fw-bold">NASHAAT</span>
+                    </a>
+                    <p class="text-white-50 small">A friendly neighbourhood gym in Al Ansab, Muscat.
+                    We only keep the information we need for your membership and never share it.</p>
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="#" aria-label="Instagram" data-bs-toggle="tooltip" data-bs-title="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="#" aria-label="WhatsApp" data-bs-toggle="tooltip" data-bs-title="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="mailto:info@nashaat.om" aria-label="Email" data-bs-toggle="tooltip" data-bs-title="Email"><i class="bi bi-envelope"></i></a>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Explore</h2>
+                    <ul class="list-unstyled small d-grid gap-1">
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="plans.html">Plans</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="classes.html">Classes</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="trainers.html">Trainers</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="workout.html">Workouts</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Try</h2>
+                    <ul class="list-unstyled small d-grid gap-1">
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="questionnaire.html">Feedback</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="calculator.html">Cost Calculator</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="funpage.html">Memory Game</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Visit us</h2>
+                    <ul class="list-unstyled small text-white-50 d-grid gap-2">
+                        <li><i class="bi bi-geo-alt text-warning me-2"></i>Al Ansab, Muscat, Sultanate of Oman</li>
+                        <li><i class="bi bi-clock text-warning me-2"></i>Sat &ndash; Thu 6:00 AM &ndash; 11:00 PM, Fri 2:00 &ndash; 10:00 PM</li>
+                        <li><i class="bi bi-telephone text-warning me-2"></i>+968 2400 0000</li>
+                        <li><i class="bi bi-envelope text-warning me-2"></i><a class="link-light" href="mailto:info@nashaat.om">info@nashaat.om</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p class="text-center small text-white-50 border-top border-light border-opacity-25 pt-3 mt-4 mb-0 pb-3">
+                &copy; 2026 Nashaat Gym &ndash; COMP3700 student project, Sultan Qaboos University.
+                The information on this site is general and is not medical advice.
+            </p>
+        </div>
+    </footer>
+
+    <!-- back to top button (shown by js/effects.js after scrolling down) -->
+    <button type="button" id="toTop" class="btn btn-warning rounded-circle shadow position-fixed bottom-0 end-0 m-4 z-3 d-none" aria-label="Back to top">
+        <i class="bi bi-arrow-up fs-5"></i>
+    </button>
+
+    <!-- Bootstrap JavaScript (needed for the menu button, carousel, modal, accordion ...) -->
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- our animations (page entrance, scroll reveal, counting numbers ...) -->
+    <script src="js/effects.js"></script>
+    <script src="js/validation.js"></script>
+    <script src="js/classes.js"></script>
 </body>
 </html>

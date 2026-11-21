@@ -1,280 +1,504 @@
 <!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<!-- Nashaat Gym - COMP3700 Project Part III
+     Page: plans.html - plans table made with JavaScript (js/plans.js), add + search forms, FAQ, registration form
+     Styling: Bootstrap 5.3 only (no CSS file, no style tags, no inline styles). -->
+<html lang="en">
 <head>
-
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Nashaat Gym membership plans and prices in Omani Rial, frequently asked questions and the online registration form." />
     <meta name="keywords" content="gym, fitness, Oman, Muscat, Al Ansab, classes, Nashaat" />
     <meta name="author" content="Sulaiman Nasser, Hazza Albadi, Yazn Alhajri" />
-
     <title>Membership Plans | Nashaat Gym</title>
-
     <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
 
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <!-- Bootstrap (a local copy, so the website also works without internet) -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    <!-- Bootstrap Icons (the small pictures like <i class="bi bi-clock"></i>) -->
+    <link rel="stylesheet" href="bootstrap/icons/bootstrap-icons.min.css" />
 
-    <style type="text/css">
-
-        td.money {
-            color: #C97F1C;
-            font-weight: bold;
-            font-size: 1.1em;
-        }
-
-        span.best {
-            background-color: #F2A33C;
-            color: #0B5242;
-            font-size: 0.75em;
-            padding: 2px 6px;
-            border-radius: 8px;
-        }
-
-        #join {
-            border-top: 5px solid #0E6B57;
-        }
-    </style>
+    <!-- dark / light mode: use the visitor's last choice before the page is drawn
+         (Bootstrap 5.3 changes all its colours when <html> has data-bs-theme="dark") -->
+    <script>
+        try {
+            if (localStorage.getItem("nashaatTheme") == "dark") {
+                document.documentElement.setAttribute("data-bs-theme", "dark");
+            }
+        } catch (error) { /* storage blocked: stay in light mode */ }
+    </script>
 </head>
 
-<body>
+<!-- d-flex flex-column min-vh-100 keeps the footer at the bottom on short pages -->
+<body class="d-flex flex-column min-vh-100 bg-body-tertiary">
 
-    <!-- header -->
-    <div id="header">
-        <a href="index.html"><img src="images/logo.svg" alt="Nashaat logo: a white dumbbell badge" /></a>
-        <div>
-            <h1>NASHAAT</h1>
-            <p class="tagline">MOVE &bull; TRACK &bull; IMPROVE</p>
+    <!-- for keyboard users: press Tab once and this link appears -->
+    <a class="visually-hidden-focusable btn btn-warning position-absolute top-0 start-0 m-2 z-3" href="#content">Skip to main content</a>
+
+    <!-- ===== NAVIGATION BAR (same on all pages) =====
+         navbar-expand-xl: full menu on big screens, a "hamburger" button on small screens -->
+    <nav class="navbar navbar-expand-xl bg-success sticky-top border-bottom border-warning border-3 shadow" data-bs-theme="dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                <img src="images/logo.svg" alt="Nashaat logo" width="36" height="36" class="rounded-3" />
+                <span class="fw-bold">NASHAAT</span>
+            </a>
+            <!-- this button only shows on small screens and slides the menu in from the right -->
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mainMenu"
+                    aria-controls="mainMenu" aria-label="Open the menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Bootstrap OFFCANVAS: a side menu on phones, a normal menu bar on big screens -->
+            <div class="offcanvas offcanvas-end text-bg-success" tabindex="-1" id="mainMenu" aria-labelledby="mainMenuLabel">
+                <div class="offcanvas-header border-bottom border-light border-opacity-25">
+                    <h2 class="offcanvas-title h5 d-flex align-items-center gap-2 mb-0" id="mainMenuLabel">
+                        <img src="images/logo.svg" alt="" width="32" height="32" class="rounded-3" /> NASHAAT
+                    </h2>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body align-items-xl-center">
+                    <ul class="navbar-nav ms-auto small fw-medium">
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="index.html"><i class="bi bi-house me-2 d-xl-none"></i>Home</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="about.html"><i class="bi bi-info-circle me-2 d-xl-none"></i>About</a></li>
+                        <li class="nav-item"><a class="nav-link active fw-semibold text-warning text-nowrap px-xl-2" aria-current="page" href="plans.html"><i class="bi bi-tags me-2 d-xl-none"></i>Plans</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="classes.html"><i class="bi bi-calendar-week me-2 d-xl-none"></i>Classes</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="trainers.html"><i class="bi bi-people me-2 d-xl-none"></i>Trainers</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="workout.html"><i class="bi bi-lightning-charge me-2 d-xl-none"></i>Workouts</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="questionnaire.html"><i class="bi bi-chat-heart me-2 d-xl-none"></i>Feedback</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="calculator.html"><i class="bi bi-calculator me-2 d-xl-none"></i>Calculator</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="funpage.html"><i class="bi bi-controller me-2 d-xl-none"></i>Fun Game</a></li>
+                        <li class="nav-item"><a class="nav-link text-nowrap px-xl-2" href="contact.html"><i class="bi bi-envelope me-2 d-xl-none"></i>Contact</a></li>
+                    </ul>
+                    <div class="d-flex align-items-center gap-2 ms-xl-3 mt-3 mt-xl-0">
+                        <!-- dark / light mode button (js/effects.js) -->
+                        <button type="button" id="themeToggle" class="btn btn-sm btn-outline-light rounded-circle"
+                                aria-label="Switch between dark and light mode" title="Dark / light mode">
+                            <i class="bi bi-moon-stars-fill"></i>
+                        </button>
+                        <a class="btn btn-warning btn-sm rounded-pill px-3 fw-semibold text-nowrap" href="dashboard.html">
+                            <i class="bi bi-person-circle me-1"></i>My Account</a>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </nav>
 
-    <!-- menu -->
-    <div id="menu">
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="plans.html" class="current">Plans</a></li>
-            <li><a href="classes.html">Classes</a></li>
-            <li><a href="trainers.html">Trainers</a></li>
-            <li><a href="workout.html">Workouts</a></li>
-            <li><a href="dashboard.html">My Account</a></li>
-            <li><a href="contact.html">Contact Us</a></li>
-        </ul>
-    </div>
+    <!-- ===== PAGE TITLE (dark band with a pattern picture behind the text + 3 quick facts) ===== -->
+    <header class="position-relative overflow-hidden bg-success text-white" data-bs-theme="dark">
+        <img src="images/pattern.svg" alt="" class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+        <div class="container position-relative py-5">
+            <div class="row g-4 align-items-center py-lg-3">
+                <div class="col-lg-7" data-enter="data-enter">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb small mb-3">
+                            <li class="breadcrumb-item"><a class="link-warning" href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Membership Plans</li>
+                        </ol>
+                    </nav>
+                    <span class="d-inline-flex bg-warning text-dark rounded-3 p-2 fs-4 lh-1 mb-3 shadow"><i class="bi bi-tags"></i></span>
+                    <h1 class="display-5 fw-bold mb-2">Membership Plans</h1>
+                    <p class="lead text-white-50 mb-0">All prices are in Omani Rial (OMR). Register online and pay at reception.</p>
+                </div>
+                <div class="col-lg-5">
+                    <div class="row g-2 text-center" data-enter="data-enter">
+                        <div class="col-4">
+                            <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
+                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="15">15</span></p>
+                                <p class="small text-white-50 mb-0 lh-sm">OMR lowest price</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
+                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="6">6</span></p>
+                                <p class="small text-white-50 mb-0 lh-sm">plans to choose</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
+                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="0">0</span></p>
+                                <p class="small text-white-50 mb-0 lh-sm">hidden fees</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-    <!-- main -->
-    <div id="main">
-        <h2>Membership Plans</h2>
-        <p class="intro">All prices are in Omani Rial (OMR). You register online and pay at reception
-        by cash or bank transfer &ndash; we do not take card payments online.</p>
-
-        <div class="table-box">
-            <table class="data" border="1" cellspacing="3" cellpadding="8">
-                <caption>Table 1: Nashaat membership plans (prices in OMR)</caption>
-                <thead>
-                    <tr>
-                        <th rowspan="2">Category</th>
-                        <th rowspan="2">Plan</th>
-                        <th rowspan="2">Duration</th>
-                        <th rowspan="2">Price (OMR)</th>
-
-                        <th colspan="3">What is included</th>
-                    </tr>
-                    <tr>
-                        <th>Gym floor</th>
-                        <th>Group classes</th>
-                        <th>Personal training</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    <tr>
-                        <th class="rowhead" rowspan="4">Standard</th>
-                        <td>Monthly</td>
-                        <td>1 month</td>
-                        <td class="money">20</td>
-                        <td>&#10003;</td>
-                        <td>&#10003;</td>
-                        <td>&ndash;</td>
-                    </tr>
-                    <tr class="odd">
-                        <td>Quarter</td>
-                        <td>3 months</td>
-                        <td class="money">55</td>
-                        <td>&#10003;</td>
-                        <td>&#10003;</td>
-                        <td>1 session</td>
-                    </tr>
-                    <tr>
-                        <td>Half Year</td>
-                        <td>6 months</td>
-                        <td class="money">100</td>
-                        <td>&#10003;</td>
-                        <td>&#10003;</td>
-                        <td>2 sessions</td>
-                    </tr>
-                    <tr class="odd">
-                        <td>Yearly <span class="best">Best value</span></td>
-                        <td>12 months</td>
-                        <td class="money">180</td>
-                        <td>&#10003;</td>
-                        <td>&#10003;</td>
-                        <td>4 sessions</td>
-                    </tr>
-                    <tr>
-                        <th class="rowhead">Student</th>
-                        <td>Student Monthly</td>
-                        <td>1 month</td>
-                        <td class="money">15</td>
-                        <td>&#10003;</td>
-
-                        <td colspan="2">Group classes only (no personal training)</td>
-                    </tr>
-                    <tr class="odd">
-                        <th class="rowhead">Visitor</th>
-                        <td>Day Pass</td>
-                        <td>1 day</td>
-                        <td class="money">3</td>
-                        <td>&#10003;</td>
-
-                        <td colspan="2" style="text-align: left;">Not included</td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="7">All plans include a free locker and Wi-Fi. Pay at reception (cash or bank transfer).</td>
-                    </tr>
-                </tfoot>
-            </table>
+    <!-- ===== MAIN CONTENT ===== -->
+    <main id="content" class="container py-5">
+        <div class="alert border-0 shadow-sm rounded-4 alert-info" role="alert">
+            <strong>How to pay:</strong> you register online and pay at reception by cash or bank
+            transfer. We do not take card payments online.
         </div>
 
-        <h2>Common Questions</h2>
-        <dl>
-            <dt>Can I try the gym before I join?</dt>
-            <dd>Yes. Buy a Day Pass for 3 OMR at reception.</dd>
-            <dt>Who can get the Student plan?</dt>
-            <dd>Any university or college student with a valid student ID card.</dd>
-            <dt>Can I freeze my membership?</dt>
-            <dd>Yearly and Half Year members can freeze once for up to 30 days (for travel or illness).</dd>
-            <dt>Are there women-only times?</dt>
-            <dd>Yes. The gym floor is women-only every day from 9:00 AM to 12:00 PM, and some classes are women-only.</dd>
-        </dl>
-
-        <form id="join" action="https://httpbin.org/get" method="get">
-            <h2 style="margin-top: 0;">Join Nashaat &ndash; Registration Form</h2>
-
-            <fieldset>
-                <legend>1. Personal information</legend>
-
-                <label class="field" for="r-name">Full name:</label>
-                <input type="text" id="r-name" name="full_name" size="30" maxlength="80" required="required" />
-
-                <label class="field" for="r-email">Email:</label>
-                <input type="email" id="r-email" name="email" required="required" />
-
-                <label class="field" for="r-phone">Phone:</label>
-                <input type="tel" id="r-phone" name="phone" maxlength="15" required="required" />
-
-                <label class="field" for="r-dob">Date of birth:</label>
-                <input type="date" id="r-dob" name="date_of_birth" required="required" />
-
-                <label class="field">Gender:</label>
-                <label class="choice"><input type="radio" name="gender" value="male" checked="checked" /> Male</label>
-                <label class="choice"><input type="radio" name="gender" value="female" /> Female</label>
-            </fieldset>
-
-            <fieldset>
-                <legend>2. Account</legend>
-
-                <label class="field" for="r-pass">Password:</label>
-                <input type="password" id="r-pass" name="password" size="20" required="required" />
-
-                <label class="field" for="r-pass2">Confirm password:</label>
-                <input type="password" id="r-pass2" name="confirm_password" size="20" required="required" />
-            </fieldset>
-
-            <fieldset>
-                <legend>3. Membership</legend>
-
-                <label class="field" for="r-plan">Choose a plan:</label>
-                <select id="r-plan" name="plan">
-                    <option value="monthly" selected="selected">Monthly &ndash; 20 OMR</option>
-                    <option value="quarter">Quarter &ndash; 55 OMR</option>
-                    <option value="half_year">Half Year &ndash; 100 OMR</option>
-                    <option value="yearly">Yearly &ndash; 180 OMR</option>
-                    <option value="student">Student Monthly &ndash; 15 OMR</option>
-                </select>
-
-                <label class="field" for="r-start">Start date:</label>
-                <input type="date" id="r-start" name="start_date" />
-
-                <label class="field">Classes I am interested in:</label>
-                <label class="choice"><input type="checkbox" name="interests" value="hiit" /> HIIT</label>
-                <label class="choice"><input type="checkbox" name="interests" value="yoga" /> Yoga</label>
-                <label class="choice"><input type="checkbox" name="interests" value="strength" checked="checked" /> Strength</label>
-                <label class="choice"><input type="checkbox" name="interests" value="zumba" /> Zumba</label>
-                <label class="choice"><input type="checkbox" name="interests" value="boxing" /> Boxing</label>
-
-                <label class="field" for="r-heard">How did you hear about us? (hold Ctrl to choose more than one)</label>
-                <select id="r-heard" name="heard_from" size="3" multiple="multiple">
-                    <option value="friend">A friend</option>
-                    <option value="instagram">Instagram</option>
-                    <option value="google">Google search</option>
-                    <option value="walked_by">I passed by the gym</option>
-                </select>
-
-                <label class="field" for="r-notes">Health notes or goals (optional):</label>
-                <textarea id="r-notes" name="notes" rows="4" cols="50">(for example: I want to lose weight, I had a knee injury last year)</textarea>
-            </fieldset>
-
-            <label class="field">
-                <input type="checkbox" name="consent" value="agreed" required="required" />
-                I agree that Nashaat stores my information for my membership only.
-            </label>
-
-            <input type="hidden" name="form_name" value="registration" />
-
-            <div class="buttons">
-                <input class="button" type="submit" value="Register" />
-                <input type="reset" value="Clear Form" />
-
-                <input type="button" value="Check Passwords" />
+        <!-- ===== TABLE 1: PLANS =====
+             The table is EMPTY in the HTML. js/plans.js fills <tbody id="plansBody">
+             with rows made from the "plans" array. -->
+        <section class="mb-5">
+            <h2 class="h3 fw-bold border-start border-warning border-4 ps-3 mb-3">Our Plans</h2>
+            <div class="table-responsive bg-body rounded-4 shadow-sm p-2 mb-3">
+                <table class="table table-striped table-hover align-middle text-center caption-top">
+                    <caption>Table 1: Nashaat membership plans (prices in OMR)</caption>
+                    <thead class="table-success">
+                        <tr>
+                            <th rowspan="2">#</th>
+                            <th rowspan="2">Category</th>
+                            <th rowspan="2">Plan</th>
+                            <th rowspan="2">Duration</th>
+                            <th colspan="2">Price (OMR)</th>
+                            <th colspan="2">What is included</th>
+                        </tr>
+                        <tr>
+                            <th>Total</th>
+                            <th>Per month</th>
+                            <th>Group classes</th>
+                            <th>Personal training</th>
+                        </tr>
+                    </thead>
+                    <tbody id="plansBody">
+                        <!-- rows are added here by JavaScript -->
+                    </tbody>
+                    <tfoot class="table-warning">
+                        <tr>
+                            <td colspan="8">All plans include the gym floor, a free locker and Wi-Fi.</td>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
-        </form>
-    </div>
+            <p id="planCount" class="small text-secondary"></p>
+        </section>
 
-    <!-- footer -->
-    <div id="footer">
-        <div class="row">
+        <!-- ===== SEARCH + ADD forms side by side (2 columns on big screens) ===== -->
+        <div class="row g-4 mb-5">
 
-            <div>
-                <h3>Opening Hours</h3>
-                <ul>
-                    <li>Saturday - Thursday: 6:00 AM - 11:00 PM</li>
-                    <li>Friday: 2:00 PM - 10:00 PM</li>
-                </ul>
+            <!-- SEARCH FORM -->
+            <div class="col-lg-6">
+                <div class="card h-100 border-0 shadow-sm rounded-4 border-success">
+                    <div class="card-header bg-success text-white py-3 border-0 fw-semibold"><i class="bi bi-search me-2"></i>Search Plans</div>
+                    <div class="card-body">
+                        <form id="searchForm" novalidate="novalidate">
+                            <div class="mb-3">
+                                <label for="searchText" class="form-label">Plan name or category</label>
+                                <input type="text" class="form-control rounded-3" id="searchText" placeholder="e.g. year, student" maxlength="30" pattern="[A-Za-z ]*" />
+                                <div class="invalid-feedback">Letters and spaces only.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="searchMaxPrice" class="form-label">Maximum price (OMR)</label>
+                                <input type="number" class="form-control rounded-3" id="searchMaxPrice" min="1" max="1000" placeholder="e.g. 60" />
+                                <div class="invalid-feedback">A price from 1 to 1000 OMR.</div>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="searchClasses" />
+                                <label class="form-check-label" for="searchClasses">Only plans with group classes</label>
+                            </div>
+                            <button type="submit" class="btn rounded-pill btn-success">Search</button>
+                            <button type="button" class="btn rounded-pill btn-outline-secondary" id="showAllBtn">Show all</button>
+                        </form>
+                    </div>
+                </div>
             </div>
 
-            <div>
-                <h3>Contact</h3>
-                <ul>
-                    <li>Al Ansab, Muscat, Sultanate of Oman</li>
-                    <li>Phone: +968 2400 0000</li>
-                    <li>Email: <a href="mailto:info@nashaat.om">info@nashaat.om</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h3>Privacy</h3>
-                <p class="small">We only keep the information we need for your membership.
-                We never share it, and you can ask us to delete it at any time.
-                You can still register and book in person at reception.</p>
+            <!-- ADD FORM (adds a new Plan object to the array) -->
+            <div class="col-lg-6">
+                <div class="card h-100 border-0 shadow-sm rounded-4 border-warning">
+                    <div class="card-header bg-warning py-3 border-0 fw-semibold"><i class="bi bi-plus-circle me-2"></i>Add a Plan (staff only)</div>
+                    <div class="card-body">
+                        <form id="addPlanForm" novalidate="novalidate">
+                            <div class="row g-3">
+                                <div class="col-sm-6">
+                                    <label for="newName" class="form-label">Plan name</label>
+                                    <input type="text" class="form-control rounded-3" id="newName" required="required" minlength="3" maxlength="30" />
+                                    <div class="invalid-feedback">Write a name (3 to 30 letters).</div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="newCategory" class="form-label">Category</label>
+                                    <select class="form-select rounded-3" id="newCategory" required="required">
+                                        <option value="">Choose...</option>
+                                        <option>Standard</option>
+                                        <option>Student</option>
+                                        <option>Visitor</option>
+                                        <option>Family</option>
+                                    </select>
+                                    <div class="invalid-feedback">Choose a category.</div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="newMonths" class="form-label">Months</label>
+                                    <input type="number" class="form-control rounded-3" id="newMonths" required="required" min="0" max="24" />
+                                    <div class="invalid-feedback">0 to 24 (0 = one day).</div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="newPrice" class="form-label">Price (OMR)</label>
+                                    <input type="number" class="form-control rounded-3" id="newPrice" required="required" min="1" max="1000" step="0.5" />
+                                    <div class="invalid-feedback">1 to 1000 OMR.</div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label for="newPt" class="form-label">Free PT sessions</label>
+                                    <input type="number" class="form-control rounded-3" id="newPt" required="required" min="0" max="20" value="0" />
+                                    <div class="invalid-feedback">0 to 20.</div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="newClasses" checked="checked" />
+                                        <label class="form-check-label" for="newClasses">Group classes included</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn rounded-pill btn-warning mt-3">Add to table</button>
+                            <button type="reset" class="btn rounded-pill btn-outline-secondary mt-3">Clear</button>
+                        </form>
+                        <!-- the success message from JavaScript goes here -->
+                        <div id="addMessage"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <p class="copy">&copy; 2026 Nashaat Gym &ndash; COMP3700 student project, Sultan Qaboos University.
-        The information on this site is general and is not medical advice.</p>
-    </div>
+        <!-- ===== FAQ: Bootstrap ACCORDION (click a question to open it) ===== -->
+        <section class="mb-5">
+            <h2 class="h3 fw-bold border-start border-warning border-4 ps-3 mb-3">Common Questions</h2>
+            <div class="accordion" id="faq">
+                <div class="accordion-item border-0 shadow-sm mb-2 rounded-3 overflow-hidden">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#q1" aria-expanded="true" aria-controls="q1">
+                            Can I try the gym before I join?
+                        </button>
+                    </h3>
+                    <div id="q1" class="accordion-collapse collapse show" data-bs-parent="#faq">
+                        <div class="accordion-body">Yes. Buy a Day Pass for 3 OMR at reception.</div>
+                    </div>
+                </div>
+                <div class="accordion-item border-0 shadow-sm mb-2 rounded-3 overflow-hidden">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q2" aria-expanded="false" aria-controls="q2">
+                            Who can get the Student plan?
+                        </button>
+                    </h3>
+                    <div id="q2" class="accordion-collapse collapse" data-bs-parent="#faq">
+                        <div class="accordion-body">Any university or college student with a valid student ID card.</div>
+                    </div>
+                </div>
+                <div class="accordion-item border-0 shadow-sm mb-2 rounded-3 overflow-hidden">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q3" aria-expanded="false" aria-controls="q3">
+                            Can I freeze my membership?
+                        </button>
+                    </h3>
+                    <div id="q3" class="accordion-collapse collapse" data-bs-parent="#faq">
+                        <div class="accordion-body">Yearly and Half Year members can freeze once for up to 30 days (for travel or illness).</div>
+                    </div>
+                </div>
+                <div class="accordion-item border-0 shadow-sm mb-2 rounded-3 overflow-hidden">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q4" aria-expanded="false" aria-controls="q4">
+                            Are there women-only times?
+                        </button>
+                    </h3>
+                    <div id="q4" class="accordion-collapse collapse" data-bs-parent="#faq">
+                        <div class="accordion-body">Yes. The gym floor is women-only every day from 9:00 AM to 12:00 PM, and some classes are women-only.</div>
+                    </div>
+                </div>
+            </div>
+            <p class="mt-3">Not sure which plan is cheapest for you? Try our
+            <a href="calculator.html" class="link-success fw-semibold">membership cost calculator</a>.</p>
+        </section>
 
+        <!-- ===== REGISTRATION FORM (Bootstrap validation from js/validation.js) =====
+             Sends the data to httpbin.org/get so we can see what was sent. -->
+        <section id="join">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <div class="card-header bg-success text-white py-3 border-0">
+                    <h2 class="h4 mb-0"><i class="bi bi-person-plus me-2"></i>Join Nashaat &ndash; Registration Form</h2>
+                </div>
+                <div class="card-body">
+                    <form class="needs-validation" novalidate="novalidate" action="https://httpbin.org/get" method="get">
+
+                        <fieldset class="mb-4">
+                            <legend class="h6 fw-bold text-uppercase small text-body-secondary border-bottom pb-2">1. Personal information</legend>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="regName" class="form-label">Full name</label>
+                                    <input type="text" class="form-control rounded-3" id="regName" name="full_name" required="required" minlength="3" maxlength="80" />
+                                    <div class="invalid-feedback">Please write your full name.</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="regEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control rounded-3" id="regEmail" name="email" required="required" />
+                                    <div class="invalid-feedback">Please write a correct email, e.g. ali@gmail.com</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="regPhone" class="form-label">Phone (8 digits)</label>
+                                    <input type="tel" class="form-control rounded-3" id="regPhone" name="phone" required="required" pattern="[79][0-9]{7}" placeholder="9xxxxxxx" />
+                                    <div class="invalid-feedback">An Omani number: 8 digits starting with 7 or 9.</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="regDob" class="form-label">Date of birth</label>
+                                    <input type="date" class="form-control rounded-3" id="regDob" name="date_of_birth" required="required" min="1930-01-01" max="2012-12-31" />
+                                    <div class="invalid-feedback">Please choose your date of birth (you must be 14 or older).</div>
+                                </div>
+                                <div class="col-12">
+                                    <span class="form-label d-block">Gender</span>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="gender" id="genderM" value="male" required="required" />
+                                        <label class="form-check-label" for="genderM">Male</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="gender" id="genderF" value="female" required="required" />
+                                        <label class="form-check-label" for="genderF">Female</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="mb-4">
+                            <legend class="h6 fw-bold text-uppercase small text-body-secondary border-bottom pb-2">2. Account</legend>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="regPass" class="form-label">Password</label>
+                                    <input type="password" class="form-control rounded-3" id="regPass" name="password" required="required" minlength="8" />
+                                    <div class="form-text">At least 8 characters.</div>
+                                    <div class="invalid-feedback">The password must have at least 8 characters.</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="regPass2" class="form-label">Confirm password</label>
+                                    <input type="password" class="form-control rounded-3" id="regPass2" name="confirm_password" required="required" />
+                                    <div class="invalid-feedback">Please type the same password again.</div>
+                                </div>
+                            </div>
+                            <div id="passMessage"></div>
+                        </fieldset>
+
+                        <fieldset class="mb-4">
+                            <legend class="h6 fw-bold text-uppercase small text-body-secondary border-bottom pb-2">3. Membership</legend>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="regPlan" class="form-label">Choose a plan</label>
+                                    <select class="form-select rounded-3" id="regPlan" name="plan" required="required">
+                                        <option value="">Choose...</option>
+                                        <option value="monthly">Monthly &ndash; 20 OMR</option>
+                                        <option value="quarter">Quarter &ndash; 55 OMR</option>
+                                        <option value="half_year">Half Year &ndash; 100 OMR</option>
+                                        <option value="yearly">Yearly &ndash; 180 OMR</option>
+                                        <option value="student">Student Monthly &ndash; 15 OMR</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please choose a plan.</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="regStart" class="form-label">Start date</label>
+                                    <input type="date" class="form-control rounded-3" id="regStart" name="start_date" required="required" />
+                                    <div class="invalid-feedback">Please choose a start date.</div>
+                                </div>
+                                <div class="col-12">
+                                    <span class="form-label d-block">Classes I am interested in</span>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="interests" value="hiit" id="intHiit" />
+                                        <label class="form-check-label" for="intHiit">HIIT</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="interests" value="yoga" id="intYoga" />
+                                        <label class="form-check-label" for="intYoga">Yoga</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="interests" value="strength" id="intStrength" />
+                                        <label class="form-check-label" for="intStrength">Strength</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="interests" value="zumba" id="intZumba" />
+                                        <label class="form-check-label" for="intZumba">Zumba</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="interests" value="boxing" id="intBoxing" />
+                                        <label class="form-check-label" for="intBoxing">Boxing</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <label for="regNotes" class="form-label">Health notes or goals (optional)</label>
+                                    <textarea class="form-control rounded-3" id="regNotes" name="notes" rows="3" maxlength="300"
+                                              placeholder="For example: I want to lose weight, I had a knee injury last year"></textarea>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" name="consent" value="agreed" id="regConsent" required="required" />
+                            <label class="form-check-label" for="regConsent">I agree that Nashaat stores my information for my membership only.</label>
+                            <div class="invalid-feedback">You must agree before you register.</div>
+                        </div>
+
+                        <input type="hidden" name="form_name" value="registration" />
+
+                        <button type="submit" class="btn rounded-pill btn-success btn-lg">Register</button>
+                        <button type="reset" class="btn rounded-pill btn-outline-secondary btn-lg">Clear Form</button>
+                        <button type="button" class="btn rounded-pill btn-outline-success btn-lg" id="checkPassBtn">Check Passwords</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== FOOTER (same on all pages) ===== -->
+    <!-- the footer.svg picture gives the footer our dark teal colour (#0B5242) -->
+    <footer class="position-relative overflow-hidden bg-success text-light mt-auto pt-5 border-top border-warning border-3" data-bs-theme="dark">
+        <img src="images/footer.svg" alt="" class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" />
+        <div class="container position-relative">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <a class="d-flex align-items-center gap-2 text-decoration-none text-white mb-3" href="index.html">
+                        <img src="images/logo.svg" alt="" width="40" height="40" class="rounded-3" />
+                        <span class="fs-4 fw-bold">NASHAAT</span>
+                    </a>
+                    <p class="text-white-50 small">A friendly neighbourhood gym in Al Ansab, Muscat.
+                    We only keep the information we need for your membership and never share it.</p>
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="#" aria-label="Instagram" data-bs-toggle="tooltip" data-bs-title="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="#" aria-label="WhatsApp" data-bs-toggle="tooltip" data-bs-title="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="mailto:info@nashaat.om" aria-label="Email" data-bs-toggle="tooltip" data-bs-title="Email"><i class="bi bi-envelope"></i></a>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Explore</h2>
+                    <ul class="list-unstyled small d-grid gap-1">
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="plans.html">Plans</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="classes.html">Classes</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="trainers.html">Trainers</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="workout.html">Workouts</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Try</h2>
+                    <ul class="list-unstyled small d-grid gap-1">
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="questionnaire.html">Feedback</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="calculator.html">Cost Calculator</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="funpage.html">Memory Game</a></li>
+                        <li><a class="link-light link-opacity-75 link-underline-opacity-0" href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h2 class="h6 text-warning text-uppercase fw-bold">Visit us</h2>
+                    <ul class="list-unstyled small text-white-50 d-grid gap-2">
+                        <li><i class="bi bi-geo-alt text-warning me-2"></i>Al Ansab, Muscat, Sultanate of Oman</li>
+                        <li><i class="bi bi-clock text-warning me-2"></i>Sat &ndash; Thu 6:00 AM &ndash; 11:00 PM, Fri 2:00 &ndash; 10:00 PM</li>
+                        <li><i class="bi bi-telephone text-warning me-2"></i>+968 2400 0000</li>
+                        <li><i class="bi bi-envelope text-warning me-2"></i><a class="link-light" href="mailto:info@nashaat.om">info@nashaat.om</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p class="text-center small text-white-50 border-top border-light border-opacity-25 pt-3 mt-4 mb-0 pb-3">
+                &copy; 2026 Nashaat Gym &ndash; COMP3700 student project, Sultan Qaboos University.
+                The information on this site is general and is not medical advice.
+            </p>
+        </div>
+    </footer>
+
+    <!-- back to top button (shown by js/effects.js after scrolling down) -->
+    <button type="button" id="toTop" class="btn btn-warning rounded-circle shadow position-fixed bottom-0 end-0 m-4 z-3 d-none" aria-label="Back to top">
+        <i class="bi bi-arrow-up fs-5"></i>
+    </button>
+
+    <!-- Bootstrap JavaScript (needed for the menu button, carousel, modal, accordion ...) -->
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- our animations (page entrance, scroll reveal, counting numbers ...) -->
+    <script src="js/effects.js"></script>
+    <script src="js/validation.js"></script>
+    <script src="js/plans.js"></script>
 </body>
 </html>

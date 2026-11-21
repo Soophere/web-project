@@ -16,6 +16,10 @@ desktop.ini
 
 # The course requirements file is the instructor's document, not our work
 docs/part2-requirements.pdf
+docs/part3-requirements.pdf
 
 # Part IV (PHP): the database password file must never go to GitHub
 config.php
+
+# zips for sending files to teammates (not part of the website)
+_share/
