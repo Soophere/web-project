@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <!-- Nashaat Gym - COMP3700 Project Part III
-     Page: funpage.html - Gym Memory Match game (js/funpage.js)
+     Page: funpage.html - Memory game made with dynamic HTML (js/funpage.js)
      Styling: Bootstrap 5.3 only (no CSS file, no style tags, no inline styles). -->
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Play the Nashaat Gym Memory Match game: turn the cards and match every exercise with the muscle group it trains." />
+    <meta name="description" content="Gym Memory Match: a fun game to learn exercises and the muscles they train." />
     <meta name="keywords" content="gym, fitness, Oman, Muscat, Al Ansab, classes, Nashaat" />
     <meta name="author" content="Sulaiman Nasser, Hazza Albadi, Yazn Alhajri" />
-    <title>Gym Memory Match | Nashaat Gym</title>
+    <title>Fun Game | Nashaat Gym</title>
     <link rel="icon" type="image/svg+xml" href="images/logo.svg" />
 
     <!-- Bootstrap (a local copy, so the website also works without internet) -->
@@ -96,7 +96,7 @@
                     </nav>
                     <span class="d-inline-flex bg-warning text-dark rounded-3 p-2 fs-4 lh-1 mb-3 shadow"><i class="bi bi-controller"></i></span>
                     <h1 class="display-5 fw-bold mb-2">Gym Memory Match</h1>
-                    <p class="lead text-white-50 mb-0">Turn two cards at a time and match every exercise with the muscle group it trains.</p>
+                    <p class="lead text-white-50 mb-0">Match each exercise picture with its name and the muscle it trains. How few moves can you do it in?</p>
                 </div>
                 <div class="col-lg-5">
                     <div class="row g-2 text-center" data-enter="data-enter">
@@ -109,13 +109,13 @@
                         <div class="col-4">
                             <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
                                 <p class="fs-3 fw-bold text-warning mb-0"><span data-count="6">6</span></p>
-                                <p class="small text-white-50 mb-0 lh-sm">pairs to find</p>
+                                <p class="small text-white-50 mb-0 lh-sm">pairs</p>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="bg-white bg-opacity-10 border border-light border-opacity-25 rounded-4 py-3 px-2 h-100">
-                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="3">3</span></p>
-                                <p class="small text-white-50 mb-0 lh-sm">free peeks</p>
+                                <p class="fs-3 fw-bold text-warning mb-0"><span data-count="6">6</span></p>
+                                <p class="small text-white-50 mb-0 lh-sm">best possible moves</p>
                             </div>
                         </div>
                     </div>
@@ -128,144 +128,57 @@
     <main id="content" class="container py-5">
         <div class="row g-4">
 
-            <!-- ===== LEFT: the game board. The 12 cards are made by js/funpage.js ===== -->
-            <div class="col-lg-8">
+            <!-- ===== LEFT: score and buttons ===== -->
+            <div class="col-lg-3 order-lg-2">
                 <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-                    <div class="card-header bg-success text-white py-3 border-0 d-flex flex-wrap gap-2 justify-content-between align-items-center">
-                        <span class="fw-semibold"><i class="bi bi-grid-3x3-gap me-2"></i>Find the 6 pairs</span>
-                        <span class="badge text-bg-warning rounded-pill fs-6 px-3" id="matchedBadge">0 / 6 pairs</span>
-                    </div>
-                    <div class="card-body p-3 p-md-4">
-                        <!-- the board is EMPTY in the HTML; JavaScript puts the cards inside -->
-                        <div class="row g-3" id="board" aria-live="polite">
-                            <!-- cards are added here by js/funpage.js -->
-                        </div>
-
-                        <!-- a short message under the board (e.g. "Good match!") -->
-                        <div id="gameMessage" class="alert border-0 shadow-sm rounded-4 alert-info mt-4 mb-0" role="status">
-                            Press any card to start. The timer starts with your first card.
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ===== RIGHT: score + buttons + how to play ===== -->
-            <div class="col-lg-4">
-                <div class="card border-0 shadow-sm rounded-4 mb-4">
-                    <div class="card-header bg-warning py-3 border-0 fw-semibold"><i class="bi bi-stopwatch me-2"></i>Your game</div>
+                    <div class="card-header bg-warning py-3 border-0 fw-semibold"><i class="bi bi-trophy me-2"></i>Score</div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between">Moves <span class="fw-bold" id="moves">0</span></li>
+                        <li class="list-group-item d-flex justify-content-between">Pairs <span class="fw-bold" id="pairs">0 / 6</span></li>
+                        <li class="list-group-item d-flex justify-content-between">Time <span class="fw-bold" id="time">0:00</span></li>
+                        <li class="list-group-item d-flex justify-content-between">Best (moves) <span class="fw-bold text-success" id="best">-</span></li>
+                    </ul>
                     <div class="card-body">
-                        <div class="row g-3 text-center mb-3">
-                            <div class="col-4">
-                                <p class="text-body-secondary small mb-1">Moves</p>
-                                <p class="fs-2 fw-bold text-success mb-0" id="movesCount">0</p>
-                            </div>
-                            <div class="col-4">
-                                <p class="text-body-secondary small mb-1">Time</p>
-                                <p class="fs-2 fw-bold text-success mb-0" id="timeCount">0:00</p>
-                            </div>
-                            <div class="col-4">
-                                <p class="text-body-secondary small mb-1">Peeks</p>
-                                <p class="fs-2 fw-bold text-success mb-0" id="peekCount">3</p>
-                            </div>
+                        <div class="progress mb-3" role="progressbar" id="progressBox" aria-label="Pairs found" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" id="progressBar"></div>
                         </div>
-                        <p class="text-body-secondary small mb-2">
-                            <i class="bi bi-trophy text-warning me-1"></i>Your best: <span id="bestScore">no game finished yet</span>
-                        </p>
-                        <div class="d-grid gap-2">
-                            <button type="button" id="restartBtn" class="btn rounded-pill btn-success">
-                                <i class="bi bi-arrow-repeat me-1"></i>New game</button>
-                            <button type="button" id="peekBtn" class="btn rounded-pill btn-outline-success">
-                                <i class="bi bi-eye me-1"></i>Peek for 2 seconds</button>
-                        </div>
+                        <button type="button" class="btn rounded-pill btn-success w-100" id="newGameBtn">New Game</button>
                     </div>
                 </div>
 
-                <div class="card border-0 shadow-sm rounded-4">
-                    <div class="card-header bg-success-subtle py-3 border-0 fw-semibold"><i class="bi bi-info-circle me-2"></i>How to play</div>
+                <div class="card border-0 shadow-sm rounded-4 mt-3">
                     <div class="card-body small">
-                        <ol class="mb-3 ps-3">
-                            <li>Every exercise card hides its muscle group somewhere on the board.</li>
-                            <li>Press two cards. The same pair stays open and turns orange.</li>
-                            <li>Different cards close again after one second, and that costs you one move.</li>
-                            <li>Find all 6 pairs with as few moves as you can.</li>
+                        <h2 class="h6 text-success">How to play</h2>
+                        <ol class="ps-3 mb-0">
+                            <li>Click a card to turn it over.</li>
+                            <li>Click a second card.</li>
+                            <li>A picture + its name = a match. They stay open.</li>
+                            <li>If they do not match, they turn back. Remember where they are!</li>
                         </ol>
-                        <p class="mb-0 text-secondary">
-                            You get 3 free peeks: they show the whole board for two seconds.
-                            The card order is random, so every game is new.
-                        </p>
                     </div>
                 </div>
+            </div>
+
+            <!-- ===== RIGHT: the game board ===== -->
+            <div class="col-lg-9 order-lg-1">
+
+                <!-- the win message (hidden until all pairs are found) -->
+                <div id="winBox" class="alert border-0 shadow-sm rounded-4 alert-warning d-flex flex-wrap align-items-center justify-content-between gap-2 d-none" role="alert">
+                    <div><strong class="fs-5">Well done!</strong> <span id="winText"></span></div>
+                    <button type="button" class="btn rounded-pill btn-success" id="playAgainBtn">Play again</button>
+                </div>
+
+                <!-- the 12 cards are created here by JavaScript -->
+                <div class="row g-2 g-md-3" id="board"></div>
+
+                <!-- a fitness tip after each match -->
+                <div id="tipBox" class="alert border-0 shadow-sm rounded-4 alert-light border mt-3 mb-0">Find a pair to read a fitness tip here.</div>
+
+                <p class="small text-secondary mt-3 mb-0">Want to learn these exercises properly? See the
+                <a href="workout.html" class="link-success">Workout Library</a>.</p>
             </div>
         </div>
-
-        <!-- a small card bank so the game also teaches the exercises -->
-        <section class="mt-5">
-            <h2 class="h3 fw-bold border-start border-warning border-4 ps-3 mb-3">The exercises in the game</h2>
-            <div class="row g-3">
-                <div class="col-6 col-lg-2">
-                    <div class="card h-100 border-0 shadow-sm rounded-4 text-center py-3">
-                        <img src="images/exercises/ex-squat.svg" alt="" width="64" height="64" class="mx-auto" />
-                        <p class="small fw-semibold mb-0 mt-2">Squat<br /><span class="text-body-secondary fw-normal">Legs</span></p>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-2">
-                    <div class="card h-100 border-0 shadow-sm rounded-4 text-center py-3">
-                        <img src="images/exercises/ex-pushup.svg" alt="" width="64" height="64" class="mx-auto" />
-                        <p class="small fw-semibold mb-0 mt-2">Push-up<br /><span class="text-body-secondary fw-normal">Chest</span></p>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-2">
-                    <div class="card h-100 border-0 shadow-sm rounded-4 text-center py-3">
-                        <img src="images/exercises/ex-row.svg" alt="" width="64" height="64" class="mx-auto" />
-                        <p class="small fw-semibold mb-0 mt-2">Dumbbell Row<br /><span class="text-body-secondary fw-normal">Back</span></p>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-2">
-                    <div class="card h-100 border-0 shadow-sm rounded-4 text-center py-3">
-                        <img src="images/exercises/ex-plank.svg" alt="" width="64" height="64" class="mx-auto" />
-                        <p class="small fw-semibold mb-0 mt-2">Plank<br /><span class="text-body-secondary fw-normal">Core</span></p>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-2">
-                    <div class="card h-100 border-0 shadow-sm rounded-4 text-center py-3">
-                        <img src="images/exercises/ex-press.svg" alt="" width="64" height="64" class="mx-auto" />
-                        <p class="small fw-semibold mb-0 mt-2">Shoulder Press<br /><span class="text-body-secondary fw-normal">Shoulders</span></p>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-2">
-                    <div class="card h-100 border-0 shadow-sm rounded-4 text-center py-3">
-                        <img src="images/exercises/ex-curl.svg" alt="" width="64" height="64" class="mx-auto" />
-                        <p class="small fw-semibold mb-0 mt-2">Biceps Curl<br /><span class="text-body-secondary fw-normal">Arms</span></p>
-                    </div>
-                </div>
-            </div>
-            <p class="small text-body-secondary mt-3 mb-0">Want the steps and the safety notes for these exercises?
-                They are in our <a href="workout.html" class="link-success fw-semibold">workout library</a>.</p>
-        </section>
     </main>
-
-    <!-- ===== WIN POP-UP: a Bootstrap MODAL, filled and opened by js/funpage.js ===== -->
-    <div class="modal fade" id="winModal" tabindex="-1" aria-labelledby="winTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow rounded-4">
-                <div class="modal-header bg-success text-white border-0 rounded-top-4">
-                    <h2 class="modal-title h5 fw-bold" id="winTitle"><i class="bi bi-trophy-fill text-warning me-2"></i>Well done!</h2>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center py-4">
-                    <p class="display-4 mb-1" id="winStars"></p>
-                    <p class="fs-5 fw-semibold mb-1" id="winText"></p>
-                    <p class="text-body-secondary mb-0" id="winDetails"></p>
-                    <p class="small text-success mt-3 mb-0 d-none" id="winBest"><i class="bi bi-star-fill me-1"></i>This is your best game so far!</p>
-                </div>
-                <div class="modal-footer border-0 justify-content-center pb-4">
-                    <button type="button" class="btn rounded-pill btn-success px-4" id="playAgainBtn">
-                        <i class="bi bi-arrow-repeat me-1"></i>Play again</button>
-                    <a href="plans.html#join" class="btn rounded-pill btn-outline-success px-4">Join the gym</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- ===== FOOTER (same on all pages) ===== -->
     <!-- the footer.svg picture gives the footer our dark teal colour (#0B5242) -->

@@ -1,208 +1,196 @@
 /* =====================================================================
-   funpage.js  -  Gym Memory Match game (funpage.html)
+   funpage.js  -  "Gym Memory Match" game (funpage.html)
    ---------------------------------------------------------------------
-   What this file does:
-   1. Holds the gym information in an array: 6 exercises and the muscle
-      group that each one trains.
-   2. Builds a deck of 12 cards: one "Exercise" card and one "Muscle"
-      card for every pair, then shuffles the deck so the game is random.
-   3. Draws the 12 cards inside the empty <div id="board"> with
-      document.createElement(), so the whole board is made by JavaScript.
-   4. Runs the game: two cards open, the same pair stays open, different
-      cards close again after 0.9 second.
-   5. Counts the moves, the time and the free peeks, and remembers the
-      best game in localStorage (so it is still there after a refresh).
-   6. Shows a Bootstrap MODAL when all 6 pairs are found.
+   The game: 12 cards lie face down. 6 cards show a PICTURE of an
+   exercise and 6 cards show its NAME and the muscle it trains.
+   Click two cards to turn them over. If the picture and the name belong
+   to the same exercise, they stay open (a match). If not, they turn
+   back. Find all 6 pairs with as few moves as possible.
+
+   Dynamic HTML used:
+   - all 12 cards are CREATED with JavaScript (createElement)
+   - cards CHANGE their content and Bootstrap classes when clicked
+   - the timer, moves, progress bar and tips are UPDATED live
    ===================================================================== */
 
 
-/* ---------- 1. The gym information used by the game ----------
-   Each pair = one exercise + the muscle group that it trains.      */
-var pairs = [
-    { exercise: "Bodyweight Squat", muscle: "Legs" },
-    { exercise: "Push-up", muscle: "Chest" },
-    { exercise: "Dumbbell Row", muscle: "Back" },
-    { exercise: "Plank", muscle: "Core" },
-    { exercise: "Shoulder Press", muscle: "Shoulders" },
-    { exercise: "Biceps Curl", muscle: "Arms" }
+/* ---------- 1. The exercises (each one makes 2 cards) ---------- */
+var exercises = [
+    { id: 1, name: "Squat", muscle: "Legs", picture: "images/exercises/ex-squat.svg",
+      tip: "Squats train the biggest muscles in your body: the legs and the glutes." },
+    { id: 2, name: "Push-up", muscle: "Chest", picture: "images/exercises/ex-pushup.svg",
+      tip: "Push-ups need no equipment. Start on your knees if they are too hard." },
+    { id: 3, name: "Dumbbell Row", muscle: "Back", picture: "images/exercises/ex-row.svg",
+      tip: "Rows make your back stronger and help you sit and stand straight." },
+    { id: 4, name: "Plank", muscle: "Core", picture: "images/exercises/ex-plank.svg",
+      tip: "A strong core protects your lower back. Start with 20 seconds." },
+    { id: 5, name: "Shoulder Press", muscle: "Shoulders", picture: "images/exercises/ex-press.svg",
+      tip: "Keep your back against the bench when you press weights above your head." },
+    { id: 6, name: "Biceps Curl", muscle: "Arms", picture: "images/exercises/ex-curl.svg",
+      tip: "Lift slowly and do not swing your body: slow lifting trains the muscle better." }
 ];
 
-var TOTAL_PAIRS = pairs.length;          // 6 pairs -> 12 cards
 
-
-/* ---------- 2. The state of the game (the variables that change) ----------
-   deck       : the 12 cards, each one is an object
-   firstCard  : position of the first open card (null = no card open)
-   secondCard : position of the second open card
-   locked     : true while two cards are being compared, so the player
-                cannot open a third card in that short moment
-   moves      : how many times the player opened two cards
-   matched    : how many pairs are already found
-   seconds    : the game clock                                             */
-var deck = [];
-var firstCard = null;
-var secondCard = null;
-var locked = false;
-var moves = 0;
-var matched = 0;
+/* ---------- 2. Game variables (the "state" of the game) ---------- */
+var deck = [];            // the 12 cards in their shuffled order
+var firstCard = null;     // the number (index) of the first open card, or null
+var secondCard = null;    // the number of the second open card, or null
+var locked = false;       // true while two wrong cards are being shown
+var moves = 0;            // one move = turning over two cards
+var pairsFound = 0;
 var seconds = 0;
-var timerId = null;
-var peeksLeft = 3;
-
-// the classes that every card button wears (Bootstrap only, no CSS file)
-var CARD_BASE = "btn w-100 h-100 py-3 px-1 rounded-4 border-0 shadow-sm";
+var timer = null;         // the setInterval() timer, null when stopped
 
 
-/* ---------- 3. Make the deck and shuffle it ----------
-   Fisher-Yates shuffle: we walk from the last card to the first one and
-   swap it with a random card that comes before it. After that every
-   card has the same chance to be in every position.                */
-function buildDeck() {
-    deck = [];
-
-    for (var i = 0; i < pairs.length; i++) {
-        // the exercise card and the muscle card share the same pairId,
-        // that is how we know later that they belong together
-        deck.push({ pairId: i, kind: "Exercise", title: pairs[i].exercise, open: false, matched: false });
-        deck.push({ pairId: i, kind: "Muscle", title: pairs[i].muscle, open: false, matched: false });
+/* ---------- 3. Make the 12 cards ----------
+   For every exercise we add a "picture" card and a "name" card.     */
+function makeDeck() {
+    var cards = [];
+    for (var i = 0; i < exercises.length; i++) {
+        cards.push({ pairId: exercises[i].id, kind: "picture", exercise: exercises[i], open: false, matched: false });
+        cards.push({ pairId: exercises[i].id, kind: "name", exercise: exercises[i], open: false, matched: false });
     }
-
-    for (var j = deck.length - 1; j > 0; j--) {
-        var random = Math.floor(Math.random() * (j + 1));      // 0 ... j
-        var help = deck[j];
-        deck[j] = deck[random];
-        deck[random] = help;
-    }
+    return cards;
 }
 
 
-/* ---------- 4. Draw the board ----------
-   We create one <div class="col"> and one <button> for every card.
-   The buttons are empty (they only show "?" at the start), and we keep
-   the position of the card in the data-index attribute.            */
+/* ---------- 4. Shuffle (mix) the cards ----------
+   We go from the last card to the first and swap each card with a
+   random card before it (or with itself). Every order is possible.  */
+function shuffle(cards) {
+    for (var i = cards.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));   // a random number from 0 to i
+        var temp = cards[i];                            // swap card i and card j
+        cards[i] = cards[j];
+        cards[j] = temp;
+    }
+    return cards;
+}
+
+
+/* ---------- 5. Draw the board (create the HTML of the cards) ---------- */
 function drawBoard() {
     var board = document.getElementById("board");
-    board.innerHTML = "";                             // remove the old cards
+    board.innerHTML = "";                               // remove the old cards
 
     for (var i = 0; i < deck.length; i++) {
-        var column = document.createElement("div");
-        column.className = "col-4 col-md-3";
+        // a Bootstrap column: 3 cards per row on phones, 4 on tablets, 6 on computers
+        var col = document.createElement("div");
+        col.className = "col-4 col-md-3 col-lg-2";
 
+        // the card is a <button>, so it also works with the keyboard
         var button = document.createElement("button");
         button.type = "button";
-        button.className = CARD_BASE + " bg-success text-white";
-        button.setAttribute("data-index", i);         // the position in the deck
-        button.setAttribute("aria-label", "Card " + (i + 1));
+        button.id = "card" + i;
+        button.setAttribute("data-index", i);           // remember which card it is
         button.addEventListener("click", cardClicked);
 
-        column.appendChild(button);
-        board.appendChild(column);
-    }
+        // the Bootstrap "ratio ratio-1x1" box keeps every card square
+        var square = document.createElement("div");
+        square.className = "ratio ratio-1x1";
+        square.appendChild(button);
 
-    drawAllCards();
+        col.appendChild(square);
+        board.appendChild(col);
+        drawCard(i);                                    // fill the card's content
+    }
 }
 
 
-/* ---------- 5. Paint the cards ----------
-   One card can look in three ways:
-   closed  = green with a "?"   (this is what the player sees at the start)
-   open    = light with the text (the player turned it)
-   matched = orange             (the pair is found, the card stays open)   */
-
-// paints ONE card, index = position in the deck
+/* ---------- 6. Draw ONE card (face down, open or matched) ---------- */
 function drawCard(index) {
-    var board = document.getElementById("board");
-    var button = board.querySelector('[data-index="' + index + '"]');
     var card = deck[index];
+    var button = document.getElementById("card" + index);
+    var base = "btn rounded-4 w-100 h-100 p-2 d-flex flex-column align-items-center justify-content-center shadow-sm ";
 
-    if (card.matched == true) {
-        button.className = CARD_BASE + " bg-warning text-dark";
-        button.innerHTML = cardFace(card);
-    } else if (card.open == true) {
-        button.className = CARD_BASE + " bg-body border border-success border-2 text-success";
-        button.innerHTML = cardFace(card);
+    if (card.open == false && card.matched == false) {
+        // FACE DOWN: green card with the logo and a question mark
+        button.className = base + "btn-success bg-gradient";
+        button.innerHTML = '<img src="images/logo.svg" alt="" width="40" height="40" class="mb-1" />' +
+                           '<span class="fs-4 fw-bold">?</span>';
+        button.setAttribute("aria-label", "Hidden card " + (index + 1));
     } else {
-        button.className = CARD_BASE + " bg-success text-white";
-        button.innerHTML = '<span class="fs-2 fw-bold lh-1 d-block">?</span>';
+        // FACE UP: white card (or light green when it is matched)
+        if (card.matched) {
+            button.className = base + "btn-light border border-3 border-success bg-success-subtle";
+        } else {
+            button.className = base + "btn-light border border-3 border-warning";
+        }
+
+        if (card.kind == "picture") {
+            button.innerHTML = '<img src="' + card.exercise.picture + '" alt="' +
+                               card.exercise.name + '" class="img-fluid rounded" />';
+        } else {
+            button.innerHTML = '<span class="fw-bold text-success">' + card.exercise.name + '</span>' +
+                               '<span class="badge text-bg-warning mt-1">' + card.exercise.muscle + '</span>';
+        }
+        button.setAttribute("aria-label", card.exercise.name + " (" + card.kind + ")");
     }
 }
 
-// paints every card (used when the board is first drawn)
-function drawAllCards() {
-    for (var i = 0; i < deck.length; i++) {
-        drawCard(i);
-    }
-}
 
-// the text side of a card: a small badge (Exercise / Muscle) and the name
-function cardFace(card) {
-    return '<span class="badge text-bg-dark rounded-pill d-block mb-2 mx-auto">' + card.kind + '</span>' +
-           '<span class="d-block fw-bold small lh-sm">' + card.title + '</span>';
-}
-
-
-/* ---------- 6. What happens when the player presses a card ---------- */
-function cardClicked(event) {
-    var index = Number(event.currentTarget.getAttribute("data-index"));
+/* ---------- 7. What happens when a card is clicked ---------- */
+function cardClicked() {
+    var index = Number(this.getAttribute("data-index"));
     var card = deck[index];
 
-    // ignore the press when we are busy comparing two cards,
-    // or when this card is already open or already matched
-    if (locked == true || card.open == true || card.matched == true) {
+    // ignore the click if: the game is waiting, or the card is already open / matched
+    if (locked || card.open || card.matched) {
         return;
     }
 
-    // the clock starts with the very first card
-    if (firstCard == null && secondCard == null) {
-        startTimer();
+    // start the timer at the very first click
+    if (timer == null) {
+        timer = setInterval(tick, 1000);                // call tick() every 1000 ms = 1 second
     }
 
-    card.open = true;                 // turn the card
+    // turn the card over
+    card.open = true;
     drawCard(index);
 
-    // first card of the pair
     if (firstCard == null) {
-        firstCard = index;
-        say("Now turn a second card.", "info");
+        firstCard = index;                              // this is the first card of the move
         return;
     }
 
-    // second card: compare the two
+    // this is the second card: one move is finished
     secondCard = index;
     moves++;
-    document.getElementById("movesCount").textContent = moves;
-    locked = true;                    // stop the player for a moment
+    updateScore();
+    checkPair();
+}
 
-    if (deck[firstCard].pairId == deck[secondCard].pairId) {
-        // SAME PAIR: keep both cards open and orange
-        deck[firstCard].matched = true;
-        deck[secondCard].matched = true;
-        matched++;
 
+/* ---------- 8. Check if the two open cards are a pair ---------- */
+function checkPair() {
+    var a = deck[firstCard];
+    var b = deck[secondCard];
+
+    if (a.pairId == b.pairId) {
+        // A MATCH: both cards stay open and turn light green
+        a.matched = true;
+        b.matched = true;
+        a.open = false;
+        b.open = false;
         drawCard(firstCard);
         drawCard(secondCard);
-        updateBadge();
-
-        var found = deck[firstCard].title + " - " + deck[secondCard].title;
-        say("Good match! " + found + ".", "success");
-
+        pairsFound++;
+        showTip(a.exercise);
         firstCard = null;
         secondCard = null;
-        locked = false;
+        updateScore();
 
-        if (matched == TOTAL_PAIRS) {
-            winGame();
+        if (pairsFound == exercises.length) {
+            gameWon();
         }
     } else {
-        // NOT THE SAME: show both for a moment, then close them again
-        say("Not the same pair. They close again.", "warning");
-
+        // NOT A MATCH: wait 0.9 seconds so the player can see them, then turn them back
+        locked = true;
         setTimeout(function () {
             deck[firstCard].open = false;
             deck[secondCard].open = false;
             drawCard(firstCard);
             drawCard(secondCard);
-
             firstCard = null;
             secondCard = null;
             locked = false;
@@ -211,181 +199,118 @@ function cardClicked(event) {
 }
 
 
-/* ---------- 7. The clock ---------- */
-function startTimer() {
-    if (timerId != null) {
-        return;                       // already running
+/* ---------- 9. Timer, score and progress bar ---------- */
+function tick() {
+    seconds++;
+    document.getElementById("time").textContent = formatTime(seconds);
+}
+
+// 75 seconds -> "1:15"
+function formatTime(totalSeconds) {
+    var min = Math.floor(totalSeconds / 60);
+    var sec = totalSeconds % 60;                        // % = the remainder
+    if (sec < 10) {
+        sec = "0" + sec;
     }
-    timerId = setInterval(function () {
-        seconds++;
-        document.getElementById("timeCount").textContent = formatTime(seconds);
-    }, 1000);
+    return min + ":" + sec;
 }
 
-function stopTimer() {
-    clearInterval(timerId);
-    timerId = null;
-}
+function updateScore() {
+    document.getElementById("moves").textContent = moves;
+    document.getElementById("pairs").textContent = pairsFound + " / " + exercises.length;
 
-// 75 -> "1:15"
-function formatTime(total) {
-    var minutes = Math.floor(total / 60);
-    var rest = total % 60;
-    if (rest < 10) {
-        rest = "0" + rest;
-    }
-    return minutes + ":" + rest;
+    // the progress bar: percent of pairs found
+    var percent = Math.round(pairsFound / exercises.length * 100);
+    var bar = document.getElementById("progressBar");
+    bar.style.width = percent + "%";                    // changed by JavaScript while playing
+    bar.textContent = percent + "%";
+    document.getElementById("progressBox").setAttribute("aria-valuenow", percent);
 }
 
 
-/* ---------- 8. The small messages and the pair counter ---------- */
-function say(text, type) {
-    var box = document.getElementById("gameMessage");
-    box.className = "alert border-0 shadow-sm rounded-4 alert-" + type + " mt-4 mb-0";
-    box.textContent = text;
-}
-
-function updateBadge() {
-    document.getElementById("matchedBadge").textContent = matched + " / " + TOTAL_PAIRS + " pairs";
+/* ---------- 10. Show a fitness tip after every match ---------- */
+function showTip(exercise) {
+    var box = document.getElementById("tipBox");
+    box.className = "alert alert-success mt-3 mb-0";
+    box.innerHTML = "<strong>Match! " + exercise.name + " &ndash; " + exercise.muscle + ".</strong> " + exercise.tip;
 }
 
 
-/* ---------- 9. Peek: show the whole board for two seconds ---------- */
-function peek() {
-    // no peeks left, or the player is in the middle of comparing two cards
-    if (peeksLeft <= 0 || locked == true) {
-        return;
-    }
+/* ---------- 11. The end of the game ---------- */
+function gameWon() {
+    clearInterval(timer);                               // stop the timer
+    timer = null;
 
-    peeksLeft--;
-    document.getElementById("peekCount").textContent = peeksLeft;
-    if (peeksLeft == 0) {
-        document.getElementById("peekBtn").disabled = true;
-    }
-
-    locked = true;
-    var shown = [];                   // the cards that we opened for the peek
-
-    for (var i = 0; i < deck.length; i++) {
-        if (deck[i].open == false && deck[i].matched == false) {
-            deck[i].open = true;
-            shown.push(i);
-            drawCard(i);
-        }
-    }
-
-    say("Remember the cards...", "info");
-
-    setTimeout(function () {
-        for (var j = 0; j < shown.length; j++) {
-            deck[shown[j]].open = false;
-            drawCard(shown[j]);
-        }
-        locked = false;
-        say("The cards are closed again. " + peeksLeft + " peek(s) left.", "info");
-    }, 2000);
-}
-
-
-/* ---------- 10. The best game (localStorage) ----------
-   A result is better when it needs fewer moves; if the moves are the
-   same, the faster game is the better one.
-   try / catch is needed because some browsers block localStorage.  */
-function readBest() {
-    try {
-        var text = localStorage.getItem("nashaatMemoryBest");
-        if (text == null) {
-            return null;
-        }
-        return JSON.parse(text);       // { moves: 12, seconds: 45 }
-    } catch (error) {
-        return null;
-    }
-}
-
-function saveBest(result) {
-    try {
-        localStorage.setItem("nashaatMemoryBest", JSON.stringify(result));
-    } catch (error) {
-        // storage blocked: the best score just does not stay after a refresh
-    }
-}
-
-function showBest() {
-    var best = readBest();
-    var box = document.getElementById("bestScore");
-    if (best == null) {
-        box.textContent = "no game finished yet";
-    } else {
-        box.textContent = best.moves + " moves in " + formatTime(best.seconds);
-    }
-}
-
-
-/* ---------- 11. The player found all 6 pairs ---------- */
-function winGame() {
-    stopTimer();
-
-    // 6 moves is a perfect game; more moves = fewer stars
-    var stars = 3;
-    if (moves > 10) {
+    // stars depend on the number of moves (6 is the best possible)
+    var stars;
+    if (moves <= 9) {
+        stars = 3;
+    } else if (moves <= 14) {
         stars = 2;
-    }
-    if (moves > 14) {
+    } else {
         stars = 1;
     }
 
-    // ★ filled star, ☆ empty star (repeat() writes the character n times)
-    document.getElementById("winStars").textContent = "★".repeat(stars) + "☆".repeat(3 - stars);
-    document.getElementById("winText").textContent = "You found all " + TOTAL_PAIRS + " pairs!";
-    document.getElementById("winDetails").textContent =
-        "Moves: " + moves + "   |   Time: " + formatTime(seconds) + "   |   Peeks used: " + (3 - peeksLeft);
-
-    // is this the best game so far?
-    var best = readBest();
-    var isBest = (best == null) || (moves < best.moves) || (moves == best.moves && seconds < best.seconds);
-    document.getElementById("winBest").classList.toggle("d-none", isBest == false);
-
-    if (isBest == true) {
-        saveBest({ moves: moves, seconds: seconds });
-        showBest();
+    // best score is saved in the browser (localStorage); try/catch because
+    // some browsers block it (for example in private windows)
+    var best = null;
+    try {
+        best = localStorage.getItem("nashaatBestMoves");
+        if (best == null || moves < Number(best)) {
+            localStorage.setItem("nashaatBestMoves", moves);
+            best = moves;
+        }
+    } catch (error) {
+        best = null;
     }
 
-    say("All pairs found in " + moves + " moves!", "success");
+    var message = "You found all " + exercises.length + " pairs in " + moves +
+                  " moves and " + formatTime(seconds) + ". " +
+                  "⭐".repeat(stars);                 // a star emoji, repeated
+    if (best != null) {
+        message = message + " Your best: " + best + " moves.";
+    }
 
-    // open the Bootstrap modal (the pop-up window at the end of the page)
-    new bootstrap.Modal(document.getElementById("winModal")).show();
+    document.getElementById("winText").textContent = message;
+    document.getElementById("winBox").classList.remove("d-none");
+    showBest();
+}
+
+function showBest() {
+    var best = null;
+    try {
+        best = localStorage.getItem("nashaatBestMoves");
+    } catch (error) {
+        best = null;
+    }
+    document.getElementById("best").textContent = (best == null) ? "-" : best;
 }
 
 
-/* ---------- 12. A new game ---------- */
+/* ---------- 12. Start a new game ---------- */
 function newGame() {
-    stopTimer();
-
+    clearInterval(timer);
+    timer = null;
+    deck = shuffle(makeDeck());
     firstCard = null;
     secondCard = null;
     locked = false;
     moves = 0;
-    matched = 0;
+    pairsFound = 0;
     seconds = 0;
-    peeksLeft = 3;
 
-    document.getElementById("movesCount").textContent = "0";
-    document.getElementById("timeCount").textContent = "0:00";
-    document.getElementById("peekCount").textContent = "3";
-    document.getElementById("peekBtn").disabled = false;
+    document.getElementById("time").textContent = "0:00";
+    document.getElementById("winBox").classList.add("d-none");
+    document.getElementById("tipBox").className = "alert alert-light border mt-3 mb-0";
+    document.getElementById("tipBox").textContent = "Find a pair to read a fitness tip here.";
 
-    updateBadge();
-    showBest();
-    buildDeck();
+    updateScore();
     drawBoard();
-    say("Press any card to start. The timer starts with your first card.", "info");
+    showBest();
 }
 
 
-/* ---------- 13. Start the page ---------- */
-document.getElementById("restartBtn").addEventListener("click", newGame);
-document.getElementById("peekBtn").addEventListener("click", peek);
+/* ---------- 13. Start ---------- */
+document.getElementById("newGameBtn").addEventListener("click", newGame);
 document.getElementById("playAgainBtn").addEventListener("click", newGame);
-
-newGame();                            // build the first deck when the page opens
+newGame();

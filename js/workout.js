@@ -1,62 +1,57 @@
 /* =====================================================================
    workout.js  -  Muscle group filter (workout.html)
    ---------------------------------------------------------------------
-   The workout library shows 6 exercises. Each card has an attribute
-   data-muscle="legs", "chest", "back", "core", "shoulders" or "arms".
-   The 7 buttons above the cards call filterExercises():
-
-   1. We read the group from the button (data-filter).
-   2. We loop over every card:
-        - the card belongs to the group (or the group is "all") -> show it
-        - the card belongs to another group                     -> hide it
-   3. Bootstrap class "d-none" = display none, so the hidden cards take
-      no space and the grid moves the other cards up.
-   4. We update the small line "Showing 3 of 6 exercises".
-   5. We colour the button that was pressed green and the others white.
+   Every exercise column has data-group="Legs" (or Chest, Back ...).
+   Every filter button has data-group too. When a button is clicked:
+     1. the clicked button becomes green (btn-success), the others white
+     2. columns of other groups are hidden with the Bootstrap class d-none
+     3. the visible cards fade in with a small animation
+     4. the counter shows how many exercises are visible
    ===================================================================== */
 
-function filterExercises(group, pressedButton) {
-    var cards = document.querySelectorAll("#exerciseList [data-muscle]");
-    var shown = 0;                                   // how many cards stay visible
+var filterButtons = document.querySelectorAll("#filterButtons button");
+var exerciseColumns = document.querySelectorAll("[data-group].col-md-6");
 
-    for (var i = 0; i < cards.length; i++) {
-        var card = cards[i];
-        var cardGroup = card.getAttribute("data-muscle");
+function filterExercises(group) {
+    // 1. colour the buttons
+    for (var i = 0; i < filterButtons.length; i++) {
+        var isChosen = filterButtons[i].getAttribute("data-group") == group;
+        filterButtons[i].classList.toggle("btn-success", isChosen);          // add OR remove
+        filterButtons[i].classList.toggle("btn-outline-success", !isChosen);
+        filterButtons[i].setAttribute("aria-pressed", isChosen);
+    }
 
-        if (group == "all" || cardGroup == group) {
-            card.classList.remove("d-none");
-            // js/effects.js hides the cards with "opacity-0" until they scroll
-            // into view; a card that was hidden by this filter never scrolled,
-            // so we make sure it is visible when we show it again
-            card.classList.remove("opacity-0");
+    // 2 + 3. show or hide the exercise columns
+    var shown = 0;
+    for (var j = 0; j < exerciseColumns.length; j++) {
+        var column = exerciseColumns[j];
+        if (group == "All" || column.getAttribute("data-group") == group) {
+            column.classList.remove("d-none");
             shown++;
+            // fade in (element.animate is built into the browser, no CSS needed)
+            column.animate([{ opacity: 0, transform: "scale(0.96)" }, { opacity: 1, transform: "scale(1)" }],
+                           { duration: 350, easing: "ease-out" });
         } else {
-            card.classList.add("d-none");
+            column.classList.add("d-none");
         }
     }
 
-    // the counter under the buttons
-    document.getElementById("filterCount").textContent =
-        "Showing " + shown + " of " + cards.length + " exercises";
-
-    // the pressed button becomes green (btn-success) and the others go back
-    // to the white "outline" style
-    var buttons = document.querySelectorAll("#filterButtons button");
-    for (var j = 0; j < buttons.length; j++) {
-        buttons[j].classList.remove("btn-success");
-        buttons[j].classList.add("btn-outline-success");
-    }
-    pressedButton.classList.remove("btn-outline-success");
-    pressedButton.classList.add("btn-success");
+    // 4. the counter, e.g. "1 exercise" or "6 exercises"
+    document.getElementById("filterCount").textContent = shown + (shown == 1 ? " exercise" : " exercises");
 }
 
-
-/* ---------- connect the 7 buttons to the function above ---------- */
-var filterButtons = document.querySelectorAll("#filterButtons button");
-
+// connect every button
 for (var k = 0; k < filterButtons.length; k++) {
-    filterButtons[k].addEventListener("click", function (event) {
-        var group = event.currentTarget.getAttribute("data-filter");
-        filterExercises(group, event.currentTarget);
+    filterButtons[k].addEventListener("click", function () {
+        filterExercises(this.getAttribute("data-group"));
+    });
+}
+
+// the links in the beginner plan table jump to a card: show all cards first,
+// so the card the user wants is never hidden
+var planLinks = document.querySelectorAll('table a[href^="#"]');
+for (var m = 0; m < planLinks.length; m++) {
+    planLinks[m].addEventListener("click", function () {
+        filterExercises("All");
     });
 }
